@@ -1,0 +1,59 @@
+.header__logo {
+    animation: slideIn 2s cubic-bezier(0.17, 0.67, 0.45, 0.98);
+    position: absolute;
+    display: flex;
+    left: 100px;
+    bottom: 4px;
+    transform: scale(0.9);
+    cursor: pointer;
+  }
+
+.header__logo {
+    animation: slideIn 2s cubic-bezier(0.17, 0.67, 0.45, 0.98);
+    position: absolute;
+    display: flex;
+    left: 100px;
+    bottom: 4px;
+    transform: scale(0.9);
+    cursor: pointer;
+  }
+  
+  .logo__big-rhombus {
+    width: 30px;
+    height: 38px;
+    margin-right: 3px;
+    transform: skewX(-15deg);
+    background-color: #cf2a2a;
+  }
+  
+  
+  .logo__big-rhombus.in_footer{
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  
+  .logo__small-rhombus-1 {
+    width: 10px;
+    height: 38px;
+    margin-right: 3px;
+    transform: skewX(-15deg);
+    background-color: #cf2a2a;
+  }
+  
+  .logo__small-rhombus-2 {
+    width: 10px;
+    height: 38px;
+    transform: skewX(-15deg);
+    background-color: #cf2a2a;
+  }
+  
+  .header__logo .logo__small-rhombus-1,
+  .header__logo .logo__small-rhombus-2 {
+    transition: transform 0.5s ease;
+  }
+  
+  .header__logo:hover .logo__small-rhombus-1 {
+    transform: translateX(-10px) skewX(-15deg);
+  }
+  .header__logo:hover .logo__small-rhombus-2 {
+    transform: translateX(-20px) skewX(-15deg);
+  }

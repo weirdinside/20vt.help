@@ -1,0 +1,47 @@
+.wheelfinder__checkbox {
+    font-weight: 500;
+    display: flex;
+    position: static;
+    justify-content: flex-end;
+    width: max-content;
+    cursor: pointer;
+    margin: 4px 0;
+    padding: 4px 10px;
+    border: 1px solid white;
+    background-color: none;
+    transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  
+  .wheelfinder__checkbox:hover {
+    font-weight: 500;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }
+
+  .wheelfinder__checkbox.active{
+    background-color:#cf2a2a;
+    color: white;
+    border: 1px solid #cf2a2a;
+  }
+
+  .wheelfinder__checkbox.active:hover{
+    font-weight: 500;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: 1px solid white;
+  }
+
+  .checkbox_ref:checked ~ .wheelfinder__checkbox {
+    background-color: white;
+    color: #007bff; /* Change to a different color when checked */
+    font-weight: bold;
+  }
+  
+  .checkbox_ref {
+    opacity: 0;
+    position: absolute;
+  }

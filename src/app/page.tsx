@@ -1,101 +1,130 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import styles from "./Homepage.module.css";
+import SLogo from "./_components/Homepage/SLogo/SLogo";
+import AboutModal from "./_components/Homepage/AboutModal/AboutModal";
+import NavItem from "./_components/Homepage/NavItem/NavItem";
+
+export default function Homepage() {
+  const router = useRouter();
+  const [activeModal, setActiveModal] = useState<"about" | "">("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  function openLink(page: string) {
+    setIsLoading(true);
+    setTimeout(() => {
+      router.push(`/${page}`);
+    }, 2000);
+  }
+
+  const closeModal = () => {
+    setActiveModal("");
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className={styles["page"]}>
+      <div
+          className={`${styles["page__loading"]} ${
+            isLoading ? styles["active"] : null
+          }`}
+        >
+          <div
+            className={`${styles["page__loading_firingorder"]} ${
+              isLoading ? styles["active"] : null
+            }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <div className={styles["page__loading_fire"]}></div>
+            <div className={styles["page__loading_fire"]}></div>
+            <div className={styles["page__loading_fire"]}></div>
+            <div className={styles["page__loading_fire"]}></div>
+            <div className={styles["page__loading_fire"]}></div>
+          </div>
+          <div
+            className={`${styles["page__loading_background"]} ${
+              isLoading ? styles["active"] : null
+            }`}
+          ></div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <div className={styles["page__container"]}>
+        
+        <header className={styles.header}>
+          <h1 className={styles.header__title}>
+            20vt <span className={styles.smalltext}>.help</span>
+          </h1>
+          <Link href="/">
+            <SLogo inElement="landing" />
+          </Link>
+          <p
+            onClick={() => {
+              setActiveModal("about");
+            }}
+            className={styles["header__about-modal-trigger"]}
+          >
+            about this site
+          </p>
+        </header>
+        <nav className={styles.nav}>
+          <div
+            onClick={() => {
+              openLink("compendium");
+            }}
+          >
+            <NavItem
+              title="compendium"
+              description={"an information resource for C4 audi owners"}
+            />
+          </div>
+
+          <Link href="/wheel-gallery" style={{ textDecoration: "none" }}>
+            <NavItem
+              title="wheel gallery"
+              description={
+                "view and submit a plethora of wheel options on vintage Audis"
+              }
+            />
+          </Link>
+          <Link
+            target="_blank"
+            href="https://forums.quattroworld.com/s4s6/"
+            style={{ textDecoration: "none" }}
+          >
+            <NavItem
+              title="quattroworld forum"
+              description={"browse older/source documentation for UrS4/UrS6"}
+            ></NavItem>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://www.facebook.com/groups/audiyachtclub"
+            style={{ textDecoration: "none" }}
+          >
+            <NavItem
+              title="audi yacht club"
+              description={
+                "join the premiere facebook group for the UrS4/UrS6 community"
+              }
+            ></NavItem>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://discord.gg/vwmbNcgm9H"
+            style={{ textDecoration: "none" }}
+          >
+            <NavItem
+              title="oldskool audi discord"
+              description={"join the discord channel for old school audi nerds"}
+            ></NavItem>
+          </Link>
+        </nav>
+        <footer className="homepage__footer">
+          <p className="homepage__footer_text"></p>
+        </footer>
+        <AboutModal closeModal={closeModal} activeModal={activeModal} />
+      </div>
     </div>
   );
 }

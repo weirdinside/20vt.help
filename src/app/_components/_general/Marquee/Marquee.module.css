@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+.marquee {
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.marquee__text {
+  position: absolute;
+  transition: 4s linear;
+}

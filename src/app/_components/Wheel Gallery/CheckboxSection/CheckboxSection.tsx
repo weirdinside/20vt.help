@@ -3,8 +3,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import styles from "./CheckboxSection.module.css";
+import { debounce } from "@/app/utils";
 
 export default function CheckboxSection({
+  arrayName,
   checkedOptions,
   toggleOption,
   optionsArray,
@@ -16,7 +18,7 @@ export default function CheckboxSection({
   const containerRef = useRef(null);
   const optionsRef = useRef(null);
 
-  const [scrollPosition, setScrollPosition] = useState('');
+  const [scrollPosition, setScrollPosition] = useState("");
 
   const handleWindowSizeChange = () => {
     setWindowWidth(window.innerWidth);
@@ -48,17 +50,10 @@ export default function CheckboxSection({
   useEffect(() => {
     const instance = optionsRef.current;
     const scrollWidth = instance.scrollWidth - instance.offsetWidth;
-    if(scrollWidth > 0){
-      setScrollPosition('left');
+    if (scrollWidth > 0) {
+      setScrollPosition("left");
     }
 
-    const debounce = (func, wait) => {
-      let timeout;
-      return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-      };
-    };
     const handleScroll = () => {
       const scrollLeft = instance.scrollLeft;
       const scrollDecimal = (scrollLeft / scrollWidth).toFixed(2);
@@ -66,13 +61,13 @@ export default function CheckboxSection({
         setScrollPosition("left");
       } else if (Number(scrollDecimal) >= 0.95) {
         setScrollPosition("right");
-      } else if ((Number(scrollDecimal) > 0.05) && (Number(scrollDecimal) < 0.95)) {
+      } else if (Number(scrollDecimal) > 0.05 && Number(scrollDecimal) < 0.95) {
         setScrollPosition("center");
-      }
-      else {
-        setScrollPosition('');
+      } else {
+        setScrollPosition("");
       }
     };
+
     const debouncedHandleScroll = debounce(handleScroll, 20);
     if (instance) {
       instance.addEventListener("scroll", debouncedHandleScroll);
@@ -104,12 +99,12 @@ export default function CheckboxSection({
         {optionsArray.map((option) => {
           return (
             <FilterCheckbox
+              arrayName={arrayName}
               toggleOption={toggleOption}
               checkedOptions={checkedOptions}
               muted={true}
               label={option}
               modifier="body"
-              category="body"
             ></FilterCheckbox>
           );
         })}
@@ -122,8 +117,12 @@ export default function CheckboxSection({
           </p>
         ) : null}
       </div>
-      {(scrollPosition == 'right') || (scrollPosition == 'center') ? <div className={styles["wheelfinder__category_scroll-left"]}></div> : null}
-      {(scrollPosition == 'left') || (scrollPosition == 'center') ? <div className={styles["wheelfinder__category_scroll-right"]}></div> : null}
+      {scrollPosition == "right" || scrollPosition == "center" ? (
+        <div className={styles["wheelfinder__category_scroll-left"]}></div>
+      ) : null}
+      {scrollPosition == "left" || scrollPosition == "center" ? (
+        <div className={styles["wheelfinder__category_scroll-right"]}></div>
+      ) : null}
       {tooWide && !isOpen ? (
         <div
           onClick={toggleMenu}

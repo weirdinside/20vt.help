@@ -226,8 +226,14 @@
     clip-path: polygon(0 0, 0% 0, 0% 100%, 0% 100%);
     animation: clipIn 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s forwards;
   }
+
+  .wheelfinder__button_section{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
   
-  .wheelfinder__reset {
+  .wheelfinder__button {
     box-sizing: border-box;
     font-family: "Work Sans", sans-serif;
     font-weight: 700;
@@ -246,17 +252,17 @@
     animation: clipIn 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
   }
   
-  .wheelfinder__reset:hover {
+  .wheelfinder__button:hover {
     border: 1px solid red;
     cursor: pointer;
     color: red;
   }
   
-  .wheelfinder__reset:active {
+  .wheelfinder__button:active {
     content: "";
     background-color: rgba(255, 0, 0, 0.3);
   }
-  
+
   /* grid-template */
   
   .gallery__grid_item {
@@ -820,7 +826,6 @@
     .information__cited{
       font-size: 14px;
     }
-  
   }
   
   /* -------------------------------------------------------------------------------- */

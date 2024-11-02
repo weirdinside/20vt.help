@@ -134,3 +134,12 @@
     z-index: -2;
   }
 }
+
+@media (hover:hover){
+  .wheelfinder__category_scroll-left{
+    visibility: hidden;
+  }
+  .wheelfinder__category_scroll-right{
+    visibility: hidden;
+  }
+}

@@ -4,20 +4,20 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./FilterCheckbox.module.css";
 
 interface CheckboxTypes {
+  arrayName: String;
   toggleOption: Function;
   checkedOptions: Array<string>;
   label: string;
   modifier: string;
-  category: string;
   muted: boolean;
 }
 
 export default function FilterCheckbox({
+  arrayName,
   toggleOption,
   checkedOptions,
   muted,
   label,
-  category,
   modifier,
 }: CheckboxTypes) {
   const [isChecked, setCheckedState] = useState(false);
@@ -25,11 +25,11 @@ export default function FilterCheckbox({
   function handleCheck(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     e.stopPropagation();
-    toggleOption(label);
+    toggleOption(arrayName, label);
   }
 
   useEffect(() => {
-    setCheckedState(checkedOptions.includes(label));
+    setCheckedState(checkedOptions[arrayName].includes(label));
   }, [checkedOptions, label]);
 
   const sanitizedLabel = String(label).replace(/[^a-zA-Z0-9]/g, "");
@@ -50,7 +50,6 @@ export default function FilterCheckbox({
           checked={isChecked}
           id={label}
           value={label}
-          data-categ={category}
           className={styles["checkbox_ref"]}
           type="checkbox"
         />

@@ -9,10 +9,14 @@ export async function convertBlobUrlToFile(blobUrl: string) {
   return file;
 }
 
-export const debounce = (func, wait: Number) => {
+export const debounce = (func, wait: number) => {
   let timeout;
   return function (...args) {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), wait);
   };
 };
+
+export function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}

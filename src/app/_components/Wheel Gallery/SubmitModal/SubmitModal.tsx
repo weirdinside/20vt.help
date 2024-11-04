@@ -60,7 +60,7 @@ export default function SubmitModal({  activeModal, closeModal }) {
             });
             if (error) throw new Error(`Upload error: ${error.message}`);
             return imageUrl;
-          })
+          })  
         );
 
         const convertedWheelSize = parseInt(wheelSize.replace('"', ""));

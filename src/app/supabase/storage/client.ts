@@ -13,7 +13,7 @@ type UploadProps = {
   folder?: string;
 };
 
-export async function uploadImage({ file, bucket, folder, }: UploadProps) {
+export async function uploadImage({ file, bucket, folder }: UploadProps) {
   const fileName = file.name;
   const fileExtension = fileName.slice(fileName.lastIndexOf(".") + 1);
   const path = `${folder ? folder + "/" : ""}${uuidv4()}.${fileExtension}`;
@@ -39,7 +39,7 @@ export async function uploadImage({ file, bucket, folder, }: UploadProps) {
   return { imageUrl, error: "" };
 }
 
-export async function fetchAllImages() {
+export async function fetchAllApprovedImages() {
   const supabase = createSupabaseClient();
 
   const { data, error } = await supabase
@@ -51,5 +51,21 @@ export async function fetchAllImages() {
     console.error("Error fetching images:", error);
     return null;
   }
+  return data;
+}
+
+export async function fetchAllUnapprovedImages() {
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("images")
+    .select("*")
+    .eq("approved", false);
+
+  if (error) {
+    console.error("error fetching images:", error);
+    return null;
+  }
+
   return data;
 }

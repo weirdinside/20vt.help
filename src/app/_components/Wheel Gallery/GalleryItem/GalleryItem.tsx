@@ -4,7 +4,7 @@ import { getRandomInt } from "@/app/utils";
 
 export default function GalleryItem({ imageInfo }) {
   return (
-    <div key={imageInfo.id} style={{rotate: `${getRandomInt(3)-1}deg`}} className={styles["gallery__item"]}>
+    <div key={imageInfo.id} className={styles["gallery__item"]}>
       <div className={styles["gallery__item_frame"]}>
       <p className={styles["gallery__item_description_size"]}>
             {imageInfo.wheel_size}"

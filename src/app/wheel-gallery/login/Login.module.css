@@ -1,0 +1,38 @@
+.login{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.login__form{
+    border: 2px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 300px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.login__form_heading{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.login__form_input{
+    margin: 5px 0;
+    background-color: #00000000;
+    border-bottom: 2px solid white;
+}
+
+.login__form_button{
+    margin: 10px 0;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+
+}
+
+

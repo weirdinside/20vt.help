@@ -1,0 +1,12 @@
+
+.gallery {
+    margin: 10px 0;
+    height: 100%;
+    max-width: 100%;
+    background-color: rgb(31, 31, 31);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    overflow-x: scroll;
+    scrollbar-color: #cf2a2a;
+    scrollbar-width: thin;
+  }

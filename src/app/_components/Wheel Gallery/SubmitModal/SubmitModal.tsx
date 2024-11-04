@@ -2,15 +2,13 @@
 
 import { ChangeEvent, useState, useRef, useTransition } from "react";
 import { uploadImage } from "@/app/supabase/storage/client";
-import { convertBlobUrlToFile } from "@/app/utils";
+import { convertBlobUrlToFile, getRandomInt } from "@/app/utils";
 import styles from "./SubmitModal.module.css";
 import SLogo from "@/app/_components/Homepage/SLogo/SLogo";
-import { getRandomInt } from "@/app/utils";
-import Marquee from "../../_general/Marquee/Marquee";
 import { createSupabaseClient } from "@/app/supabase/client";
+import { wheelSizes, carTypes } from "@/app/constants";
 
-export default function SubmitModal({ activeModal, closeModal }) {
-
+export default function SubmitModal({  activeModal, closeModal }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [wheelSize, setWheelSize] = useState("");
@@ -18,78 +16,54 @@ export default function SubmitModal({ activeModal, closeModal }) {
   const [wheelBrand, setWheelBrand] = useState("");
   const [wheelName, setWheelName] = useState("");
   const [username, setUsername] = useState("");
+  const [imageSubmitted, setSubmitted] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  function isFormValid(){
-    if (!wheelSize || !carType || !wheelBrand || !wheelName || !username || imageUrls.length === 0) {
-      return false;
-    }
-    return true; 
-  };
+  const isFormValid = () =>
+    [wheelSize, carType, wheelBrand, wheelName, username].every(Boolean) &&
+    imageUrls.length > 0;
 
-  function handleChangeSize(e: ChangeEvent<HTMLSelectElement>) {
-    setWheelSize(e.target.value);
-  }
+  const handleInputChange =
+    (setter) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+      setter(e.target.value);
 
-  function handleSelectCar(e: ChangeEvent<HTMLSelectElement>) {
-    setCarType(e.target.value);
-  }
-
-  function handleChangeBrand(e: ChangeEvent<HTMLInputElement>) {
-    setWheelBrand(e.target.value);
-  }
-
-  function handleChangeWheelName(e: ChangeEvent<HTMLInputElement>) {
-    setWheelName(e.target.value);
-  }
-
-  function handleChangeUsername(e: ChangeEvent<HTMLInputElement>) {
-    setUsername(e.target.value);
-  }
-
-  function clearAllFields() {
+  const clearAllFields = () => {
     setWheelSize("");
     setCarType("");
     setWheelBrand("");
     setWheelName("");
     setUsername("");
-    imageInputRef.current.value = null;
-  }
+    setImageUrls([]);
+    if (imageInputRef.current) imageInputRef.current.value = null;
+  };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setImageUrls([]);
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      const newImageUrls = filesArray.map((file) => URL.createObjectURL(file));
+      const newImageUrls = Array.from(e.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
       setImageUrls(newImageUrls);
     }
   };
 
-  const [imageSubmitted, setSubmitted] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const handleSubmit = async () => {
+    if (!isFormValid()) return;
 
-  const handleClickUploadImagesButton = async () => {
-    if(!isFormValid){
-      return;
-    }
     startTransition(async () => {
       try {
-        let urls = [];
-        for (const url of imageUrls) {
-          const imageFile = await convertBlobUrlToFile(url);
-          const { imageUrl, error } = await uploadImage({
-            file: imageFile,
-            bucket: "submitted-images",
-          });
-          if (error) {
-            console.error("Upload error:", error);
-            return;
-          }
-          urls.push(imageUrl);
-        }
+        const urls = await Promise.all(
+          imageUrls.map(async (url) => {
+            const imageFile = await convertBlobUrlToFile(url);
+            const { imageUrl, error } = await uploadImage({
+              file: imageFile,
+              bucket: "submitted-images",
+            });
+            if (error) throw new Error(`Upload error: ${error.message}`);
+            return imageUrl;
+          })
+        );
 
-        const convertedWheelSize = Number(wheelSize.replace('"', ""));
-        console.log("Converted wheel size:", convertedWheelSize);
-
+        const convertedWheelSize = parseInt(wheelSize.replace('"', ""));
         const rowsToInsert = urls.map((imageUrl) => ({
           photo_url: imageUrl,
           wheel_brand: wheelBrand,
@@ -101,37 +75,48 @@ export default function SubmitModal({ activeModal, closeModal }) {
         }));
 
         const supabase = createSupabaseClient();
-        const { data, error: insertError } = await supabase
+        const { error: insertError } = await supabase
           .from("images")
           .insert(rowsToInsert);
 
-        if (insertError) {
-          console.error("Insert error:", insertError);
-          return;
-        }
-        console.log("Inserted image data:", data);
-        console.log("Image URLs:", urls);
+        if (insertError) throw new Error(`Insert error: ${insertError.message}`);
+
         clearAllFields();
         setSubmitted(true);
       } catch (error) {
-        console.error(
-          "Unexpected error in handleClickUploadImagesButton:",
-          error,
-        );
+        console.error("Error in submit:", error);
       }
     });
   };
 
+  const renderImageList = () => (
+    <div
+      style={imageUrls.length ? { minHeight: "200px" } : {}}
+      className={styles["submit__post_photo-list"]}
+    >
+      {imageUrls.map((image, index) => (
+        <div
+          key={index}
+          className={styles["submit__post_photo"]}
+          style={{ rotate: `${getRandomInt(5)}deg` }}
+        >
+          <div
+            style={{ backgroundImage: `url(${image})` }}
+            className={styles["submit__post_photo_image"]}
+          />
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div
-      onClick={(e)=>{
+      onClick={(e) => {
         e.stopPropagation();
-        if(e.target.classList.contains(styles['modal'])){
-          closeModal();
-        }
+        if (e.target.classList.contains(styles["modal"])) closeModal();
       }}
       className={`${styles["modal"]} ${
-        activeModal === "submit" ? styles["active"] : null
+        activeModal === "submit" ? styles["active"] : ""
       }`}
     >
       <div className={styles["submit"]}>
@@ -147,190 +132,102 @@ export default function SubmitModal({ activeModal, closeModal }) {
               what kind of car?*
               <select
                 required
-                onChange={handleSelectCar}
+                onChange={handleInputChange(setCarType)}
                 value={carType}
                 className={styles["submit__input"]}
               >
-                <option
-                  className={styles["submit__input_option_placeholder"]}
-                  value=""
-                  disabled
-                >
+                <option value="" disabled>
                   select a car...
                 </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="UrS4 sedan"
-                >
-                  UrS4 sedan
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="UrS4 avant"
-                >
-                  UrS4 avant
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="UrS6 sedan"
-                >
-                  UrS6 sedan
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="UrS6 avant"
-                >
-                  UrS6 avant
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="T44 sedan"
-                >
-                  T44 sedan
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="T44 avant"
-                >
-                  T44 avant
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="B3/B4 coupe"
-                >
-                  B3/B4 coupe
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="B3/B4 sedan"
-                >
-                  B3/B4 sedan
-                </option>
-                <option
-                  className={styles["submit__input_option"]}
-                  value="B3/B4 avant"
-                >
-                  B3/B4 avant
-                </option>
+                {carTypes.map((car)=>{
+                  return(
+                    <option
+                    className={styles["submit__input_option"]}
+                    value={car}
+                  >{car}</option>
+                  )
+                })}
               </select>
             </label>
             <label className={styles["submit__label"]}>
               what size of wheel?*
               <select
                 required
-                onChange={handleChangeSize}
+                onChange={handleInputChange(setWheelSize)}
                 value={wheelSize}
                 className={styles["submit__input"]}
               >
-                <option
-                  disabled
-                  value=""
-                  className={styles["submit__input_option_placeholder"]}
-                >
+                <option value="" disabled>
                   select a size...
                 </option>
-                <option value='15"' className={styles["submit__input_option"]}>
-                  15"
-                </option>
-                <option value='16"' className={styles["submit__input_option"]}>
-                  16"
-                </option>
-                <option value='17"' className={styles["submit__input_option"]}>
-                  17"
-                </option>
-                <option value='18"' className={styles["submit__input_option"]}>
-                  18"
-                </option>
-                <option value='19"' className={styles["submit__input_option"]}>
-                  19"
-                </option>
-                <option value='20"' className={styles["submit__input_option"]}>
-                  20"
-                </option>
+                {wheelSizes.map((size)=>{
+                  return(
+                    <option
+                    className={styles["submit__input_option"]}
+                    value={size}
+                  >{size}</option>
+                  )
+                })}
               </select>
             </label>
             <label className={styles["submit__label"]}>
               wheel brand?*
               <input
-                onChange={handleChangeBrand}
+                onChange={handleInputChange(setWheelBrand)}
                 value={wheelBrand}
-                className={styles["submit__input"]}
                 placeholder="BBS"
                 required
                 type="text"
-              ></input>
+                className={styles["submit__input"]}
+              />
             </label>
             <label className={styles["submit__label"]}>
               wheel name?*
               <input
-                onChange={handleChangeWheelName}
+                onChange={handleInputChange(setWheelName)}
                 value={wheelName}
-                className={styles["submit__input"]}
                 placeholder="CH-R"
                 required
                 type="text"
-              ></input>
+                className={styles["submit__input"]}
+              />
             </label>
             <label className={styles["submit__label"]}>
               name/username*
               <input
-                onChange={handleChangeUsername}
+                onChange={handleInputChange(setUsername)}
                 value={username}
-                className={styles["submit__input"]}
                 placeholder="ani / @95urs6"
                 required
                 type="text"
-              ></input>
+                className={styles["submit__input"]}
+              />
             </label>
             <label className={styles["submit__label"]}>
               upload photo(s)*
               <input
                 ref={imageInputRef}
-                onChange={(e)=>{
-                  handleImageChange(e);
-                }}
-                className={styles["submit__input_file"]}
+                onChange={handleImageChange}
                 required
                 multiple
                 type="file"
                 accept="image/png, image/jpeg, image/jpg, image/heic"
-              ></input>
+                className={styles["submit__input_file"]}
+              />
             </label>
-            <div style={imageUrls.length > 0 ? { minHeight: "200px"}: {}} className={styles["submit__post_photo-list"]}>
-              {imageUrls.map((image) => {
-                return (
-                  <div
-                    key={imageUrls[imageUrls.indexOf(image)]}
-                    className={styles["submit__post_photo"]}
-                    style={{ rotate: `${getRandomInt(5)}deg` }}
-                  >
-                    <div
-                      style={{ backgroundImage: `url(${image})` }}
-                      className={styles["submit__post_photo_image"]}
-                    ></div>
-                    <p
-                      className={styles["submit__post_photo_image-description"]}
-                    ></p>
-                  </div>
-                );
-              })}
-            </div>
+            {renderImageList()}
             <div className={styles["submit__button_container"]}>
               <button
-              type='button'
+                type="button"
                 className={styles["submit__button-i"]}
-                onClick={() => {
-                  clearAllFields();
-                  setImageUrls([]);
-                }}
+                onClick={clearAllFields}
               >
                 reset form
               </button>
               <button
-                style={!isFormValid() ? {opacity: 0.7, pointerEvents: 'none'} : {}}
                 type="button"
                 className={styles["submit__button"]}
-                onClick={handleClickUploadImagesButton}
+                onClick={handleSubmit}
                 disabled={!isFormValid()}
               >
                 {isPending ? "submitting..." : "submit"}
@@ -342,27 +239,7 @@ export default function SubmitModal({ activeModal, closeModal }) {
             <p className={styles["submit__post_text"]}>
               thanks for your contribution!
             </p>
-   
-
-            <div style={imageUrls.length > 0 ? { minHeight: "200px"}: {}} className={styles["submit__post_photo-list"]}>
-              {imageUrls.map((image) => {
-                return (
-                  <div
-                    key={imageUrls[imageUrls.indexOf(image)]}
-                    className={styles["submit__post_photo"]}
-                    style={{ rotate: `${getRandomInt(5)}deg` }}
-                  >
-                    <div
-                      style={{ backgroundImage: `url(${image})` }}
-                      className={styles["submit__post_photo_image"]}
-                    ></div>
-                    <p
-                      className={styles["submit__post_photo_image-description"]}
-                    ></p>
-                  </div>
-                );
-              })}
-            </div>
+            {renderImageList()}
             <div className={styles["submit__button_container"]}>
               <button
                 onClick={() => {
@@ -373,15 +250,11 @@ export default function SubmitModal({ activeModal, closeModal }) {
               >
                 submit another image
               </button>
-
               <button
                 onClick={() => {
                   closeModal();
                   clearAllFields();
-                  setImageUrls([]);
-                  setTimeout(() => {
-                    setSubmitted(false);
-                  }, 100);
+                  setSubmitted(false);
                 }}
                 className={styles["submit__button"]}
               >

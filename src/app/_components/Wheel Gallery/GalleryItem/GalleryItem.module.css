@@ -1,0 +1,58 @@
+.gallery__item {
+    position: relative;
+    display: flex;
+    width: 100%;
+    padding-bottom: 75%;
+    overflow: hidden;
+    container-type: inline-size;
+  }
+  
+  .gallery__item_description {
+    z-index: 4;
+    position: absolute;
+    color: black;
+    bottom: 5%;
+    left: 6%;
+    font-size: 4cqw; 
+  }
+
+  .gallery__item_description_name{
+    font-weight: 700;
+  }
+
+  .gallery__item_description_user{
+    font-style: italic;
+    font-size: 3cqw;
+  }
+  
+  .gallery__item_frame {
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../../../assets/images/polaroid_frame-wide.png");
+  }
+  
+  .gallery__item_photo {
+    z-index: 0;
+    position: absolute;
+    width: 90%;
+    height: 72%;
+    top: 6%;
+    left: 5%;
+    background-position: center;
+    background-size: cover;
+  }
+  
+  .gallery__item_description_size{
+    position: absolute;
+    bottom: 12%;
+    right: 6%;
+    font-weight: 700;
+    font-size: 4cqw; 
+  }

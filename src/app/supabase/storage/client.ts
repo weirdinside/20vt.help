@@ -38,3 +38,18 @@ export async function uploadImage({ file, bucket, folder, }: UploadProps) {
 
   return { imageUrl, error: "" };
 }
+
+export async function fetchAllImages() {
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("images")
+    .select("*")
+    .eq("approved", true);
+
+  if (error) {
+    console.error("Error fetching images:", error);
+    return null;
+  }
+  return data;
+}

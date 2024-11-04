@@ -1,25 +1,15 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import styles from "./WheelGallery.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
+import { carTypes, wheelSizes } from "../constants";
+import Gallery from "../_components/Wheel Gallery/Gallery/Gallery";
 
-import SubmitModal from '../_components/Wheel Gallery/SubmitModal/SubmitModal'
+import SubmitModal from "../_components/Wheel Gallery/SubmitModal/SubmitModal";
 
 import CheckboxSection from "../_components/Wheel Gallery/CheckboxSection/CheckboxSection";
 
-const wheelSizes = ['15"', '16"', '17"', '18"', '19"', '20"'];
-const carTypes = [
-  "UrS6 avant",
-  "UrS6 sedan",
-  "UrS4 sedan",
-  "UrS4 avant",
-  "T44 avant",
-  "T44 sedan",
-  "B3/B4 sedan",
-  "B3/B4 coupe",
-  "B3/B4 avant",
-];
 const wheelBrands = [
   "ABT",
   "Audi",
@@ -48,8 +38,12 @@ export default function WheelGallery() {
   // ---------------------------------------- //
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [activeModal, setActiveModal] = useState('');
-  const fullOptions = {carTypes: carTypes, wheelSizes: wheelSizes, wheelBrands: wheelBrands};
+  const [activeModal, setActiveModal] = useState("");
+  const fullOptions = {
+    carTypes: carTypes,
+    wheelSizes: wheelSizes,
+    wheelBrands: wheelBrands,
+  };
 
   const [checkedOptions, setCheckedOptions] = useState<Options>({
     carTypes: [],
@@ -61,24 +55,20 @@ export default function WheelGallery() {
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
 
-  function closeModal(){
-    setActiveModal('')
-  }
+  const closeModal = useCallback(() => {
+    setActiveModal("");
+  }, []);
 
-  function copyUrl() {
+  const copyUrl = useCallback(() => {
     const url = window.location.href;
     navigator.clipboard
       .writeText(url)
-      .then(() => {
-        alert("url copied to clipboard!");
-      })
-      .catch((err) => {
-        console.error("failed to copy: ", err);
-      });
-  } 
+      .then(() => alert("URL copied to clipboard!"))
+      .catch((err) => console.error("Failed to copy:", err));
+  }, []);
 
   function clearOptions() {
-    setCheckedOptions({carTypes: [], wheelSizes: [], wheelBrands: [], });
+    setCheckedOptions({ carTypes: [], wheelSizes: [], wheelBrands: [] });
   }
 
   async function toggleOption(category: keyof Options, value: string) {
@@ -98,25 +88,28 @@ export default function WheelGallery() {
   //                   HOOKS                  //
   // ---------------------------------------- //
 
-  useEffect(function setQueryOnChange(){
-    const queryParameters = Object.entries(checkedOptions)
-      .map(([category, values]) => {
-        const queryString = values.join(',');
-        return values.length > 0 ? `${category}=${queryString}` : '';
-      })
-      .filter(Boolean)
-      .join('&');
-    router.push(`?${queryParameters}`);
-  }, [checkedOptions, router]);
+  useEffect(
+    function setQueryOnChange() {
+      const queryParameters = Object.entries(checkedOptions)
+        .map(([category, values]) => {
+          const queryString = values.join(",");
+          return values.length > 0 ? `${category}=${queryString}` : "";
+        })
+        .filter(Boolean)
+        .join("&");
+      router.push(`?${queryParameters}`);
+    },
+    [checkedOptions],
+  );
 
-  useEffect(function readQueryOnLoad(){
+  useEffect(function readQueryOnLoad() {
     const parsedOptions: Options = {
       carTypes: [],
       wheelSizes: [],
       wheelBrands: [],
     };
     searchParams.forEach((value, key) => {
-      const valuesArray = value.split(',').filter(Boolean);
+      const valuesArray = value.split(",").filter(Boolean);
       if (key in parsedOptions) {
         parsedOptions[key as keyof Options] = valuesArray;
       }
@@ -133,8 +126,8 @@ export default function WheelGallery() {
       <header className={styles["header"]}>
         <h1 className={styles["header__title"]}>wheel gallery.</h1>
         <div
-          onClick={()=>{
-            setActiveModal('submit')
+          onClick={() => {
+            setActiveModal("submit");
           }}
           className={styles["header__submit-modal-trigger"]}
           id="submit-modal-trigger"
@@ -156,16 +149,16 @@ export default function WheelGallery() {
       </header>
       <main className={styles["main"]}>
         <section className={styles["wheelfinder"]}>
-          <form key='wheelfinder' className={styles["wheelfinder__selector"]}>
-            {Object.keys(fullOptions).map((category)=>{
-              return(
+          <form className={styles["wheelfinder__selector"]}>
+            {Object.keys(fullOptions).map((category) => {
+              return (
                 <CheckboxSection
-                arrayName={String(category)}
-                checkedOptions={checkedOptions}
-                toggleOption={toggleOption}
-                optionsArray={fullOptions[category as keyof Options]}
+                  arrayName={String(category)}
+                  checkedOptions={checkedOptions}
+                  toggleOption={toggleOption}
+                  optionsArray={fullOptions[category as keyof Options]}
                 ></CheckboxSection>
-              )
+              );
             })}
           </form>
           <div className={styles["wheelfinder__button_section"]}>
@@ -182,9 +175,7 @@ export default function WheelGallery() {
             </button>
           </div>
         </section>
-        <section className={styles["gallery"]}>
-          <ul id="gallery-grid" className={styles["gallery__grid"]}></ul>
-        </section>
+        <Gallery></Gallery>
       </main>
       <footer className={styles["footer"]}>
         <p className={styles["footer__credits"]} id="site-credits-button">
@@ -198,7 +189,10 @@ export default function WheelGallery() {
           back to 20vt.help_
         </Link>
       </footer>
-      <SubmitModal activeModal={activeModal} closeModal={closeModal}></SubmitModal>
+      <SubmitModal
+        activeModal={activeModal}
+        closeModal={closeModal}
+      ></SubmitModal>
     </div>
   );
 }

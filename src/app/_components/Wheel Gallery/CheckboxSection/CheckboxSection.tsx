@@ -85,7 +85,7 @@ export default function CheckboxSection({
     <fieldset
       ref={containerRef}
       className={styles["wheelfinder__category"]}
-      id="body"
+      key={arrayName}
     >
       <div
         ref={optionsRef}

@@ -27,12 +27,18 @@
     border-bottom: 2px solid white;
 }
 
+.login__form_input:focus{
+    outline: none;
+}
+
 .login__form_button{
     margin: 10px 0;
     background-color: white;
     color: black;
     border-radius: 4px;
-
+    outline: none;
 }
 
-
+.login__form_button:hover{
+    
+}

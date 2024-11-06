@@ -22,7 +22,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/wheel-gallery/admin");
+  redirect("/wheel-gallery/review");
 }
 
 export async function signup(formData: FormData) {

@@ -96,9 +96,10 @@ export default function CheckboxSection({
         }
         className={styles["wheelfinder__category_options"]}
       >
-        {optionsArray.map((option) => {
+        {optionsArray.map((option, index) => {
           return (
             <FilterCheckbox
+              key={index}
               arrayName={arrayName}
               toggleOption={toggleOption}
               checkedOptions={checkedOptions}

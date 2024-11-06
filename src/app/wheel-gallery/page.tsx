@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { carTypes, wheelSizes } from "../constants";
 import Gallery from "../_components/Wheel Gallery/Gallery/Gallery";
 
+import { getUniqueElements } from "./actions";
+
 import SubmitModal from "../_components/Wheel Gallery/SubmitModal/SubmitModal";
 
 import CheckboxSection from "../_components/Wheel Gallery/CheckboxSection/CheckboxSection";
@@ -51,6 +53,12 @@ export default function WheelGallery() {
     wheelBrands: [],
   });
 
+  const [filterOptions, setFilterOptions] = useState({
+    carTypes: [],
+    wheelSizes: [],
+    wheelBrands: [],
+  });
+
   // ---------------------------------------- //
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
@@ -87,6 +95,25 @@ export default function WheelGallery() {
   // ---------------------------------------- //
   //                   HOOKS                  //
   // ---------------------------------------- //
+
+  useEffect(() => {
+    async function getFilters() {
+      try {
+        const [carTypes, wheelSizes] = await Promise.all([
+          getUniqueElements("car_type"),
+          getUniqueElements("wheel_size"),
+        ]);
+  
+        console.log("Car Types:", carTypes);
+        console.log("Wheel Sizes:", wheelSizes);
+      } catch (error) {
+        console.error("Error fetching filter data:", error);
+      }
+    }
+  
+    getFilters();
+  }, []);
+  
 
   useEffect(
     function setQueryOnChange() {
@@ -150,9 +177,10 @@ export default function WheelGallery() {
       <main className={styles["main"]}>
         <section className={styles["wheelfinder"]}>
           <form className={styles["wheelfinder__selector"]}>
-            {Object.keys(fullOptions).map((category) => {
+            {Object.keys(fullOptions).map((category, index) => {
               return (
                 <CheckboxSection
+                  key={index}
                   arrayName={String(category)}
                   checkedOptions={checkedOptions}
                   toggleOption={toggleOption}

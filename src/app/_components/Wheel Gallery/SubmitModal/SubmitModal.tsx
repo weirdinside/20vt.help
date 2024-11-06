@@ -8,7 +8,7 @@ import SLogo from "@/app/_components/Homepage/SLogo/SLogo";
 import { createSupabaseClient } from "@/app/supabase/client";
 import { wheelSizes, carTypes } from "@/app/constants";
 
-export default function SubmitModal({  activeModal, closeModal }) {
+export default function SubmitModal({ activeModal, closeModal }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [wheelSize, setWheelSize] = useState("");
@@ -20,7 +20,7 @@ export default function SubmitModal({  activeModal, closeModal }) {
   const [isPending, startTransition] = useTransition();
 
   const isFormValid = () =>
-    [wheelSize, carType, wheelBrand, wheelName, username].every(Boolean) &&
+    [wheelSize, carType, wheelBrand, wheelName].every(Boolean) &&
     imageUrls.length > 0;
 
   const handleInputChange =
@@ -33,7 +33,6 @@ export default function SubmitModal({  activeModal, closeModal }) {
     setWheelBrand("");
     setWheelName("");
     setUsername("");
-    setImageUrls([]);
     if (imageInputRef.current) imageInputRef.current.value = null;
   };
 
@@ -139,9 +138,10 @@ export default function SubmitModal({  activeModal, closeModal }) {
                 <option value="" disabled>
                   select a car...
                 </option>
-                {carTypes.map((car)=>{
+                {carTypes.map((car, index)=>{
                   return(
                     <option
+                    key={index}
                     className={styles["submit__input_option"]}
                     value={car}
                   >{car}</option>
@@ -160,9 +160,10 @@ export default function SubmitModal({  activeModal, closeModal }) {
                 <option value="" disabled>
                   select a size...
                 </option>
-                {wheelSizes.map((size)=>{
+                {wheelSizes.map((size, index)=>{
                   return(
                     <option
+                    key={index}
                     className={styles["submit__input_option"]}
                     value={size}
                   >{size}</option>
@@ -193,12 +194,11 @@ export default function SubmitModal({  activeModal, closeModal }) {
               />
             </label>
             <label className={styles["submit__label"]}>
-              name/username*
+              name/username
               <input
                 onChange={handleInputChange(setUsername)}
                 value={username}
                 placeholder="ani / @95urs6"
-                required
                 type="text"
                 className={styles["submit__input"]}
               />
@@ -254,6 +254,7 @@ export default function SubmitModal({  activeModal, closeModal }) {
                 onClick={() => {
                   closeModal();
                   clearAllFields();
+                  setImageUrls([]);
                   setSubmitted(false);
                 }}
                 className={styles["submit__button"]}

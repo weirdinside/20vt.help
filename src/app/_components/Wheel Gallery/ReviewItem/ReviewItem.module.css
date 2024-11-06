@@ -1,0 +1,125 @@
+.review-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-item__galleryitem {
+  width: 80%;
+  height: 50%;
+}
+
+.review-item__container {
+  display: flex;
+  height: 1fr;
+  width: 100%;
+  position: relative;
+  gap: 15px;
+
+  padding: 0 0 20px 0;
+}
+
+.review-item__sidebar {
+  width: 40%;
+  height: 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.review-item__button {
+  color: #cf2a2a;
+  font-weight: 500;
+  font-size: 20px;
+  border-radius: 10px;
+  border: 2px solid #cf2a2a;
+  background-color: #00000000;
+  padding: 10px;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.review-item__button:hover {
+  color: white;
+  background-color: #cf2a2a;
+}
+
+.review-item__notice {
+  color: white;
+}
+
+.edit__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.edit__form_select {
+  background-color: #00000000;
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  border-bottom: 2px solid white;
+}
+
+.edit__form_input {
+  background-color: #00000000;
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  border-bottom: 2px solid white;
+}
+
+.edit__form_buttons {
+  display: flex;
+  gap: 0 10px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.edit__form_button {
+  background-color: #00000000;
+  font-weight: 700;
+  color: #cf2a2a;
+  border: 2px solid #cf2a2a;
+  padding: 4px 5px;
+  border-radius: 4px;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.edit__form_button:hover {
+  background-color: #cf2a2a;
+  color: white;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+@media screen and (max-width: 600px) {
+  .edit__form {
+    width: calc(100% - 10px);
+  }
+
+  .edit__form_button {
+    width: 200px;
+  }
+
+  .review-item__container {
+    flex-direction: column;
+    margin: 10px 0;
+    border-bottom: 2px solid white;
+  }
+
+  .review-item__sidebar {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .review-item__galleryitem {
+    width: 100%;
+  }
+
+  .review-item__button {
+    width: 30%;
+    height: 100%;
+    padding: 5px 0;
+  }
+}

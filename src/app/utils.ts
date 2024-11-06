@@ -20,3 +20,10 @@ export const debounce = (func, wait: number) => {
 export function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
+
+export function greetingTime() {
+  const now = new Date().getHours();
+  if (now >= 0 && now < 12) return "good morning";
+  if (now >= 12 && now <= 15) return "good afternoon";
+  if (now > 15 && now <= 23) return "good evening";
+}

@@ -17,8 +17,8 @@ export default function Gallery() {
   }, []);
 
   return (<div className={styles["gallery"]}>
-    {images.map((image)=>{
-        return <GalleryItem imageInfo={image}></GalleryItem>
+    {images.map((image, index)=>{
+        return <GalleryItem key={index} imageInfo={image}></GalleryItem>
     })}
   </div>);
 }

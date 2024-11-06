@@ -1,13 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./GalleryItem.module.css";
 import { getRandomInt } from "@/app/utils";
 
 export default function GalleryItem({ imageInfo }) {
+
   return (
     <div key={imageInfo.id} className={styles["gallery__item"]}>
       <div className={styles["gallery__item_frame"]}>
-      <p className={styles["gallery__item_description_size"]}>
-            {imageInfo.wheel_size}"
+        <p className={styles["gallery__item_description_size"]}>
+          {imageInfo.wheel_size}"
         </p>
       </div>
       <div
@@ -20,7 +21,9 @@ export default function GalleryItem({ imageInfo }) {
         </p>
 
         <p className={styles["gallery__item_description_user"]}>
-          {imageInfo.submitted_by}'s {imageInfo.car_type}
+          {imageInfo.submitted_by
+            ? `${imageInfo.submitted_by}'s ${imageInfo.car_type}`
+            : `${imageInfo.car_type}`}
         </p>
       </div>
     </div>

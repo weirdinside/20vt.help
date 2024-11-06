@@ -47,7 +47,7 @@ export default function CheckboxSection({
     [windowWidth, setIsWide, containerRef, optionsRef],
   );
 
-  useEffect(() => {
+  useEffect(function logScrollPosition(){
     const instance = optionsRef.current;
     const scrollWidth = instance.scrollWidth - instance.offsetWidth;
     if (scrollWidth > 0) {

@@ -8,7 +8,6 @@ import rotateIcon from "../../../assets/icons/phone-rotate/rotate.png";
 import phoneIcon from "../../../assets/icons/phone-rotate/phone.png";
 import mouse from "../../../assets/icons/screen-size-increase/mouse.png";
 import urlline from "../../../assets/icons/screen-size-increase/urlline.png";
-import buttonsHttp from "../../../assets/icons/screen-size-increase/buttons-http.png";
 import screenpng from "../../../assets/icons/screen-size-increase/screen.png";
 
 function ScreenSizeWarning() {

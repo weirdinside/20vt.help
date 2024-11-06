@@ -8,7 +8,12 @@ import SLogo from "@/app/_components/Homepage/SLogo/SLogo";
 import { createSupabaseClient } from "@/app/supabase/client";
 import { wheelSizes, carTypes } from "@/app/constants";
 
-export default function SubmitModal({ activeModal, closeModal }) {
+interface SubmitModalProps{
+  activeModal: Function;
+  closeModal: Function;
+}
+
+export default function SubmitModal({ activeModal, closeModal }: SubmitModalProps) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [wheelSize, setWheelSize] = useState("");
@@ -119,6 +124,9 @@ export default function SubmitModal({ activeModal, closeModal }) {
       }`}
     >
       <div className={styles["submit"]}>
+        <div className={styles['submit__loading']}>
+          
+        </div>
         <h1 className={styles["submit__heading"]}>
           submit a photo
           <div onClick={closeModal} className={styles["submit__heading_logo"]}>

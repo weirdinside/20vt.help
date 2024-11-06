@@ -1,4 +1,4 @@
-export const wheelSizes = ['15"', '16"', '17"', '18"', '19"', '20"'];
+export const wheelSizes = [15, 16, 17, 18, 19, 20];
 export const carTypes = [
   "UrS6 avant",
   "UrS6 sedan",

@@ -6,19 +6,12 @@ import GalleryItem from "../GalleryItem/GalleryItem";
 
 import { fetchAllApprovedImages } from "@/app/supabase/storage/client";
 
-export default function Gallery() {
-
-  const [images, setImages] = useState<object[]>([]);
-
-  useEffect(() => {
-    fetchAllApprovedImages().then((data)=>{
-        setImages(data);
-    })
-  }, []);
-
-  return (<div className={styles["gallery"]}>
-    {images.map((image, index)=>{
-        return <GalleryItem key={index} imageInfo={image}></GalleryItem>
-    })}
-  </div>);
+export default function Gallery({data }) {
+  return (
+    <div className={styles["gallery"]}>
+      {data.map((image, index) => {
+        return <GalleryItem key={index} imageInfo={image}></GalleryItem>;
+      })}
+    </div>
+  );
 }

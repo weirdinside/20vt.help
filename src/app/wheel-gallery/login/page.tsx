@@ -16,6 +16,7 @@ export default async function Login() {
   return (
     <div className={styles["login"]}>
       <div className={styles['login__photo-stack']}>
+
       </div>
       <form className={styles['login__form']}>
         <h1 className={styles['login__form_heading']}>sign in</h1>

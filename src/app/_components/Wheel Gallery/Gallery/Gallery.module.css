@@ -1,5 +1,6 @@
 
 .gallery {
+  position: relative;
     margin: 10px 0;
     height: 100%;
     max-width: 100%;

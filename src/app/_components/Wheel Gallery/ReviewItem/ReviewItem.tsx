@@ -5,9 +5,8 @@ import React, { useState, useEffect, useTransition } from "react";
 import { updateImageData } from "@/app/wheel-gallery/review/actions";
 import { setApproved } from "@/app/wheel-gallery/review/actions";
 
-export default function ReviewItem({ triggerRefetch, data, index }) {
+export default function ReviewItem({ triggerRefetch, data }) {
   const [editMode, setEditMode] = useState(false);
-  const [isEditing, startEditing] = useTransition();
   const [isDeleting, startDeleting] = useTransition();
   const [isApproving, startApproving] = useTransition();
 
@@ -21,16 +20,16 @@ export default function ReviewItem({ triggerRefetch, data, index }) {
     username: data.submitted_by,
   });
 
-  function revertDataChange(){
+  function setInitialData() {
     setImageData({
-        approved: data.approved,
-        car_type: data.car_type,
-        id: data.id,
-        wheel_brand: data.wheel_brand,
-        wheel_name: data.wheel_name,
-        wheel_size: data.wheel_size,
-        username: data.submitted_by,
-      });
+      approved: data.approved,
+      car_type: data.car_type,
+      id: data.id,
+      wheel_brand: data.wheel_brand,
+      wheel_name: data.wheel_name,
+      wheel_size: data.wheel_size,
+      username: data.submitted_by,
+    });
   }
 
   function handleDataChange({ category, value }) {
@@ -38,13 +37,12 @@ export default function ReviewItem({ triggerRefetch, data, index }) {
       ...previous,
       [category]: value,
     }));
-  };
+  }
 
   async function handleApprove() {
     startApproving(() => {
       setApproved(data.id)
         .then((data) => {
-          console.log(data);
           triggerRefetch();
         })
         .catch((err) => {
@@ -63,8 +61,6 @@ export default function ReviewItem({ triggerRefetch, data, index }) {
         wheelName: imageData.wheel_name,
       })
         .then((res) => {
-          console.log(res);
-          console.log(imageData);
           setEditMode(false);
           triggerRefetch();
         })
@@ -72,10 +68,17 @@ export default function ReviewItem({ triggerRefetch, data, index }) {
           console.error("Error in handleConfirmEdit", err);
         });
     });
-  };
+  }
 
   return (
-    <div key={index} className={styles["review-item__container"]}>
+    <div className={styles["review-item__container"]}>
+      <div className={`${styles['review-item__loading']} ${isApproving || isDeleting ? styles['active'] : null}`}>
+        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
+        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
+        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
+        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
+        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
+      </div>
       <div className={styles["review-item__galleryitem"]}>
         <GalleryItem imageInfo={data} />
       </div>
@@ -153,9 +156,13 @@ export default function ReviewItem({ triggerRefetch, data, index }) {
                 className={styles["edit__form_input"]}
               ></input>
               <div className={styles["edit__form_buttons"]}>
-                <button onClick={()=>{
-                    revertDataChange();
-                }} type="button" className={styles["edit__form_button"]}>
+                <button
+                  onClick={() => {
+                    setInitialData();
+                  }}
+                  type="button"
+                  className={styles["edit__form_button"]}
+                >
                   revert
                 </button>
                 <button
@@ -173,18 +180,26 @@ export default function ReviewItem({ triggerRefetch, data, index }) {
         ) : (
           <>
             {" "}
-            <button className={styles["review-item__button"]}>{isDeleting ? 'deleting...' : 'delete'}</button>
+            <button className={styles["review-item__button"]}>
+              {isDeleting ? "deleting..." : "delete"}
+            </button>
             <button
               onClick={() => {
+                setInitialData();
                 setEditMode(true);
               }}
               className={styles["review-item__button"]}
             >
               edit
             </button>
-            <button onClick={()=>{
+            <button
+              onClick={() => {
                 handleApprove();
-            }} className={styles["review-item__button"]}>{isApproving ? "approving..." : 'approve'}</button>{" "}
+              }}
+              className={styles["review-item__button"]}
+            >
+              {isApproving ? "approving..." : "approve"}
+            </button>{" "}
           </>
         )}
       </div>

@@ -45,3 +45,20 @@ export async function updateImageData({
 
   return data;
 }
+
+export async function deleteImage(url){
+
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+  .storage
+  .from('submitted-images')
+  .remove([url]);
+
+  if (error) {
+    console.error("Error deleting image:", error);
+    return null;
+  }
+
+  return (`Image deleted ${data}`);
+}

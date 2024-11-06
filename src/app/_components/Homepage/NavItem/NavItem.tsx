@@ -1,17 +1,12 @@
 "use client";
 
 import React from "react";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./NavItem.module.css";
 import Marquee from "../../_general/Marquee/Marquee";
 
 function NavItem({ title, description }) {
   const [isMousedOver, setMouseState] = useState(false);
-  const [isBigWindow, setWindowSize] = useState(false);
-
-  useEffect(function checkBigWindow(){
-    
-  },[]);
 
   return (
     <div

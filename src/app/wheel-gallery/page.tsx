@@ -1,16 +1,18 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useTransition } from "react";
 import Link from "next/link";
 import styles from "./WheelGallery.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { carTypes, wheelSizes } from "../constants";
 import Gallery from "../_components/Wheel Gallery/Gallery/Gallery";
 
-import { getUniqueElements } from "./actions";
+import { filterElements, getUniqueElements } from "./actions";
 
 import SubmitModal from "../_components/Wheel Gallery/SubmitModal/SubmitModal";
 
 import CheckboxSection from "../_components/Wheel Gallery/CheckboxSection/CheckboxSection";
+import { debounce } from "../utils";
+import { fetchAllApprovedImages } from "../supabase/storage/client";
 
 const wheelBrands = [
   "ABT",
@@ -29,9 +31,9 @@ const wheelBrands = [
 // if table category for brand has 2 or more items listed below it, it should be added to array.
 
 interface Options {
-  wheelSizes: string[];
-  wheelBrands: string[];
-  carTypes: string[];
+  wheel_size: number[];
+  wheel_brand: string[];
+  car_type: string[];
 }
 
 export default function WheelGallery() {
@@ -41,22 +43,20 @@ export default function WheelGallery() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activeModal, setActiveModal] = useState("");
+  const [images, setImages] = useState<object[]>([]);
+
+  const [waitingForImages, setLoading] = useTransition();
+
   const fullOptions = {
-    carTypes: carTypes,
-    wheelSizes: wheelSizes,
-    wheelBrands: wheelBrands,
+    car_type: carTypes,
+    wheel_size: wheelSizes,
+    wheel_brand: wheelBrands,
   };
 
   const [checkedOptions, setCheckedOptions] = useState<Options>({
-    carTypes: [],
-    wheelSizes: [],
-    wheelBrands: [],
-  });
-
-  const [filterOptions, setFilterOptions] = useState({
-    carTypes: [],
-    wheelSizes: [],
-    wheelBrands: [],
+    car_type: [],
+    wheel_size: [],
+    wheel_brand: [],
   });
 
   // ---------------------------------------- //
@@ -76,7 +76,7 @@ export default function WheelGallery() {
   }, []);
 
   function clearOptions() {
-    setCheckedOptions({ carTypes: [], wheelSizes: [], wheelBrands: [] });
+    setCheckedOptions({ car_type: [], wheel_size: [], wheel_brand: [] });
   }
 
   async function toggleOption(category: keyof Options, value: string) {
@@ -96,44 +96,30 @@ export default function WheelGallery() {
   //                   HOOKS                  //
   // ---------------------------------------- //
 
-  useEffect(() => {
-    async function getFilters() {
-      try {
-        const [carTypes, wheelSizes] = await Promise.all([
-          getUniqueElements("car_type"),
-          getUniqueElements("wheel_size"),
-        ]);
-  
-        console.log("Car Types:", carTypes);
-        console.log("Wheel Sizes:", wheelSizes);
-      } catch (error) {
-        console.error("Error fetching filter data:", error);
-      }
-    }
-  
-    getFilters();
-  }, []);
-  
-
   useEffect(
     function setQueryOnChange() {
-      const queryParameters = Object.entries(checkedOptions)
-        .map(([category, values]) => {
-          const queryString = values.join(",");
-          return values.length > 0 ? `${category}=${queryString}` : "";
-        })
-        .filter(Boolean)
-        .join("&");
-      router.push(`?${queryParameters}`);
+      setLoading(() => {
+        const queryParameters = Object.entries(checkedOptions)
+          .map(([category, values]) => {
+            const queryString = values.join(",");
+            return values.length > 0 ? `${category}=${queryString}` : "";
+          })
+          .filter(Boolean)
+          .join("&");
+        router.push(`?${queryParameters}`);
+        filterElements(checkedOptions).then((data) => {
+          return setImages(data);
+        });
+      });
     },
     [checkedOptions],
   );
 
   useEffect(function readQueryOnLoad() {
     const parsedOptions: Options = {
-      carTypes: [],
-      wheelSizes: [],
-      wheelBrands: [],
+      car_type: [],
+      wheel_size: [],
+      wheel_brand: [],
     };
     searchParams.forEach((value, key) => {
       const valuesArray = value.split(",").filter(Boolean);
@@ -203,7 +189,14 @@ export default function WheelGallery() {
             </button>
           </div>
         </section>
-        <Gallery></Gallery>
+        <div className={`${styles["gallery__loading"]} ${waitingForImages ? styles['active'] : ''}`}>
+          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
+          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
+          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
+          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
+          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
+        </div>
+        <Gallery isLoading={waitingForImages} data={images}></Gallery>
       </main>
       <footer className={styles["footer"]}>
         <p className={styles["footer__credits"]} id="site-credits-button">

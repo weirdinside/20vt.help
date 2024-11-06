@@ -13,6 +13,8 @@ export default function ReviewGallery() {
     fetchAllUnapprovedImages()
       .then((data) => {
         return setUnapprovedImages(data);
+      }).then(()=>{
+        console.log(unapprovedImages)
       })
       .catch((err) => {
         console.error(err);
@@ -27,7 +29,7 @@ export default function ReviewGallery() {
     <div className={styles["review-gallery"]}>
       {unapprovedImages.length > 0 ? (
         unapprovedImages.map((data, index) => (
-          <ReviewItem triggerRefetch={triggerRefetch} data={data} index={index}></ReviewItem>
+          <ReviewItem triggerRefetch={triggerRefetch} data={data} key={index}></ReviewItem>
         ))
       ) : (
         <p className={styles["review-gallery__notice"]}>nothing to be reviewed</p>

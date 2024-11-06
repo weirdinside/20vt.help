@@ -60,7 +60,7 @@
   cursor: pointer;
   margin-top: 10px;
   width: 100vw;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .submit__button:hover {
@@ -73,7 +73,7 @@
 
 .submit__button-i {
   width: 100vw;
-  font-size: 28px;
+  font-size: 20px;
   opacity: 0.7;
   color: white;
   font-weight: 700;

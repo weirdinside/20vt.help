@@ -60,7 +60,8 @@ export async function fetchAllUnapprovedImages() {
   const { data, error } = await supabase
     .from("images")
     .select("*")
-    .eq("approved", false);
+    .eq("approved", false)
+    .order('id', { ascending: false });
 
   if (error) {
     console.error("error fetching images:", error);

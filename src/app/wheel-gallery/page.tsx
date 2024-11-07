@@ -13,6 +13,7 @@ import SubmitModal from "../_components/Wheel Gallery/SubmitModal/SubmitModal";
 import CheckboxSection from "../_components/Wheel Gallery/CheckboxSection/CheckboxSection";
 import { debounce } from "../utils";
 import { fetchAllApprovedImages } from "../supabase/storage/client";
+import PreviewModal from "../_components/Wheel Gallery/PreviewModal/PreviewModal";
 
 const wheelBrands = [
   "ABT",
@@ -44,6 +45,7 @@ export default function WheelGallery() {
   const router = useRouter();
   const [activeModal, setActiveModal] = useState("");
   const [images, setImages] = useState<object[]>([]);
+  const [clickedPhotoData, setClickedPhotoData] = useState({});
 
   const [waitingForImages, setLoading] = useTransition();
 
@@ -62,6 +64,10 @@ export default function WheelGallery() {
   // ---------------------------------------- //
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
+
+  function handleImageClick(){
+    
+  }
 
   const closeModal = useCallback(() => {
     setActiveModal("");
@@ -98,19 +104,22 @@ export default function WheelGallery() {
 
   useEffect(
     function setQueryOnChange() {
-      setLoading(() => {
-        const queryParameters = Object.entries(checkedOptions)
-          .map(([category, values]) => {
-            const queryString = values.join(",");
-            return values.length > 0 ? `${category}=${queryString}` : "";
-          })
-          .filter(Boolean)
-          .join("&");
-        router.push(`?${queryParameters}`);
-        filterElements(checkedOptions).then((data) => {
-          return setImages(data);
-        });
-      });
+      debounce(
+        setLoading(() => {
+          const queryParameters = Object.entries(checkedOptions)
+            .map(([category, values]) => {
+              const queryString = values.join(",");
+              return values.length > 0 ? `${category}=${queryString}` : "";
+            })
+            .filter(Boolean)
+            .join("&");
+          router.push(`?${queryParameters}`);
+          filterElements(checkedOptions).then((data) => {
+            return setImages(data);
+          });
+        }),
+        1000,
+      );
     },
     [checkedOptions],
   );
@@ -189,14 +198,7 @@ export default function WheelGallery() {
             </button>
           </div>
         </section>
-        <div className={`${styles["gallery__loading"]} ${waitingForImages ? styles['active'] : ''}`}>
-          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
-          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
-          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
-          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
-          <div className={`${styles["gallery__loading_fire"]} ${waitingForImages ? styles['active'] : ''}`}></div>
-        </div>
-        <Gallery isLoading={waitingForImages} data={images}></Gallery>
+        <Gallery data={images}></Gallery>
       </main>
       <footer className={styles["footer"]}>
         <p className={styles["footer__credits"]} id="site-credits-button">
@@ -214,6 +216,11 @@ export default function WheelGallery() {
         activeModal={activeModal}
         closeModal={closeModal}
       ></SubmitModal>
+      <PreviewModal
+        activeModal={activeModal}
+        closeModal={closeModal}
+        data={clickedPhotoData}
+      ></PreviewModal>
     </div>
   );
 }

@@ -1,0 +1,42 @@
+.modal {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.255);
+  z-index: -2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.active {
+  z-index: 30;
+}
+
+.preview-modal {
+  scale: 0;
+  width: 450px;
+  height: fit-content;
+}
+
+@keyframes jumpIn {
+  0% {
+    rotate: 0deg;
+    scale: 0;
+  }
+  50% {
+    rotate: 7deg;
+    scale: 1.5;
+  }
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+
+.preview-modal.active {
+    animation: jumpIn 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+}

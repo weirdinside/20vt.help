@@ -18,7 +18,7 @@ export async function getUniqueElements(columnName) {
   return data;
 }
 
-export async function filterElements(filters) {
+export async function filterElements(filters: object) {
   const supabase = await createClient();
   let query = supabase.from("images").select("*");
 

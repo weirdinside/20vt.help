@@ -213,6 +213,13 @@
 
 /* gallery */
 
+.gallery__container{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
 /* wheelfinder */
 
 .wheelfinder__selector {
@@ -286,67 +293,6 @@
     visibility: hidden;
     opacity: 0;
     animation: showCard 1s cubic-bezier(0.075, 0.82, 0.165, 1) 1s forwards;
-  }
-
-  .gallery__loading{
-    z-index: 10;
-    z-index: -1;
-    background-color: #181818a2;
-    width: 100%;
-    height: calc(100cqh);
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    bottom: 0;
-    opacity: 0;
-    transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-  }
-
-  .gallery__loading.active{
-    z-index: 10;
-    opacity: 1;
-    background-color: #181818a2;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-  }
-
-  .gallery__loading :nth-child(1){
-    animation: 1s fireOrder 0s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-  }
-  .gallery__loading :nth-child(2){
-    animation: 1s fireOrder 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)  infinite;
-  }
-  .gallery__loading :nth-child(3){
-    animation: 1s fireOrder 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-  }
-  .gallery__loading :nth-child(4){
-    animation: 1s fireOrder 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-  }
-  .gallery__loading :nth-child(5){
-    animation: 1s fireOrder 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-  }
-  
-  .gallery__loading_fire.active{
-    width: 40px;
-    height: 40px;
-    border-radius: 50px;
-    border: 3px solid white;
-  }
-  
-  
-  @keyframes fireOrder{
-    0%{
-      background-color: white;
-    }
-    100%{
-      background-color: rgba(255, 255, 255, 0);
-    }
   }
   
   /* for the above, you're gonna have to make classes for loaded object and   */
@@ -731,9 +677,10 @@
     cursor: url(../assets/icons/cursors/open-cursor.png), pointer;
   }
   
+  
   /* extra styles */
   
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 0px;
     height: 0px;
@@ -745,7 +692,7 @@
     background-color: #cf2a2a;
     border-radius: 0px;
   }
-  
+   */
   /* -------------------------------------------------------------------------------- */
   /*                                  MOBILE BREAKPOINT                               */
   /* -------------------------------------------------------------------------------- */

@@ -6,7 +6,7 @@
   max-width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-  overflow-x: scroll;
+  overflow-y: scroll;
   scrollbar-color: #cf2a2a;
   scrollbar-width: thin;
 }

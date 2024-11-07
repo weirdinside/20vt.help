@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./Gallery.module.css";
-import GalleryItem from "../GalleryItem/GalleryItem";
+import ClickableGalleryItem from "../ClickableGalleryItem/ClickableGalleryItem";
 
-export default function Gallery({ data }) {
+export default function Gallery({ handleImageClick, data }) {
 
   return (
       <div className={styles["gallery"]}>
         {data.map((image, index) => {
-          return <GalleryItem key={index} imageInfo={image}></GalleryItem>;
+          return <ClickableGalleryItem handleImageClick={handleImageClick} key={index} imageInfo={image}></ClickableGalleryItem>;
         })}
       </div>
   );

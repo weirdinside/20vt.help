@@ -65,8 +65,9 @@ export default function WheelGallery() {
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
 
-  function handleImageClick(){
-    
+  function handleImageClick(imageData){
+    setClickedPhotoData(imageData);
+    setActiveModal('preview');
   }
 
   const closeModal = useCallback(() => {
@@ -198,7 +199,7 @@ export default function WheelGallery() {
             </button>
           </div>
         </section>
-        <Gallery data={images}></Gallery>
+        <Gallery handleImageClick={handleImageClick} data={images}></Gallery>
       </main>
       <footer className={styles["footer"]}>
         <p className={styles["footer__credits"]} id="site-credits-button">

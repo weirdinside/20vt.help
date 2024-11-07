@@ -1,3 +1,5 @@
+import { Url } from "url";
+
 export async function convertBlobUrlToFile(blobUrl: string) {
   const response = await fetch(blobUrl);
   const blob = await response.blob();
@@ -26,4 +28,13 @@ export function greetingTime() {
   if (now >= 0 && now < 12) return "good morning";
   if (now >= 12 && now <= 15) return "good afternoon";
   if (now > 15 && now <= 23) return "good evening";
+}
+
+export async function copyLink(link: string) {
+  try {
+    await navigator.clipboard.writeText(link);
+    return 'success'
+  } catch (err) {
+    return err
+  }
 }

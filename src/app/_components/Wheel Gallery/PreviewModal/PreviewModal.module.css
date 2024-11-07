@@ -17,7 +17,7 @@
 
 .preview-modal {
   scale: 0;
-  width: 450px;
+  width: 70vw;
   height: fit-content;
 }
 
@@ -27,16 +27,73 @@
     scale: 0;
   }
   50% {
-    rotate: 7deg;
-    scale: 1.5;
+    rotate: 2deg;
+    scale: 1.1;
   }
-  100% {
+  100%{
     rotate: 0deg;
     scale: 1;
   }
 }
 
 .preview-modal.active {
-    animation: jumpIn 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation: jumpIn 0.3s cubic-bezier(.02,.98,.64,1.77) forwards;
+}
 
+.preview-modal__options{
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.preview-modal__button.instagram{
+  flex-shrink: 1;
+  z-index: 9;
+  padding-left: 50px;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.preview-modal__button-ib{
+  z-index: 10;
+  background-image: url(../../../assets/icons/instagram_logo.png);
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.preview-modal__button{
+  flex-shrink: 1;
+  font-size: clamp(10px, 20px, 200%);
+  font-weight: 500;
+  margin: 10px;
+  border-radius: 10px;;
+  background-color: white;
+  padding: 10px;
+}
+
+.preview-modal__button:disabled{
+  opacity: 0.4;
+}
+
+.preview-modal__copied{
+  font-weight: 600;
+  background-color: white;
+  position: fixed;
+  top: 10px;
+  left: auto;
+  right: auto;
+  padding: 5px 10px;
+  font-size: 20px;
+  width: fit-content;
+  border-radius: 10px;
+  height: fit-content;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+}
+
+.preview-modal__copied.active{
+  top: 20px;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
 }

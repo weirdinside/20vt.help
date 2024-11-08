@@ -4,6 +4,7 @@
     width: 100%;
     padding-bottom: 75%;
     overflow: hidden;
+    object-fit: contain;
     container-type: inline-size;
   }
   
@@ -38,7 +39,7 @@
     background-image: url("../../../assets/images/polaroid_frame-wide.png");
   }
   
-  .gallery__item_photo {
+  .gallery__item_photo_container {
     z-index: 0;
     position: absolute;
     width: 90%;

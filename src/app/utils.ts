@@ -11,13 +11,15 @@ export async function convertBlobUrlToFile(blobUrl: string) {
   return file;
 }
 
-export const debounce = (func, wait: number) => {
-  let timeout;
-  return function (...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
+export function debounce(callback, delay) {
+  let timer;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callback();
+    }, delay);
   };
-};
+}
 
 export function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
@@ -33,8 +35,8 @@ export function greetingTime() {
 export async function copyLink(link: string) {
   try {
     await navigator.clipboard.writeText(link);
-    return 'success'
+    return "success";
   } catch (err) {
-    return err
+    return err;
   }
 }

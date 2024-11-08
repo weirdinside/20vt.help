@@ -7,6 +7,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
   overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-color: #cf2a2a;
   scrollbar-width: thin;
 }

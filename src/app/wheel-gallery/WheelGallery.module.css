@@ -70,11 +70,12 @@
   background-color: #181818;
   display: flex;
   flex-direction: column;
-  margin: 10px auto;
+  margin: 0;
+  padding: 0;
   justify-content: center;
   min-width: 600px;
-  max-width: calc(100vw - 50px);
-  max-height: calc(100vh - 20px);
+  max-width: 100vw;
+  max-height: 100vh;
   transform: rotate3d(0, 0, 0);
   overflow-y: hidden;
   overflow-x: hidden;
@@ -90,7 +91,7 @@
   position: relative;
   align-items: flex-end;
   justify-content: space-between;
-  margin: 0 auto;
+  margin: 10px auto 0;
   padding: 0;
   font-family: "Work Sans", sans-serif;
   width: calc(100vw - 50px);
@@ -711,15 +712,12 @@
     }
   
     .page {
+      width: 100vw;
       background-color: #181818;
-      /* position: relative; */
       display: flex;
       flex-direction: column;
-      margin: 10px auto;
       justify-content: center;
       min-width: 250px;
-      max-width: calc(100vw - 10px);
-      padding: 0 10px;
       transform: rotate3d(0, 0, 0);
       overflow-y: hidden;
     }
@@ -807,9 +805,9 @@
     }
   
     .footer{
-      margin-top: 25px;
+      margin-top: 5px;
       margin-bottom: 17px;
-      margin-right: 0px;
+      margin-right: 20px;
       grid-area: footer;
     }
   

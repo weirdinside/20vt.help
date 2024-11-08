@@ -44,7 +44,7 @@ export default function CheckboxSection({
         }
       }
     },
-    [windowWidth, setIsWide, containerRef, optionsRef],
+    [windowWidth, optionsArray, setIsWide, containerRef, optionsRef],
   );
 
   useEffect(function logScrollPosition(){

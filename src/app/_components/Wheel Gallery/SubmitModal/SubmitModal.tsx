@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState, useRef, useTransition } from "react";
+import { ChangeEvent, useState, useRef, useTransition, useEffect } from "react";
 import { uploadImage } from "@/app/supabase/storage/client";
 import { convertBlobUrlToFile, getRandomInt } from "@/app/utils";
 import styles from "./SubmitModal.module.css";
@@ -8,21 +8,36 @@ import SLogo from "@/app/_components/Homepage/SLogo/SLogo";
 import { createSupabaseClient } from "@/app/supabase/client";
 import { wheelSizes, carTypes } from "@/app/constants";
 
-interface SubmitModalProps{
+// PLEASE IMPLEMENT FORM VALIDATION
+
+interface SubmitModalProps {
   activeModal: Function;
   closeModal: Function;
 }
 
-export default function SubmitModal({ activeModal, closeModal }: SubmitModalProps) {
+export default function SubmitModal({
+  activeModal,
+  closeModal,
+}: SubmitModalProps) {
+  
+  // ---------------------------------------- //
+  //            VARIABLES / STATES            //
+  // ---------------------------------------- //
+
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [wheelSize, setWheelSize] = useState("");
+  const [imageList, setImageList] = useState(<></>);
   const [carType, setCarType] = useState("");
   const [wheelBrand, setWheelBrand] = useState("");
   const [wheelName, setWheelName] = useState("");
   const [username, setUsername] = useState("");
   const [imageSubmitted, setSubmitted] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  // ---------------------------------------- //
+  //               EVENT HANDLERS             //
+  // ---------------------------------------- //
 
   const isFormValid = () =>
     [wheelSize, carType, wheelBrand, wheelName].every(Boolean) &&
@@ -44,7 +59,7 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newImageUrls = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
+        URL.createObjectURL(file),
       );
       setImageUrls(newImageUrls);
     }
@@ -64,15 +79,15 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
             });
             if (error) throw new Error(`Upload error: ${error.message}`);
             return imageUrl;
-          })  
+          }),
         );
 
         const convertedWheelSize = parseInt(wheelSize.replace('"', ""));
         const rowsToInsert = urls.map((imageUrl) => ({
           photo_url: imageUrl,
-          wheel_brand: wheelBrand,
+          wheel_brand: wheelBrand.trim(),
           wheel_size: convertedWheelSize,
-          wheel_name: wheelName,
+          wheel_name: wheelName.trim(),
           submitted_by: username,
           car_type: carType,
           approved: false,
@@ -83,7 +98,8 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
           .from("images")
           .insert(rowsToInsert);
 
-        if (insertError) throw new Error(`Insert error: ${insertError.message}`);
+        if (insertError)
+          throw new Error(`Insert error: ${insertError.message}`);
 
         clearAllFields();
         setSubmitted(true);
@@ -113,6 +129,11 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
     </div>
   );
 
+  useEffect(() => {
+    setImageList(renderImageList());
+    console.log("images set");
+  }, [imageUrls]);
+
   return (
     <div
       onClick={(e) => {
@@ -124,9 +145,16 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
       }`}
     >
       <div className={styles["submit"]}>
-        <div className={styles['submit__loading']}>
-          
-        </div>
+        {isPending ? (
+          <div className={styles["submit__loading"]}>
+            <div className={styles["loading_fire"]}></div>
+            <div className={styles["loading_fire"]}></div>
+            <div className={styles["loading_fire"]}></div>
+            <div className={styles["loading_fire"]}></div>
+            <div className={styles["loading_fire"]}></div>
+          </div>
+        ) : null}
+
         <h1 className={styles["submit__heading"]}>
           submit a photo
           <div onClick={closeModal} className={styles["submit__heading_logo"]}>
@@ -146,14 +174,16 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
                 <option value="" disabled>
                   select a car...
                 </option>
-                {carTypes.map((car, index)=>{
-                  return(
+                {carTypes.map((car, index) => {
+                  return (
                     <option
-                    key={index}
-                    className={styles["submit__input_option"]}
-                    value={car}
-                  >{car}</option>
-                  )
+                      key={index}
+                      className={styles["submit__input_option"]}
+                      value={car}
+                    >
+                      {car}
+                    </option>
+                  );
                 })}
               </select>
             </label>
@@ -168,14 +198,16 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
                 <option value="" disabled>
                   select a size...
                 </option>
-                {wheelSizes.map((size, index)=>{
-                  return(
+                {wheelSizes.map((size, index) => {
+                  return (
                     <option
-                    key={index}
-                    className={styles["submit__input_option"]}
-                    value={size}
-                  >{size}</option>
-                  )
+                      key={index}
+                      className={styles["submit__input_option"]}
+                      value={size}
+                    >
+                      {size}
+                    </option>
+                  );
                 })}
               </select>
             </label>
@@ -223,7 +255,7 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
                 className={styles["submit__input_file"]}
               />
             </label>
-            {renderImageList()}
+            {imageList}
             <div className={styles["submit__button_container"]}>
               <button
                 type="button"
@@ -247,7 +279,7 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
             <p className={styles["submit__post_text"]}>
               thanks for your contribution!
             </p>
-            {renderImageList()}
+            {imageList}
             <div className={styles["submit__button_container"]}>
               <button
                 onClick={() => {
@@ -256,7 +288,7 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
                 }}
                 className={styles["submit__button-i"]}
               >
-                submit another image
+                submit again
               </button>
               <button
                 onClick={() => {
@@ -267,7 +299,7 @@ export default function SubmitModal({ activeModal, closeModal }: SubmitModalProp
                 }}
                 className={styles["submit__button"]}
               >
-                browse gallery
+                gallery
               </button>
             </div>
           </div>

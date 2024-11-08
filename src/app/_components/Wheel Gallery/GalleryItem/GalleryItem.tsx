@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import styles from "./GalleryItem.module.css";
 import { getRandomInt } from "@/app/utils";
+import Image from "next/image";
 
 export default function GalleryItem({ imageInfo }) {
-
   return (
     <div key={imageInfo?.id} className={styles["gallery__item"]}>
       <div className={styles["gallery__item_frame"]}>
@@ -11,10 +11,20 @@ export default function GalleryItem({ imageInfo }) {
           {imageInfo?.wheel_size}"
         </p>
       </div>
-      <div
-        style={{ backgroundImage: `url(${imageInfo?.photo_url})` }}
-        className={styles["gallery__item_photo"]}
-      ></div>
+      <div className={styles["gallery__item_photo_container"]}>
+        <Image
+          loading="eager"
+          decoding="sync"
+          alt="modal-image"
+          fill={true}
+          placeholder="blur"
+          src={imageInfo.photo_url}
+          blurDataURL={imageInfo.photo_url}
+          quality={100}
+          objectFit="cover"
+        />
+      </div>
+
       <div className={styles["gallery__item_description"]}>
         <p className={styles["gallery__item_description_name"]}>
           {imageInfo?.wheel_brand} {imageInfo?.wheel_name}

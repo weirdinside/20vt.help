@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import styles from "./ClickableGalleryItem.module.css";
+import Image from 'next/image';
 import { getRandomInt } from "@/app/utils";
 
 export default function ClickableGalleryItem({ handleImageClick, imageInfo }) {
@@ -16,10 +17,19 @@ export default function ClickableGalleryItem({ handleImageClick, imageInfo }) {
           {imageInfo?.wheel_size}"
         </p>
       </div>
-      <div
-        style={{ backgroundImage: `url(${imageInfo?.photo_url})` }}
-        className={styles["gallery__item_photo"]}
-      ></div>
+      <div className={styles["gallery__item_photo_container"]}>
+        <Image
+          loading="eager"
+          decoding="sync"
+          alt="modal-image"
+          fill={true}
+          placeholder="blur"
+          src={imageInfo.photo_url}
+          blurDataURL={imageInfo.photo_url}
+          quality={100}
+          objectFit="cover"
+        />
+      </div>
       <div className={styles["gallery__item_description"]}>
         <p className={styles["gallery__item_description_name"]}>
           {imageInfo?.wheel_brand} {imageInfo?.wheel_name}

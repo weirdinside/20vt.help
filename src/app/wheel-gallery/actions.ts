@@ -4,6 +4,7 @@ import { createClient } from "@/app/supabase/auth/server";
 
 export async function getUniqueElements(columnName) {
   const supabase = await createClient();
+  console.log(columnName)
 
   const { data, error } = await supabase
     .from("images")
@@ -12,19 +13,20 @@ export async function getUniqueElements(columnName) {
 
   if (error) {
     console.error(error);
-    return null;
+    return error;
   }
 
-  return data;
+  const uniqueElements = [...new Set(data.map(item => item[columnName]))];
+
+  return uniqueElements;
 }
 
 export async function filterElements(filters: object) {
   const supabase = await createClient();
-  let query = supabase.from("images").select("*");
+  let query = supabase.from("images").select("*").eq("approved", true);
 
   for (const [columnName, values] of Object.entries(filters)) {
     if(values.length > 0){
-      console.log(columnName, values)
       query = query.in(columnName, values);
     }
   }

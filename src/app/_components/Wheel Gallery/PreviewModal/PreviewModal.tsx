@@ -2,27 +2,23 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { ChangeEvent, useEffect, useState, useTransition } from "react";
 import styles from "./PreviewModal.module.css";
 import { copyLink } from "@/app/utils";
-import SLogo from "../../Homepage/SLogo/SLogo";
 
 export default function PreviewModal({ activeModal, closeModal, data }) {
-  const [imageData, setImageData] = useState({});
   const [isCopying, setIsCopying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  function handleClickAwayClose(e) {
-    e.stopPropagation();
-
-    if (e.target.classList.contains(styles["modal"])) {
-      handleCloseModal();
-    }
-  }
-
   function handleCloseModal() {
     closeModal();
-    setIsLoading(true);
+  }
+
+  function handleClickAwayClose(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (e.target?.classList.contains(styles["modal"])) {
+      handleCloseModal();
+    }
   }
 
   async function handleCopyLink() {
@@ -36,7 +32,14 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
     }, 2000);
   }
 
-  useEffect(() => {
+  useEffect(
+    function setLoading() {
+      setIsLoading(true);
+    },
+    [data],
+  );
+
+  useEffect(function listenForEsc() {
     function handleEscClose(e) {
       if (e.key === "Escape") {
         handleCloseModal();
@@ -47,10 +50,6 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
       window.removeEventListener("keydown", handleEscClose);
     };
   }, []);
-
-  useEffect(() => {
-    setImageData(data);
-  }, [data]);
 
   return (
     <div
@@ -73,10 +72,10 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
           <Image
             className={styles["image"]}
             loading="eager"
-            onLoadingComplete={() => {
+            onLoad={() => {
               setIsLoading(false);
             }}
-            decoding="sync"
+            decoding="async"
             alt="modal-image"
             src={data.photo_url}
             quality={100}
@@ -85,7 +84,14 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
             sizes="100vw"
           />
         </div>
-
+        <div className={styles["image__text"]}>
+          <h1 className={styles["image__wheelname"]}>
+            {data.wheel_brand} {data.wheel_name}
+          </h1>
+          <p className={styles["image__cartype"]}>
+            {data.submitted_by ? `${data.submitted_by}'s` : ""} {data.car_type}
+          </p>
+        </div>
         <div className={styles["preview-modal__options"]}>
           {data?.submitted_by?.includes("@") ? (
             <Link
@@ -112,7 +118,7 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
       </div>
       <div
         className={`${styles["preview-modal__copied"]} ${
-          isCopying ? styles['active'] : ""
+          isCopying ? styles["active"] : ""
         }`}
       >
         <p className={styles["preview-modal__copied-text"]}>link copied!</p>

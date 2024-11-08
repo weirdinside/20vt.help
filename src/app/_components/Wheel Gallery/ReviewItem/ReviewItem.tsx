@@ -111,7 +111,7 @@ export default function ReviewItem({ triggerRefetch, data }) {
                     value: parseInt(e.target.value),
                   });
                 }}
-                value={imageData.wheel_size + '"'}
+                value={imageData.wheel_size}
                 className={styles["edit__form_select"]}
               >
                 {wheelSizes.map((size) => {

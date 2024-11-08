@@ -30,7 +30,7 @@ export async function updateImageData({
     .from("images")
     .update({
       car_type: carType,
-      wheel_size: parseInt(wheelSize),
+      wheel_size: wheelSize,
       wheel_brand: wheelBrand,
       wheel_name: wheelName,
     })

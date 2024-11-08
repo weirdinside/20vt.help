@@ -75,7 +75,7 @@ export default function CheckboxSection({
     return () => {
       instance.removeEventListener("scroll", debouncedHandleScroll);
     };
-  }, [optionsRef.current, windowWidth]);
+  }, [optionsRef.current, windowWidth, optionsArray]);
 
   function toggleMenu() {
     setIsOpen(!isOpen);

@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
-import Link from "next/link";
 import styles from "./ClickableGalleryItem.module.css";
 import Image from 'next/image';
-import { getRandomInt } from "@/app/utils";
 
 export default function ClickableGalleryItem({ handleImageClick, imageInfo }) {
 
@@ -19,7 +17,7 @@ export default function ClickableGalleryItem({ handleImageClick, imageInfo }) {
       </div>
       <div className={styles["gallery__item_photo_container"]}>
         <Image
-          loading="eager"
+          loading="lazy"
           decoding="sync"
           alt="modal-image"
           fill={true}

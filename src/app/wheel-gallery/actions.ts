@@ -40,3 +40,30 @@ export async function filterElements(filters: object) {
 
   return data;
 }
+
+interface PaginatedFetchProps {
+  filters: object;
+  numItems: number;
+  page: number;
+}
+
+export async function paginatedFetch({filters, numItems, page}: PaginatedFetchProps){
+  const supabase = await createClient();
+
+  let query = supabase.from("images").select("*").eq("approved", true);
+
+  for (const [columnName, values] of Object.entries(filters)) {
+    if(values.length > 0){
+      query = query.in(columnName, values);
+    }
+  }
+
+  query = query.range(numItems * page, numItems * page + numItems - 1)
+  
+  const { data, error } = await query;
+  if (error) {
+    console.error(error);
+    return null;
+  }
+  return data;
+}

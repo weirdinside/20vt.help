@@ -25,6 +25,7 @@ export default function ClickableGalleryItem({ handleImageClick, imageInfo }) {
           src={imageInfo.photo_url}
           blurDataURL={imageInfo.photo_url}
           quality={100}
+          sizes="50vw, 100vw"
           objectFit="cover"
         />
       </div>

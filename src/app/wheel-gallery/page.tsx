@@ -40,7 +40,7 @@ export default function WheelGallery() {
 
   // for handling the gallery state
   const [currentPage, setPage] = useState(0);
-  const [waitingForImages, setLoading] = useState(false);
+  const [waitingForImages, setLoading] = useState(true);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -148,6 +148,7 @@ export default function WheelGallery() {
         }
       }
     });
+    setLoading(false);
     setCheckedOptions(parsedOptions);
   }, []);
 
@@ -156,8 +157,9 @@ export default function WheelGallery() {
     after initial read of the site, so the last useEffect still has to exist */
   }
 
-  useEffect(
-    function setQueryOnChange() {
+  useEffect(()=>{
+    async function setQueryAndUpdateImages() {
+      setLoading(true);
       const queryParameters = Object.entries(checkedOptions)
         .map(([category, values]) => {
           const queryString = values.join(",");
@@ -172,9 +174,12 @@ export default function WheelGallery() {
         numItems: 25,
         page: 0,
       }).then((data) => {
+        setLoading(false);
         setImages(data);
       });
-    },
+    }
+    setQueryAndUpdateImages();
+  },
     [checkedOptions],
   );
 

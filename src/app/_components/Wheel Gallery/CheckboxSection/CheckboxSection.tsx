@@ -39,6 +39,11 @@ export default function CheckboxSection({
         if (optionsWidth > containerWidth) {
           setIsWide(true);
         }
+        else{
+          if(!isOpen){
+            setIsWide(false);
+          }
+        }
       }
     },
     [windowWidth, optionsArray, setIsWide, containerRef, optionsRef],

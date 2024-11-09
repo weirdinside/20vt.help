@@ -19,13 +19,17 @@ export default function SubmitModal({
   activeModal,
   closeModal,
 }: SubmitModalProps) {
-  
   // ---------------------------------------- //
   //            VARIABLES / STATES            //
   // ---------------------------------------- //
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const submitModalRef = useRef<HTMLFormElement>(null);
+
+  const [shadowPosition, setShadowPosition] = useState("");
+
   const [wheelSize, setWheelSize] = useState("");
   const [imageList, setImageList] = useState(<></>);
   const [carType, setCarType] = useState("");
@@ -129,9 +133,57 @@ export default function SubmitModal({
     </div>
   );
 
+  function scrollCheck() {
+    const submitForm = submitModalRef.current;
+    const containerHeight = submitForm.offsetHeight;
+    const scrollHeight = submitForm.scrollHeight;
+    const scrollPosition = submitForm.scrollTop;
+    if (scrollHeight > containerHeight) {
+      if (scrollPosition < 10) {
+        console.log("top");
+        return setShadowPosition("bottom");
+      } else if (scrollHeight - scrollPosition - containerHeight < 10) {
+        return setShadowPosition("top");
+      } else {
+        return setShadowPosition("center");
+      }
+    }
+    return setShadowPosition("");
+  }
+
+  // ---------------------------------------- //
+  //                   HOOKS                  //
+  // ---------------------------------------- //
+
   useEffect(() => {
     setImageList(renderImageList());
   }, [imageUrls]);
+
+  useEffect(() => {
+    console.log(submitModalRef);
+  }, [submitModalRef]);
+
+  useEffect(() => {
+    const submitForm = submitModalRef.current;
+    if (submitModalRef.current) {
+      submitForm.addEventListener("scroll", () => {
+        scrollCheck();
+      });
+      window.addEventListener("resize", () => {
+        scrollCheck();
+      });
+    }
+    return () => {
+      if (submitModalRef.current) {
+        submitForm?.removeEventListener("scroll", () => {
+          scrollCheck();
+        });
+        window.removeEventListener("resize", () => {
+          scrollCheck();
+        });
+      }
+    };
+  }, [submitModalRef]);
 
   return (
     <div
@@ -144,6 +196,14 @@ export default function SubmitModal({
       }`}
     >
       <div className={styles["submit"]}>
+        <div className={styles["submit__shadow"]}>
+          {shadowPosition === "bottom" || shadowPosition === "center" ? (
+            <div className={styles["shadow__bottom"]}></div>
+          ) : null}
+          {shadowPosition === "top" || shadowPosition === "center" ? (
+            <div className={styles["shadow__top"]}></div>
+          ) : null}
+        </div>
         {isPending ? (
           <div className={styles["submit__loading"]}>
             <div className={styles["loading_fire"]}></div>
@@ -161,7 +221,7 @@ export default function SubmitModal({
           </div>
         </h1>
         {!imageSubmitted ? (
-          <form className={styles["submit__form"]}>
+          <form ref={submitModalRef} className={styles["submit__form"]}>
             <label className={styles["submit__label"]}>
               what kind of car?*
               <select

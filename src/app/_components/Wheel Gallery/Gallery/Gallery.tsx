@@ -7,6 +7,13 @@ export default function Gallery({ loading, galleryRef, handleImageClick, images 
 
   return (
     <div ref={galleryRef} className={styles["gallery"]}>
+      {loading ? <div className={styles['gallery__loading']}>
+        <div className={styles["gallery__loading_fire"]}></div>
+        <div className={styles["gallery__loading_fire"]}></div>
+        <div className={styles["gallery__loading_fire"]}></div>
+        <div className={styles["gallery__loading_fire"]}></div>
+        <div className={styles["gallery__loading_fire"]}></div>
+      </div> : null}
       {images.map((image, index) => {
         return (
           <ClickableGalleryItem

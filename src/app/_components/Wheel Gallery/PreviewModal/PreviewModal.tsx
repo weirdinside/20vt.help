@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { ChangeEvent, useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import styles from "./PreviewModal.module.css";
 import { copyLink } from "@/app/utils";
+import { downloadImage } from "@/app/wheel-gallery/actions";
 
 export default function PreviewModal({ activeModal, closeModal, data }) {
   const [isCopying, setIsCopying] = useState(false);

@@ -175,4 +175,12 @@
   .preview-modal{
     max-width: 90vw;
   }
+
+  .preview-modal__button{
+    font-size: 15px;
+  }
+
+  .preview-modal__options{
+    justify-content: space-between;;
+  }
 }

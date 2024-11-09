@@ -4,7 +4,6 @@ import { createClient } from "@/app/supabase/auth/server";
 
 export async function getUniqueElements(columnName) {
   const supabase = await createClient();
-  console.log(columnName)
 
   const { data, error } = await supabase
     .from("images")

@@ -131,7 +131,6 @@ export default function SubmitModal({
 
   useEffect(() => {
     setImageList(renderImageList());
-    console.log("images set");
   }, [imageUrls]);
 
   return (

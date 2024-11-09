@@ -13,8 +13,6 @@ export default function ReviewGallery() {
     fetchAllUnapprovedImages()
       .then((data) => {
         return setUnapprovedImages(data);
-      }).then(()=>{
-        console.log(unapprovedImages)
       })
       .catch((err) => {
         console.error(err);

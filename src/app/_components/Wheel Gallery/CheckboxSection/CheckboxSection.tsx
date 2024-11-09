@@ -38,44 +38,47 @@ export default function CheckboxSection({
         const optionsWidth = optionsRef.current.scrollWidth;
         if (optionsWidth > containerWidth) {
           setIsWide(true);
-        } else {
-          setIsWide(false);
-          setIsOpen(false);
         }
       }
     },
     [windowWidth, optionsArray, setIsWide, containerRef, optionsRef],
   );
 
-  useEffect(function logScrollPosition(){
-    const instance = optionsRef.current;
-    const scrollWidth = instance.scrollWidth - instance.offsetWidth;
-    if (scrollWidth > 0) {
-      setScrollPosition("left");
-    }
-
-    const handleScroll = () => {
-      const scrollLeft = instance.scrollLeft;
-      const scrollDecimal = (scrollLeft / scrollWidth).toFixed(2);
-      if (Number(scrollDecimal) <= 0.05) {
+  useEffect(
+    function logScrollPosition() {
+      const instance = optionsRef.current;
+      const scrollWidth = instance.scrollWidth - instance.offsetWidth;
+      if (scrollWidth > 0) {
         setScrollPosition("left");
-      } else if (Number(scrollDecimal) >= 0.95) {
-        setScrollPosition("right");
-      } else if (Number(scrollDecimal) > 0.05 && Number(scrollDecimal) < 0.95) {
-        setScrollPosition("center");
-      } else {
-        setScrollPosition("");
       }
-    };
 
-    const debouncedHandleScroll = debounce(handleScroll, 20);
-    if (instance) {
-      instance.addEventListener("scroll", debouncedHandleScroll);
-    }
-    return () => {
-      instance.removeEventListener("scroll", debouncedHandleScroll);
-    };
-  }, [optionsRef.current, windowWidth, optionsArray]);
+      const handleScroll = () => {
+        const scrollLeft = instance.scrollLeft;
+        const scrollDecimal = (scrollLeft / scrollWidth).toFixed(2);
+        if (Number(scrollDecimal) <= 0.05) {
+          setScrollPosition("left");
+        } else if (Number(scrollDecimal) >= 0.95) {
+          setScrollPosition("right");
+        } else if (
+          Number(scrollDecimal) > 0.05 &&
+          Number(scrollDecimal) < 0.95
+        ) {
+          setScrollPosition("center");
+        } else {
+          setScrollPosition("");
+        }
+      };
+
+      const debouncedHandleScroll = debounce(handleScroll, 20);
+      if (instance) {
+        instance.addEventListener("scroll", debouncedHandleScroll);
+      }
+      return () => {
+        instance.removeEventListener("scroll", debouncedHandleScroll);
+      };
+    },
+    [optionsRef.current, windowWidth, optionsArray],
+  );
 
   function toggleMenu() {
     setIsOpen(!isOpen);

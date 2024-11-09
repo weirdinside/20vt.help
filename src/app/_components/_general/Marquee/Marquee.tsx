@@ -79,7 +79,6 @@ export default function Marquee({
         });
       }
       else{
-        console.log('this got triggered');
         return setTextStyle({
           transition: `none`,
           right: `0px`,

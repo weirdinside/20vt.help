@@ -110,6 +110,11 @@
   font-size: 25px;
 }
 
+.submit__button:disabled{
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .submit__button:hover {
   cursor: pointer;
   background-color: #cf2a2a;

@@ -37,7 +37,6 @@ export default function WheelGallery() {
   const [wheelBrands, setWheelBrands] = useState([]);
   const [wheelSizes, setWheelSizes] = useState([]);
   const [carTypes, setCarTypes] = useState([]);
-  const [triggerRender, retriggerRender] = useState(false);
 
   // for handling the gallery state
   const [currentPage, setPage] = useState(0);
@@ -95,10 +94,6 @@ export default function WheelGallery() {
     });
   }
 
-  useEffect(() => {
-    console.log("CheckboxSection checkedOptions updated:", checkedOptions);
-  }, [checkedOptions]);
-
   async function loadMoreData() {
     setLoading(true);
     paginatedFetch({
@@ -110,7 +105,6 @@ export default function WheelGallery() {
       if (data.length > 0) {
         setPage(currentPage + 1);
       }
-
       setLoading(false);
     });
   }
@@ -141,13 +135,17 @@ export default function WheelGallery() {
     };
     searchParams.forEach((value, key) => {
       let valuesArray = value.split(",").filter(Boolean);
-      if(key === "wheel_size"){
-        valuesArray.map((item, index)=>{
-          valuesArray[index] = Number(item);
-        })
-      }
       if (key in parsedOptions) {
-        parsedOptions[key as keyof Options] = valuesArray;
+        if(key === "wheel_size"){
+          let tempArray = []
+          valuesArray.map((size) => {
+            tempArray.push(parseInt(size));
+          })
+          parsedOptions[key as keyof Options] = tempArray;
+        }
+        else{
+          parsedOptions[key as keyof Options] = valuesArray;
+        }
       }
     });
     setCheckedOptions(parsedOptions);
@@ -160,7 +158,6 @@ export default function WheelGallery() {
 
   useEffect(
     function setQueryOnChange() {
-      console.log(checkedOptions);
       const queryParameters = Object.entries(checkedOptions)
         .map(([category, values]) => {
           const queryString = values.join(",");
@@ -187,17 +184,13 @@ export default function WheelGallery() {
   useEffect(
     function setOptions() {
       getUniqueElements("wheel_size").then((res) => {
-        console.log(res);
         setWheelSizes(res);
-        retriggerRender(!triggerRender);
       });
       getUniqueElements("wheel_brand").then((res) => {
         setWheelBrands(res);
-        retriggerRender(!triggerRender);
       });
       getUniqueElements("car_type").then((res) => {
         setCarTypes(res);
-        retriggerRender(!triggerRender);
       });
     },
     [checkedOptions],

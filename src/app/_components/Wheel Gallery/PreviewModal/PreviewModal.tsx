@@ -23,7 +23,6 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
 
   async function handleCopyLink() {
     copyLink(data.photo_url).then((res) => {
-      console.log(res);
       setIsCopying(true);
       return;
     });

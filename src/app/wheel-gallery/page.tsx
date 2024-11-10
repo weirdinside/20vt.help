@@ -27,7 +27,7 @@ export default function WheelGallery() {
   // ---------------------------------------- //
   const searchParams = useSearchParams();
   const router = useRouter();
-  const galleryRef = useRef(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   // for handling the PreviewModal and AboutModal
   const [activeModal, setActiveModal] = useState("");
@@ -41,8 +41,10 @@ export default function WheelGallery() {
   // for handling the gallery state
   const [currentPage, setPage] = useState(0);
   const [waitingForImages, setLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollTop, setScrollTop] = useState(0);
 
   const fullOptions = {
     car_type: carTypes,
@@ -78,6 +80,7 @@ export default function WheelGallery() {
   }, []);
 
   function clearOptions() {
+    setPage(0);
     setCheckedOptions({ car_type: [], wheel_size: [], wheel_brand: [] });
   }
 
@@ -94,71 +97,107 @@ export default function WheelGallery() {
     });
   }
 
-  async function loadMoreData() {
-    setLoading(true);
+  const loadMoreData = useCallback(async () => {
+    if (isFetching) return;
+    setIsFetching(true);
     paginatedFetch({
       filters: checkedOptions,
       numItems: 25,
       page: currentPage + 1,
-    }).then((data) => {
-      setImages((prevImages) => [...prevImages, ...data]);
-      if (data.length > 0) {
-        setPage(currentPage + 1);
-      }
-      setLoading(false);
-    });
-  }
+    })
+      .then((data) => {
+        if (data.length > 0) {
+          setPage((prevPage) => prevPage + 1);
+        }
+        if (data.length <= 25) {
+          setHasMore(false);
+        } else if (data.length > 25) {
+          setHasMore(true);
+        }
+        console.log("images set,", data, isFetching, currentPage);
+        return setImages((prevImages) => [
+          ...prevImages,
+          ...data?.slice(0, 25),
+        ]);
+      })
+      .catch((error) => {
+        console.error(`Error loading more data: ${error}`);
+      })
+      .finally(() => {
+        setIsFetching(false);
+      });
+  }, [checkedOptions, currentPage, isFetching]);
 
-  async function onScroll() {
+  const onScroll = useCallback(async () => {
+    setScrollTop(galleryRef.current.scrollTop);
+    if (isFetching) return;
     if (
-      galleryRef.current.scrollTop + galleryRef.current.offsetHeight + 5 >=
+      galleryRef.current.scrollTop + galleryRef.current.offsetHeight >=
         galleryRef.current.scrollHeight &&
-      !waitingForImages
+      !isFetching
     ) {
-      if (images.length % 25 !== 0) {
+      console.log(hasMore, currentPage);
+      if (!hasMore) {
         return console.log("no more images to load");
       }
       await loadMoreData();
+      return;
     }
-  }
+  }, [currentPage, hasMore, isFetching, loadMoreData]);
 
   // ---------------------------------------- //
   //                   HOOKS                  //
   // ---------------------------------------- //
 
+  // triggers onScroll to occur when the user reaches the end of the gallery field
+
+  useEffect(
+    function setScrollListener() {
+      const gallery = galleryRef.current;
+      gallery!.addEventListener("scroll", onScroll);
+      return () => {
+        gallery!.removeEventListener("scroll", onScroll);
+      };
+    },
+    [onScroll],
+  );
+
   // reads URL and sets state of checkedOptions array
-  useEffect(function readQueryOnLoad() {
-    const parsedOptions: Options = {
-      car_type: [],
-      wheel_size: [],
-      wheel_brand: [],
-    };
-    searchParams.forEach((value, key) => {
-      let valuesArray = value.split(",").filter(Boolean);
-      if (key in parsedOptions) {
-        if(key === "wheel_size"){
-          let tempArray = []
-          valuesArray.map((size) => {
-            tempArray.push(parseInt(size));
-          })
-          parsedOptions[key as keyof Options] = tempArray;
+  useEffect(
+    function readQueryOnLoad() {
+      const parsedOptions: Options = {
+        car_type: [],
+        wheel_size: [],
+        wheel_brand: [],
+      };
+      searchParams.forEach((value, key) => {
+        const valuesArray = value.split(",").filter(Boolean);
+        if (key in parsedOptions) {
+          if (key === "wheel_size") {
+            const tempArray = [];
+            valuesArray.map((size) => {
+              tempArray.push(parseInt(size));
+            });
+            parsedOptions[key as keyof Options] = tempArray;
+          } else {
+            parsedOptions[key as keyof Options] = valuesArray;
+          }
         }
-        else{
-          parsedOptions[key as keyof Options] = valuesArray;
-        }
-      }
-    });
-    setLoading(false);
-    setCheckedOptions(parsedOptions);
-  }, []);
+      });
+      setLoading(false);
+      setCheckedOptions(parsedOptions);
+    },
+    [searchParams],
+  );
 
   {
     /* whenever checkedOptions changes, the URL changes. this is for events
     after initial read of the site, so the last useEffect still has to exist */
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     async function setQueryAndUpdateImages() {
+      setPage(0);
       setLoading(true);
       const queryParameters = Object.entries(checkedOptions)
         .map(([category, values]) => {
@@ -174,14 +213,17 @@ export default function WheelGallery() {
         numItems: 25,
         page: 0,
       }).then((data) => {
+        if (data.length <= 25) {
+          setHasMore(false);
+        } else if (data.length > 25) {
+          setHasMore(true);
+        }
         setLoading(false);
-        setImages(data);
+        setImages(data?.slice(0, 25));
       });
     }
     setQueryAndUpdateImages();
-  },
-    [checkedOptions],
-  );
+  }, [router, checkedOptions]);
 
   // sets the items in the filter options based on what is available,
   // ensuring that no 1D query will result in null
@@ -200,17 +242,6 @@ export default function WheelGallery() {
     },
     [checkedOptions],
   );
-
-  // triggers onScroll to occur when the user reaches the end of the gallery field
-
-  useEffect(() => {
-    galleryRef.current.addEventListener("scroll", onScroll);
-    return () => {
-      if (galleryRef.current) {
-        galleryRef.current.removeEventListener("scroll", onScroll);
-      }
-    };
-  }, [galleryRef, onScroll, currentPage]);
 
   // ---------------------------------------- //
   //             COMPONENT RETURN             //
@@ -272,6 +303,7 @@ export default function WheelGallery() {
           </div>
         </section>
         <Gallery
+          scrollTop={scrollTop}
           loading={waitingForImages}
           images={images}
           galleryRef={galleryRef}

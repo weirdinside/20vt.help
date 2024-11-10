@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./Marquee.module.css";
 
 interface MarqueeProps {
@@ -13,8 +13,6 @@ interface MarqueeProps {
 export default function Marquee({
   trigger = false,
   textContent = "",
-  fontSize = 12,
-  fontFamily = "",
   scrollSpeed = 1,
   pauseTime = 0,
 }: MarqueeProps) {
@@ -117,7 +115,7 @@ export default function Marquee({
         clearInterval(interval);
       };
     },
-    [trigger, intervalTime, pauseTime],
+    [difference, resetText, setStylesSequentially, trigger, intervalTime, pauseTime],
   );
 
   useEffect(() => {

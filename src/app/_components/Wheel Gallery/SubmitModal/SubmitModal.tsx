@@ -11,8 +11,8 @@ import { wheelSizes, carTypes } from "@/app/constants";
 // PLEASE IMPLEMENT FORM VALIDATION
 
 interface SubmitModalProps {
-  activeModal: Function;
-  closeModal: Function;
+  activeModal: string;
+  closeModal: void;
 }
 
 export default function SubmitModal({
@@ -165,23 +165,19 @@ export default function SubmitModal({
 
   useEffect(() => {
     const submitForm = submitModalRef.current;
-    if (submitModalRef.current) {
-      submitForm.addEventListener("scroll", () => {
-        scrollCheck();
-      });
-      window.addEventListener("resize", () => {
-        scrollCheck();
-      });
-    }
+    submitForm.addEventListener("scroll", () => {
+      scrollCheck();
+    });
+    window.addEventListener("resize", () => {
+      scrollCheck();
+    });
     return () => {
-      if (submitModalRef.current) {
-        submitForm?.removeEventListener("scroll", () => {
-          scrollCheck();
-        });
-        window.removeEventListener("resize", () => {
-          scrollCheck();
-        });
-      }
+      submitForm?.removeEventListener("scroll", () => {
+        scrollCheck();
+      });
+      window.removeEventListener("resize", () => {
+        scrollCheck();
+      });
     };
   }, [submitModalRef]);
 

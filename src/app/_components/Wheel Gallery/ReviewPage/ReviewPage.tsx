@@ -1,9 +1,8 @@
 "use client";
 
-import { fetchAllUnapprovedImages } from "@/app/supabase/storage/client";
 import { logout } from "@/app/wheel-gallery/login/actions";
 import styles from './ReviewPage.module.css'
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useTransition } from "react";
 import { greetingTime } from "@/app/utils";
 
 import ReviewGallery from "../ReviewGallery/ReviewGallery";

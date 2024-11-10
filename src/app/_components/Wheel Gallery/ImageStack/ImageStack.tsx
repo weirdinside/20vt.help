@@ -1,9 +1,8 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ImageStack.module.css";
 import GalleryItem from "../GalleryItem/GalleryItem";
 
-import { login } from "@/app/wheel-gallery/login/actions";
 import { fetchAllApprovedImages } from "@/app/supabase/storage/client";
 import { getRandomInt } from "@/app/utils";
 

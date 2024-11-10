@@ -46,6 +46,8 @@ interface PaginatedFetchProps {
   page: number;
 }
 
+
+
 export async function paginatedFetch({filters, numItems, page}: PaginatedFetchProps){
   const supabase = await createClient();
 
@@ -57,7 +59,7 @@ export async function paginatedFetch({filters, numItems, page}: PaginatedFetchPr
     }
   }
 
-  query = query.range(numItems * page, numItems * page + numItems - 1)
+  query = query.range(numItems * page, numItems * page + numItems)
   
   const { data, error } = await query;
   if (error) {
@@ -66,3 +68,6 @@ export async function paginatedFetch({filters, numItems, page}: PaginatedFetchPr
   }
   return data;
 }
+
+// the above function will return 26 images instead of 25. when calling it in other areas,
+// slice the return to (0, 25)

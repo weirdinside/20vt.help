@@ -15,6 +15,10 @@ export default async function Login() {
     redirect("/wheel-gallery/review");
   }
 
+  if(error){
+    console.error(error)
+  }
+
   return (
     <div className={styles["login"]}>
       <form className={styles["login__form"]}>

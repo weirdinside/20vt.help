@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./PreviewModal.module.css";
 import { copyLink } from "@/app/utils";
-import { downloadImage } from "@/app/wheel-gallery/actions";
 
 export default function PreviewModal({ activeModal, closeModal, data }) {
   const [isCopying, setIsCopying] = useState(false);
@@ -23,7 +22,7 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
   }
 
   async function handleCopyLink() {
-    copyLink(data.photo_url).then((res) => {
+    copyLink(data.photo_url).then(() => {
       setIsCopying(true);
       return;
     });
@@ -49,7 +48,7 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
     return () => {
       window.removeEventListener("keydown", handleEscClose);
     };
-  }, []);
+  }, [handleCloseModal]);
 
   return (
     <div
@@ -69,20 +68,24 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
               isLoading ? styles["active"] : ""
             }`}
           ></div>
-          <Image
-            className={styles["image"]}
-            loading="eager"
-            onLoad={() => {
-              setIsLoading(false);
-            }}
-            decoding="async"
-            alt="modal-image"
-            src={data.photo_url}
-            quality={100}
-            width={0}
-            height={0}
-            sizes="100vw"
-          />
+          {/* THIS IS SHITTY! THIS IS A WORKAROUND!
+          see more: https://github.com/vercel/next.js/discussions/18531*/}
+          {data.photo_url ? (
+            <Image
+              className={styles["image"]}
+              loading="eager"
+              onLoad={() => {
+                setIsLoading(false);
+              }}
+              decoding="async"
+              alt="modal-image"
+              src={data.photo_url}
+              quality={100}
+              width={0}
+              height={0}
+              sizes="100vw"
+            />
+          ) : null}
         </div>
         <div className={styles["image__text"]}>
           <h1 className={styles["image__wheelname"]}>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./NavItem.module.css";
 import Marquee from "../../_general/Marquee/Marquee";
 

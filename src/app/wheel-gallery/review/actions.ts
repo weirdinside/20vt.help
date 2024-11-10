@@ -46,14 +46,16 @@ export async function updateImageData({
   return data;
 }
 
-export async function deleteImage(url){
+export async function deleteImage({url}){
 
+  const convertedUrl = url.slice(url.lastIndexOf('/') + 1);
+  console.log(convertedUrl, url)
   const supabase = await createClient();
 
   const { data, error } = await supabase
   .storage
   .from('submitted-images')
-  .remove([url]);
+  .remove([convertedUrl]);
 
   if (error) {
     console.error("Error deleting image:", error);
@@ -61,4 +63,21 @@ export async function deleteImage(url){
   }
 
   return (`Image deleted ${data}`);
+}
+
+export async function deleteEntry({ id }) {
+  const supabase = await createClient();
+
+  const { data, error: deleteError } = await supabase
+    .from('images')
+    .delete()
+    .eq('id', id)
+    .select();
+
+  if (deleteError) {
+    console.error('Error deleting image:', deleteError);
+    return null;
+  }
+
+  return data[0];
 }

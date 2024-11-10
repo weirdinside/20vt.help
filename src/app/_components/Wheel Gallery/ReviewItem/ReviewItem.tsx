@@ -1,9 +1,10 @@
 import GalleryItem from "../GalleryItem/GalleryItem";
 import styles from "./ReviewItem.module.css";
 import { carTypes, wheelSizes } from "@/app/constants";
-import React, { useState, useEffect, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { updateImageData } from "@/app/wheel-gallery/review/actions";
 import { setApproved } from "@/app/wheel-gallery/review/actions";
+import { deleteEntry, deleteImage } from "@/app/wheel-gallery/review/actions";
 
 export default function ReviewItem({ triggerRefetch, data }) {
   const [editMode, setEditMode] = useState(false);
@@ -32,6 +33,24 @@ export default function ReviewItem({ triggerRefetch, data }) {
     });
   }
 
+  async function handleDelete() {
+    startDeleting(() => {
+      deleteEntry({ id: data.id })
+        .then((data) => {
+          if(data){
+            return deleteImage({url: data.photo_url})
+          }
+          return null;
+        })
+        .then(() => {
+          triggerRefetch();
+        })
+        .catch((err) => {
+          console.error("Error in handleDelete:", err.message);
+        });
+    });
+  }
+
   function handleDataChange({ category, value }) {
     setImageData((previous) => ({
       ...previous,
@@ -42,7 +61,7 @@ export default function ReviewItem({ triggerRefetch, data }) {
   async function handleApprove() {
     startApproving(() => {
       setApproved(data.id)
-        .then((data) => {
+        .then(() => {
           triggerRefetch();
         })
         .catch((err) => {
@@ -60,7 +79,7 @@ export default function ReviewItem({ triggerRefetch, data }) {
         wheelBrand: imageData.wheel_brand,
         wheelName: imageData.wheel_name,
       })
-        .then((res) => {
+        .then(() => {
           setEditMode(false);
           triggerRefetch();
         })
@@ -72,12 +91,36 @@ export default function ReviewItem({ triggerRefetch, data }) {
 
   return (
     <div className={styles["review-item__container"]}>
-      <div className={`${styles['review-item__loading']} ${isApproving || isDeleting ? styles['active'] : null}`}>
-        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
-        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
-        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
-        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
-        <div className={`${styles["page__loading_fire"]} ${isApproving || isDeleting ? styles['active'] : null}`}></div>
+      <div
+        className={`${styles["review-item__loading"]} ${
+          isApproving || isDeleting ? styles["active"] : null
+        }`}
+      >
+        <div
+          className={`${styles["page__loading_fire"]} ${
+            isApproving || isDeleting ? styles["active"] : null
+          }`}
+        ></div>
+        <div
+          className={`${styles["page__loading_fire"]} ${
+            isApproving || isDeleting ? styles["active"] : null
+          }`}
+        ></div>
+        <div
+          className={`${styles["page__loading_fire"]} ${
+            isApproving || isDeleting ? styles["active"] : null
+          }`}
+        ></div>
+        <div
+          className={`${styles["page__loading_fire"]} ${
+            isApproving || isDeleting ? styles["active"] : null
+          }`}
+        ></div>
+        <div
+          className={`${styles["page__loading_fire"]} ${
+            isApproving || isDeleting ? styles["active"] : null
+          }`}
+        ></div>
       </div>
       <div className={styles["review-item__galleryitem"]}>
         <GalleryItem imageInfo={data} />
@@ -180,7 +223,12 @@ export default function ReviewItem({ triggerRefetch, data }) {
         ) : (
           <>
             {" "}
-            <button className={styles["review-item__button"]}>
+            <button
+              onClick={() => {
+                handleDelete();
+              }}
+              className={styles["review-item__button"]}
+            >
               {isDeleting ? "deleting..." : "delete"}
             </button>
             <button

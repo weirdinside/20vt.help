@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./FilterCheckbox.module.css";
 
 interface CheckboxTypes {
-  arrayName: String;
-  toggleOption: Function;
+  arrayName: string;
+  toggleOption: void;
   checkedOptions: Array<string>;
   label: string;
   modifier: string;

@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./GalleryItem.module.css";
-import { getRandomInt } from "@/app/utils";
 import Image from "next/image";
 
 export default function GalleryItem({ imageInfo }) {

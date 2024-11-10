@@ -677,6 +677,13 @@
     opacity: 1;
     cursor: url(../assets/icons/cursors/open-cursor.png), pointer;
   }
+
+  .gallery__loader{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+  }
   
   
   /* extra styles */

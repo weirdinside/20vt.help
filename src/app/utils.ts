@@ -1,5 +1,3 @@
-import { Url } from "url";
-
 export async function convertBlobUrlToFile(blobUrl: string) {
   const response = await fetch(blobUrl);
   const blob = await response.blob();
@@ -11,12 +9,14 @@ export async function convertBlobUrlToFile(blobUrl: string) {
   return file;
 }
 
-export function debounce(callback, delay) {
-  let timer;
-  return function () {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      callback();
+export function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func(...args);
     }, delay);
   };
 }

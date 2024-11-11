@@ -52,7 +52,6 @@ export default function SubmitModal({
     return validFields.every(Boolean) && imageUrls.length > 0;
   }
 
-
   const handleInputChange =
     (setter: (arg0: any) => void) =>
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
@@ -65,6 +64,7 @@ export default function SubmitModal({
     setWheelName("");
     setUsername("");
     if (imageInputRef.current) imageInputRef.current.value = "";
+    setImageUrls([]);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +94,11 @@ export default function SubmitModal({
           }),
         );
 
+        let convertedSubType = null;
+        if(subType !== ''){
+          convertedSubType = subType;
+        }
+
         const convertedWheelSize = parseInt(wheelSize.replace('"', ""));
         const rowsToInsert = urls.map((imageUrl) => ({
           photo_url: imageUrl,
@@ -102,6 +107,7 @@ export default function SubmitModal({
           wheel_name: wheelName.trim(),
           submitted_by: username,
           car_type: carType,
+          subtype: convertedSubType,
           approved: false,
         }));
 
@@ -223,6 +229,7 @@ export default function SubmitModal({
           submit a photo
           <div onClick={closeModal} className={styles["submit__heading_logo"]}>
             <SLogo color="white" inElement="landing" />
+            <p className={styles['submit__heading_logo_text']}>x</p>
           </div>
         </h1>
         {!imageSubmitted ? (
@@ -231,7 +238,10 @@ export default function SubmitModal({
               what chassis?*
               <select
                 required
-                onChange={handleInputChange(setCarType)}
+                onChange={(e)=>{
+                  setSubType('')
+                  setCarType(e.target.value)
+                }}
                 value={carType}
                 className={styles["submit__input"]}
               >

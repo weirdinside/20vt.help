@@ -131,6 +131,15 @@
   right: 120px;
 }
 
+.submit__heading_logo_text{
+  position: absolute;
+  color: #cf2a2a;
+  top: -41;
+  font-size: 20px;
+  right: -123px;
+  pointer-events: none;
+}
+
 .submit__button {
   font-weight: 700;
   color: #cf2a2a;
@@ -180,7 +189,8 @@
 }
 
 .submit__form {
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -254,7 +264,7 @@
 
 .submit__post_photo-list {
   position: relative;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   display: flex;
   width: 100%;

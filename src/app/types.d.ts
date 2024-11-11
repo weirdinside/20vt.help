@@ -9,6 +9,7 @@ declare interface ImageInfo {
   approved?: boolean;
   wheel_size: number;
   id: number;
+  subtype: string;
   photo_url: string;
   wheel_brand: string;
   wheel_name: string;

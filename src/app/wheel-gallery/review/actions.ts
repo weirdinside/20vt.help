@@ -21,6 +21,7 @@ export async function updateImageData({
   id,
   carType,
   wheelSize,
+  subtype,
   wheelBrand,
   wheelName,
 }) {
@@ -29,6 +30,7 @@ export async function updateImageData({
   const { data, error } = await supabase
     .from("images")
     .update({
+      subtype: subtype,
       car_type: carType,
       wheel_size: wheelSize,
       wheel_brand: wheelBrand,

@@ -20,7 +20,7 @@ export default function CheckboxSection({
   const [windowWidth, setWindowWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
-  const [sectionStyle, setSectionStyle] = useState({})
+  const [sectionStyle, setSectionStyle] = useState({});
 
   const containerRef = useRef<HTMLFieldSetElement>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
@@ -38,30 +38,32 @@ export default function CheckboxSection({
     };
   }, []);
 
-  useEffect(function setStyle(){
-    // if no options are loaded, the height is 0 - otherwise 40px
-    // if isOpen, flexWrap = wrap and height is max-content - otherwise nowrap 40px
-    let height = '0px';
-    let wrap = 'nowrap'
-    let margin = '0px'
+  useEffect(
+    function setStyle() {
+      // if no options are loaded, the height is 0 - otherwise 40px
+      // if isOpen, flexWrap = wrap and height is max-content - otherwise nowrap 40px
+      let height = "0px";
+      let wrap = "nowrap";
+      let margin = "0px";
 
-    if(filtersArray.length === 0){
-      height = '0px'
-      margin = '0px'
-    }else if (filtersArray.length > 0){
-      if(isOpen){
-        height = 'max-content'
-        wrap = 'wrap'
+      if (filtersArray.length === 0) {
+        height = "0px";
+        margin = "0px";
+      } else if (filtersArray.length > 0) {
+        if (isOpen) {
+          height = "max-content";
+          wrap = "wrap";
+        }
+        if (!isOpen) {
+          height = "40px";
+          wrap = "nowrap";
+        }
       }
-      if(!isOpen){
-        height = '40px'
-        wrap = 'nowrap'
-      }
-    }
 
-    setSectionStyle({height: height, margin: margin, wrap: wrap})
-
-  }, [filtersArray, isOpen, checkedFilters])
+      setSectionStyle({ height: height, margin: margin, flexWrap: wrap });
+    },
+    [filtersArray, isOpen, checkedFilters]
+  );
 
   useEffect(
     function checkWindowSize() {
@@ -69,7 +71,7 @@ export default function CheckboxSection({
         const containerWidth = containerRef.current.offsetWidth;
         const optionsWidth = optionsRef.current.scrollWidth;
         if (optionsWidth > containerWidth) {
-          setIsWide(true);
+          return setIsWide(true);
         } else {
           if (!isOpen) {
             setIsWide(false);
@@ -77,7 +79,7 @@ export default function CheckboxSection({
         }
       }
     },
-    [isOpen, windowWidth, filtersArray, setIsWide, containerRef, optionsRef],
+    [windowWidth, filtersArray, setIsWide, containerRef, optionsRef]
   );
 
   useEffect(
@@ -113,7 +115,7 @@ export default function CheckboxSection({
         instance!.removeEventListener("scroll", debouncedHandleScroll);
       };
     },
-    [windowWidth, filtersArray],
+    [windowWidth, filtersArray]
   );
 
   function toggleMenu() {
@@ -122,7 +124,7 @@ export default function CheckboxSection({
 
   return (
     <fieldset
-      style={filtersArray.length === 0 ? {padding: '0px', border: "0px"} : {}}
+      style={filtersArray.length === 0 ? { padding: "0px", border: "0px" } : {}}
       ref={containerRef}
       className={styles["wheelfinder__category"]}
       key={arrayName}

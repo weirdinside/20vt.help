@@ -24,6 +24,7 @@ export default function ReviewItem({
     wheel_brand: data.wheel_brand,
     wheel_name: data.wheel_name,
     wheel_size: data.wheel_size,
+    subtype: data.subtype,
     username: data.submitted_by,
   });
 
@@ -32,6 +33,7 @@ export default function ReviewItem({
       approved: data.approved,
       car_type: data.car_type,
       id: data.id,
+      subtype: data.subtype,
       wheel_brand: data.wheel_brand,
       wheel_name: data.wheel_name,
       wheel_size: data.wheel_size,
@@ -87,6 +89,7 @@ export default function ReviewItem({
       updateImageData({
         id: imageData.id,
         carType: imageData.car_type,
+        subtype: imageData.subtype,
         wheelSize: imageData.wheel_size,
         wheelBrand: imageData.wheel_brand,
         wheelName: imageData.wheel_name,

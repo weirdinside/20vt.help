@@ -96,6 +96,37 @@ export default function WheelGallery() {
   //                   HOOKS                  //
   // ---------------------------------------- //
 
+  useEffect(
+    function readQueryOnLoad() {
+      console.log(searchParams)
+      const parsedOptions: FilterOptions = {
+        car_type: [],
+        wheel_size: [],
+        wheel_brand: [],
+        subtype: []
+      };
+      searchParams.forEach((value, key) => {
+        const valuesArray = value.split(",").filter(Boolean);
+        if (key in parsedOptions) {
+          if (key === "wheel_size") {
+            const tempArray: number[] = [];
+            valuesArray.map((size) => {
+              tempArray.push(parseInt(size));
+            });
+            parsedOptions['wheel_size'] = tempArray;
+          } else {
+            parsedOptions[key as keyof FilterOptions] = valuesArray;
+          }
+        }
+      });
+      setIsFetching(false);
+      setCheckedFilters(parsedOptions)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [setIsFetching],
+  );
+
+
   useEffect(() => {
     async function setQueryAndUpdateImages() {
       setPage(0);
@@ -170,7 +201,8 @@ export default function WheelGallery() {
       });
     }
     setOptions();
-  }, [setPossibleFilters]);
+  }, [setPossibleFilters, checkedFilters]);
+
 
   return (
     <div className={styles["page"]}>

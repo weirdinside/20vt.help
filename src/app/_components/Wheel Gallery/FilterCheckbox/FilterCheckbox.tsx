@@ -21,6 +21,7 @@ export default function FilterCheckbox({
 }: CheckboxTypes) {
   const [isChecked, setCheckedState] = useState(false);
 
+
   function handleCheck(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -30,9 +31,13 @@ export default function FilterCheckbox({
   useEffect(() => {
     setCheckedState(checkedFilters[arrayName].includes(label));
   }, [arrayName, checkedFilters, label]);
-
   const sanitizedLabel = String(label).replace(/[^a-zA-Z0-9]/g, "");
   const key = sanitizedLabel + modifier;
+
+  if(label === null){
+    return<></>
+  }
+
   return (
     <div
       onMouseDown={(e) => {

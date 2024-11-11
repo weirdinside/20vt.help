@@ -41,6 +41,8 @@ export default function WheelGallery() {
     wheel_brand: [],
   });
 
+  const [subtypeFilters, setSTF] = useState<string[]>([]);
+
   // for handling the gallery state
 
   const [currentPage, setPage] = useState(0);
@@ -92,18 +94,58 @@ export default function WheelGallery() {
     });
   }
 
+  const setSubtypeExclusion = useCallback(()=>{
+  
+    console.log('this function ran')
+    const chassisC4 = ["C4 sedan", "C4 avant"];
+    const chassisC3 = ["C3 sedan", "C3 avant"];
+
+    const subtypesC4 = ["S4", "S6"];
+    const subtypesC3 = ["10v", "20v"];
+
+    const includesC3 =
+      checkedFilters.car_type.filter((item) => chassisC3.includes(item))
+        .length > 0;
+    const includesC4 =
+      checkedFilters.car_type.filter((item) => chassisC4.includes(item))
+        .length > 0;
+
+    if (includesC3 && includesC4) {
+      console.log('selection includes both C3 and C4')
+      setSTF(possibleFilters.subtype);
+    } else if (includesC3) {
+      console.log('selection includes C3 only')
+      setSTF(
+        possibleFilters.subtype?.filter((item) => subtypesC3.includes(item))
+      );
+    } else if (includesC4) {
+      console.log('selection includes C4 only')
+      setSTF(
+        possibleFilters.subtype?.filter((item) => subtypesC4.includes(item))
+      );
+    } else {
+
+      setSTF([]);
+    }
+  }
+, [checkedFilters, possibleFilters])
+
   // ---------------------------------------- //
   //                   HOOKS                  //
   // ---------------------------------------- //
 
+  useEffect(()=>{
+    setSubtypeExclusion();
+  }, [checkedFilters]
+  );
+
   useEffect(
     function readQueryOnLoad() {
-      console.log(searchParams)
       const parsedOptions: FilterOptions = {
         car_type: [],
         wheel_size: [],
         wheel_brand: [],
-        subtype: []
+        subtype: [],
       };
       searchParams.forEach((value, key) => {
         const valuesArray = value.split(",").filter(Boolean);
@@ -113,19 +155,20 @@ export default function WheelGallery() {
             valuesArray.map((size) => {
               tempArray.push(parseInt(size));
             });
-            parsedOptions['wheel_size'] = tempArray;
+            parsedOptions["wheel_size"] = tempArray;
+            
           } else {
             parsedOptions[key as keyof FilterOptions] = valuesArray;
           }
         }
       });
       setIsFetching(false);
-      setCheckedFilters(parsedOptions)
+      setSubtypeExclusion();
+      setCheckedFilters(parsedOptions);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [setIsFetching],
+    [setIsFetching]
   );
-
 
   useEffect(() => {
     async function setQueryAndUpdateImages() {
@@ -158,6 +201,7 @@ export default function WheelGallery() {
         }
       });
     }
+
     setQueryAndUpdateImages();
   }, [router, checkedFilters]);
 
@@ -203,7 +247,6 @@ export default function WheelGallery() {
     setOptions();
   }, [setPossibleFilters, checkedFilters]);
 
-
   return (
     <div className={styles["page"]}>
       <header className={styles["header"]}>
@@ -243,15 +286,13 @@ export default function WheelGallery() {
 
             {/* there needs to be another checkboxsection that appears here and will display 20v and 10v
           restrictively as well as s4/s6 restrictively based on the options selected */}
-            {checkedFilters.car_type.length > 0 ? (
-              <CheckboxSection
-                key={4}
-                arrayName={"subtype"}
-                checkedFilters={checkedFilters}
-                toggleOption={toggleOption}
-                filtersArray={possibleFilters["subtype" as keyof FilterOptions]}
-              ></CheckboxSection>
-            ) : null}
+            <CheckboxSection
+              key={4}
+              arrayName={"subtype"}
+              checkedFilters={checkedFilters}
+              toggleOption={toggleOption}
+              filtersArray={subtypeFilters}
+            ></CheckboxSection>
 
             <CheckboxSection
               key={2}

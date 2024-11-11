@@ -14,7 +14,7 @@ export default function CheckboxSection({
   arrayName: keyof FilterOptions;
   checkedFilters: FilterOptions;
   toggleOption: (category: keyof FilterOptions, value: string) => Promise<void>;
-  filtersArray: keyof FilterOptions;
+  filtersArray: [];
 }) {
   const [tooWide, setIsWide] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -59,7 +59,6 @@ export default function CheckboxSection({
           wrap = "nowrap";
         }
       }
-
       setSectionStyle({ height: height, margin: margin, flexWrap: wrap });
     },
     [filtersArray, isOpen, checkedFilters]

@@ -6,13 +6,15 @@ import { fetchAllUnapprovedImages } from "@/app/supabase/storage/client";
 import ReviewItem from "../ReviewItem/ReviewItem";
 
 export default function ReviewGallery() {
-  const [unapprovedImages, setUnapprovedImages] = useState([]);
+  const [unapprovedImages, setUnapprovedImages] = useState<ImageInfo[]>([]);
   const [fetchTrigger, setFetchTrigger] = useState(false);
 
   useEffect(() => {
     fetchAllUnapprovedImages()
       .then((data) => {
-        return setUnapprovedImages(data);
+        if(data && data.length > 0){
+          return setUnapprovedImages(data);
+        }
       })
       .catch((err) => {
         console.error(err);

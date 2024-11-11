@@ -5,7 +5,7 @@ import { useState } from "react";
 import styles from "./NavItem.module.css";
 import Marquee from "../../_general/Marquee/Marquee";
 
-function NavItem({ title, description }) {
+function NavItem({ title, description }: {title: string, description: string}) {
   const [isMousedOver, setMouseState] = useState(false);
 
   return (

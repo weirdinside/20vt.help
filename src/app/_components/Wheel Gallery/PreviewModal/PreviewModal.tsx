@@ -2,27 +2,45 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styles from "./PreviewModal.module.css";
 import { copyLink } from "@/app/utils";
 
-export default function PreviewModal({ activeModal, closeModal, data }) {
+export default function PreviewModal({
+  activeModal,
+  closeModal,
+  data,
+}: {
+  activeModal: string;
+  closeModal: () => void;
+  data: {
+    wheel_size: number;
+    id: number;
+    photo_url: string;
+    wheel_brand: string;
+    wheel_name: string;
+    submitted_by: string;
+    car_type: string;
+  } | null;
+}) {
   const [isCopying, setIsCopying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  function handleCloseModal() {
+  const handleCloseModal = useCallback(() => {
     closeModal();
-  }
+  }, [closeModal]);
 
   function handleClickAwayClose(e: React.MouseEvent) {
     e.stopPropagation();
-    if (e.target?.classList.contains(styles["modal"])) {
+    const target = e.target as HTMLElement;
+
+    if (target && target.classList.contains(styles["modal"])) {
       handleCloseModal();
     }
   }
 
   async function handleCopyLink() {
-    copyLink(data.photo_url).then(() => {
+    copyLink(data!.photo_url).then(() => {
       setIsCopying(true);
       return;
     });
@@ -38,17 +56,20 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
     [data],
   );
 
-  useEffect(function listenForEsc() {
-    function handleEscClose(e) {
-      if (e.key === "Escape") {
-        handleCloseModal();
+  useEffect(
+    function listenForEsc() {
+      function handleEscClose(e: KeyboardEvent) {
+        if (e.key === "Escape") {
+          handleCloseModal();
+        }
       }
-    }
-    window.addEventListener("keydown", handleEscClose);
-    return () => {
-      window.removeEventListener("keydown", handleEscClose);
-    };
-  }, [handleCloseModal]);
+      window.addEventListener("keydown", handleEscClose);
+      return () => {
+        window.removeEventListener("keydown", handleEscClose);
+      };
+    },
+    [handleCloseModal],
+  );
 
   return (
     <div
@@ -70,7 +91,7 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
           ></div>
           {/* THIS IS SHITTY! THIS IS A WORKAROUND!
           see more: https://github.com/vercel/next.js/discussions/18531*/}
-          {data.photo_url ? (
+          {data!.photo_url ? (
             <Image
               className={styles["image"]}
               loading="eager"
@@ -79,7 +100,7 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
               }}
               decoding="async"
               alt="modal-image"
-              src={data.photo_url}
+              src={data!.photo_url}
               quality={100}
               width={0}
               height={0}
@@ -89,10 +110,10 @@ export default function PreviewModal({ activeModal, closeModal, data }) {
         </div>
         <div className={styles["image__text"]}>
           <h1 className={styles["image__wheelname"]}>
-            {data.wheel_brand} {data.wheel_name}
+            {data!.wheel_brand} {data!.wheel_name}
           </h1>
           <p className={styles["image__cartype"]}>
-            {data.submitted_by ? `${data.submitted_by}'s` : ""} {data.car_type}
+            {data!.submitted_by ? `${data!.submitted_by}'s` : ""} {data!.car_type}
           </p>
         </div>
         <div className={styles["preview-modal__options"]}>

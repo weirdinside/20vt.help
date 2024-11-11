@@ -7,6 +7,11 @@ export default function Gallery({
   galleryRef,
   handleImageClick,
   images,
+}: {
+  loading: boolean;
+  galleryRef: React.RefObject<HTMLDivElement>;
+  handleImageClick: (imageData: ImageInfo) => void;
+  images: object[];
 }) {
   return (
     <div ref={galleryRef} className={styles["gallery"]}>

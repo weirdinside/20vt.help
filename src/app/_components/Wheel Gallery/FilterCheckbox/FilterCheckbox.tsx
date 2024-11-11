@@ -1,22 +1,21 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import styles from "./FilterCheckbox.module.css";
 
 interface CheckboxTypes {
-  arrayName: string;
-  toggleOption: void;
-  checkedOptions: Array<string>;
+  arrayName: keyof FilterOptions;
+  toggleOption: (category: keyof FilterOptions, value: string) => Promise<void>;
+  checkedFilters: FilterOptions;
   label: string;
   modifier: string;
-  muted: boolean;
 }
 
 export default function FilterCheckbox({
   arrayName,
   toggleOption,
-  checkedOptions,
-  muted,
+  checkedFilters,
   label,
   modifier,
 }: CheckboxTypes) {
@@ -29,17 +28,20 @@ export default function FilterCheckbox({
   }
 
   useEffect(() => {
-    setCheckedState(checkedOptions[arrayName].includes(label));
-  }, [checkedOptions, label]);
+    setCheckedState(checkedFilters[arrayName].includes(label));
+  }, [arrayName, checkedFilters, label]);
 
   const sanitizedLabel = String(label).replace(/[^a-zA-Z0-9]/g, "");
   const key = sanitizedLabel + modifier;
   return (
-    <div onMouseDown={(e)=>{
-      e.preventDefault();
-    }} key={key}>
+    <div
+      onMouseDown={(e) => {
+        e.preventDefault();
+      }}
+      key={key}
+    >
       <label
-        style={muted && !isChecked ? { opacity: 0.5 } : { opacity: 1 }}
+        style={!isChecked ? { opacity: 0.5 } : { opacity: 1 }}
         className={`${styles["wheelfinder__checkbox"]} ${
           isChecked ? styles["active"] : ""
         }`}

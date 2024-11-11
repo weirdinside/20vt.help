@@ -56,7 +56,7 @@ export default function Homepage() {
             20vt <span className={styles.smalltext}>.help</span>
           </h1>
           <Link href="/">
-            <SLogo inElement="landing" />
+            <SLogo color="#cf2a2a" inElement="landing" />
           </Link>
           <p
             onClick={() => {

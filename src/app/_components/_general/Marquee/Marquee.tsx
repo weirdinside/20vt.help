@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback, MutableRefObject, RefObject, LegacyRef } from "react";
 import styles from "./Marquee.module.css";
 
 interface MarqueeProps {
@@ -24,16 +24,15 @@ export default function Marquee({
   const [textStyle, setTextStyle] = useState({});
   const [intervalTime, setIntervalTime] = useState(0);
 
-  const marqueeRef = useRef(); // reference for the parent container (if marquee is to be active, this is smaller)
-  const textRef = useRef(); // reference for the text container (if marquee is to be active, this is larger)
+  const marqueeRef = useRef<HTMLDivElement>(null); // reference for the parent container (if marquee is to be active, this is smaller)
+  const textRef = useRef<HTMLParagraphElement>(null); // reference for the text container (if marquee is to be active, this is larger)
 
   // sets 'width' variable to the size of the window, does nothing but triggers the container to check if its size potentially has changed
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
   };
 
-  const setStylesSequentially = async () => {
-    // sets text stlye to iniital position, which is calculated in the checkWindowSize hook
+  const setStylesSequentially = useCallback(async ()=>{
     setTextStyle({
       transition: `none`,
       right: `${-difference}px`,
@@ -44,14 +43,14 @@ export default function Marquee({
       transition: `${scrollTime}ms linear ${pauseTime}ms`,
       right: "0px",
     });
-  };
+  }, [setTextStyle, difference, pauseTime, scrollTime])
 
-  function resetText() {
+  const resetText = useCallback(()=> {
     setTextStyle({
       transition: `none`,
       right: `${-difference}px`,
     });
-  }
+  }, [setTextStyle, difference])
 
   // is run when the window size is changed or the marquee element is triggered
   useEffect(
@@ -64,7 +63,7 @@ export default function Marquee({
         setDifference(diff); // sets <difference> to be used in style setting functions
       }
     },
-    [width, difference, trigger],
+    [scrollSpeed, width, difference, trigger],
   );
 
   // 
@@ -93,11 +92,11 @@ export default function Marquee({
     [scrollTime, pauseTime, difference, width],
   );
 
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   useEffect(
     function loopSet() {
-      let interval;
+      let interval: ReturnType<typeof setInterval> | undefined;
       if(difference > 0){
         if (trigger) {
           interval = setInterval(() => {

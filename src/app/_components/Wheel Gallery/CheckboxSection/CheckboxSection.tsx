@@ -7,16 +7,23 @@ import { debounce } from "@/app/utils";
 
 export default function CheckboxSection({
   arrayName,
-  checkedOptions,
+  checkedFilters,
   toggleOption,
-  optionsArray,
+  filtersArray,
+}: {
+  arrayName: keyof FilterOptions;
+  checkedFilters: FilterOptions;
+  toggleOption: (category: keyof FilterOptions, value: string) => Promise<void>;
+  filtersArray: keyof FilterOptions;
 }) {
   const [tooWide, setIsWide] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
-  const containerRef = useRef(null);
-  const optionsRef = useRef(null);
+  const [sectionStyle, setSectionStyle] = useState({})
+
+  const containerRef = useRef<HTMLFieldSetElement>(null);
+  const optionsRef = useRef<HTMLDivElement>(null);
 
   const [scrollPosition, setScrollPosition] = useState("");
 
@@ -31,6 +38,31 @@ export default function CheckboxSection({
     };
   }, []);
 
+  useEffect(function setStyle(){
+    // if no options are loaded, the height is 0 - otherwise 40px
+    // if isOpen, flexWrap = wrap and height is max-content - otherwise nowrap 40px
+    let height = '0px';
+    let wrap = 'nowrap'
+    let margin = '0px'
+
+    if(filtersArray.length === 0){
+      height = '0px'
+      margin = '0px'
+    }else if (filtersArray.length > 0){
+      if(isOpen){
+        height = 'max-content'
+        wrap = 'wrap'
+      }
+      if(!isOpen){
+        height = '40px'
+        wrap = 'nowrap'
+      }
+    }
+
+    setSectionStyle({height: height, margin: margin, wrap: wrap})
+
+  }, [filtersArray, isOpen, checkedFilters])
+
   useEffect(
     function checkWindowSize() {
       if (containerRef.current && optionsRef.current) {
@@ -38,27 +70,26 @@ export default function CheckboxSection({
         const optionsWidth = optionsRef.current.scrollWidth;
         if (optionsWidth > containerWidth) {
           setIsWide(true);
-        }
-        else{
-          if(!isOpen){
+        } else {
+          if (!isOpen) {
             setIsWide(false);
           }
         }
       }
     },
-    [windowWidth, optionsArray, setIsWide, containerRef, optionsRef],
+    [isOpen, windowWidth, filtersArray, setIsWide, containerRef, optionsRef],
   );
 
   useEffect(
     function logScrollPosition() {
-      const instance = optionsRef.current;
-      const scrollWidth = instance.scrollWidth - instance.offsetWidth;
+      const instance: HTMLDivElement | null = optionsRef.current;
+      const scrollWidth = instance!.scrollWidth - instance!.offsetWidth;
       if (scrollWidth > 0) {
         setScrollPosition("left");
       }
 
       const handleScroll = () => {
-        const scrollLeft = instance.scrollLeft;
+        const scrollLeft = instance!.scrollLeft;
         const scrollDecimal = (scrollLeft / scrollWidth).toFixed(2);
         if (Number(scrollDecimal) <= 0.05) {
           setScrollPosition("left");
@@ -76,13 +107,13 @@ export default function CheckboxSection({
 
       const debouncedHandleScroll = debounce(handleScroll, 20);
       if (instance) {
-        instance.addEventListener("scroll", debouncedHandleScroll);
+        instance!.addEventListener("scroll", debouncedHandleScroll);
       }
       return () => {
-        instance.removeEventListener("scroll", debouncedHandleScroll);
+        instance!.removeEventListener("scroll", debouncedHandleScroll);
       };
     },
-    [optionsRef.current, windowWidth, optionsArray],
+    [windowWidth, filtersArray],
   );
 
   function toggleMenu() {
@@ -91,27 +122,23 @@ export default function CheckboxSection({
 
   return (
     <fieldset
+      style={filtersArray.length === 0 ? {padding: '0px', border: "0px"} : {}}
       ref={containerRef}
       className={styles["wheelfinder__category"]}
       key={arrayName}
     >
       <div
         ref={optionsRef}
-        style={
-          isOpen
-            ? { flexWrap: "wrap", height: "max-content" }
-            : { flexWrap: "nowrap", height: "40px" }
-        }
+        style={sectionStyle}
         className={styles["wheelfinder__category_options"]}
       >
-        {optionsArray.map((option, index) => {
+        {filtersArray.map((option, index) => {
           return (
             <FilterCheckbox
               key={index}
               arrayName={arrayName}
               toggleOption={toggleOption}
-              checkedOptions={checkedOptions}
-              muted={true}
+              checkedFilters={checkedFilters}
               label={option}
               modifier="body"
             ></FilterCheckbox>

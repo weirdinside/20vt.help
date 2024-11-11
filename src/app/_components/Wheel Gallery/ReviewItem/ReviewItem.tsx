@@ -6,7 +6,13 @@ import { updateImageData } from "@/app/wheel-gallery/review/actions";
 import { setApproved } from "@/app/wheel-gallery/review/actions";
 import { deleteEntry, deleteImage } from "@/app/wheel-gallery/review/actions";
 
-export default function ReviewItem({ triggerRefetch, data }) {
+export default function ReviewItem({
+  triggerRefetch,
+  data,
+}: {
+  triggerRefetch: () => void;
+  data: ImageInfo;
+}) {
   const [editMode, setEditMode] = useState(false);
   const [isDeleting, startDeleting] = useTransition();
   const [isApproving, startApproving] = useTransition();
@@ -37,8 +43,8 @@ export default function ReviewItem({ triggerRefetch, data }) {
     startDeleting(() => {
       deleteEntry({ id: data.id })
         .then((data) => {
-          if(data){
-            return deleteImage({url: data.photo_url})
+          if (data) {
+            return deleteImage({ url: data.photo_url });
           }
           return null;
         })
@@ -51,7 +57,13 @@ export default function ReviewItem({ triggerRefetch, data }) {
     });
   }
 
-  function handleDataChange({ category, value }) {
+  function handleDataChange({
+    category,
+    value,
+  }: {
+    category: string;
+    value: string | number;
+  }) {
     setImageData((previous) => ({
       ...previous,
       [category]: value,

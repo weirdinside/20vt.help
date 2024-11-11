@@ -10,15 +10,13 @@ import { wheelSizes, carTypes } from "@/app/constants";
 
 // PLEASE IMPLEMENT FORM VALIDATION
 
-interface SubmitModalProps {
-  activeModal: string;
-  closeModal: void;
-}
-
 export default function SubmitModal({
   activeModal,
   closeModal,
-}: SubmitModalProps) {
+}: {
+  activeModal: string;
+  closeModal: () => void;
+}) {
   // ---------------------------------------- //
   //            VARIABLES / STATES            //
   // ---------------------------------------- //
@@ -33,6 +31,7 @@ export default function SubmitModal({
   const [wheelSize, setWheelSize] = useState("");
   const [imageList, setImageList] = useState(<></>);
   const [carType, setCarType] = useState("");
+  const [subType, setSubType] = useState("");
   const [wheelBrand, setWheelBrand] = useState("");
   const [wheelName, setWheelName] = useState("");
   const [username, setUsername] = useState("");
@@ -43,12 +42,20 @@ export default function SubmitModal({
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
 
-  const isFormValid = () =>
-    [wheelSize, carType, wheelBrand, wheelName].every(Boolean) &&
-    imageUrls.length > 0;
+  function isFormValid(){
+    const validFields = [wheelSize, carType, wheelBrand, wheelName];
+
+    if(carType.includes('C4') || carType.includes('C3')){
+      validFields.push(subType);
+    }
+
+    return validFields.every(Boolean) && imageUrls.length > 0;
+  }
+
 
   const handleInputChange =
-    (setter) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    (setter: (arg0: any) => void) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setter(e.target.value);
 
   const clearAllFields = () => {
@@ -57,7 +64,7 @@ export default function SubmitModal({
     setWheelBrand("");
     setWheelName("");
     setUsername("");
-    if (imageInputRef.current) imageInputRef.current.value = null;
+    if (imageInputRef.current) imageInputRef.current.value = "";
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,11 +84,12 @@ export default function SubmitModal({
         const urls = await Promise.all(
           imageUrls.map(async (url) => {
             const imageFile = await convertBlobUrlToFile(url);
-            const { imageUrl, error } = await uploadImage({
-              file: imageFile,
-              bucket: "submitted-images",
-            });
-            if (error) throw new Error(`Upload error: ${error.message}`);
+            const { imageUrl, error }: { imageUrl: string; error: string } =
+              await uploadImage({
+                file: imageFile,
+                bucket: "submitted-images",
+              });
+            if (error) throw new Error(`Upload error: ${error}`);
             return imageUrl;
           }),
         );
@@ -113,31 +121,11 @@ export default function SubmitModal({
     });
   };
 
-  const renderImageList = () => (
-    <div
-      style={imageUrls.length ? { minHeight: "200px" } : {}}
-      className={styles["submit__post_photo-list"]}
-    >
-      {imageUrls.map((image, index) => (
-        <div
-          key={index}
-          className={styles["submit__post_photo"]}
-          style={{ rotate: `${getRandomInt(5)}deg` }}
-        >
-          <div
-            style={{ backgroundImage: `url(${image})` }}
-            className={styles["submit__post_photo_image"]}
-          />
-        </div>
-      ))}
-    </div>
-  );
-
   function scrollCheck() {
     const submitForm = submitModalRef.current;
-    const containerHeight = submitForm.offsetHeight;
-    const scrollHeight = submitForm.scrollHeight;
-    const scrollPosition = submitForm.scrollTop;
+    const containerHeight = submitForm!.offsetHeight;
+    const scrollHeight = submitForm!.scrollHeight;
+    const scrollPosition = submitForm!.scrollTop;
     if (scrollHeight > containerHeight) {
       if (scrollPosition < 10) {
         console.log("top");
@@ -156,6 +144,26 @@ export default function SubmitModal({
   // ---------------------------------------- //
 
   useEffect(() => {
+    const renderImageList = () => (
+      <div
+        style={imageUrls.length ? { minHeight: "200px" } : {}}
+        className={styles["submit__post_photo-list"]}
+      >
+        {imageUrls.map((image, index) => (
+          <div
+            key={index}
+            className={styles["submit__post_photo"]}
+            style={{ rotate: `${getRandomInt(5)}deg` }}
+          >
+            <div
+              style={{ backgroundImage: `url(${image})` }}
+              className={styles["submit__post_photo_image"]}
+            />
+          </div>
+        ))}
+      </div>
+    );
+
     setImageList(renderImageList());
   }, [imageUrls]);
 
@@ -165,14 +173,14 @@ export default function SubmitModal({
 
   useEffect(() => {
     const submitForm = submitModalRef.current;
-    submitForm.addEventListener("scroll", () => {
+    submitForm!.addEventListener("scroll", () => {
       scrollCheck();
     });
     window.addEventListener("resize", () => {
       scrollCheck();
     });
     return () => {
-      submitForm?.removeEventListener("scroll", () => {
+      submitForm!.removeEventListener("scroll", () => {
         scrollCheck();
       });
       window.removeEventListener("resize", () => {
@@ -185,7 +193,8 @@ export default function SubmitModal({
     <div
       onClick={(e) => {
         e.stopPropagation();
-        if (e.target.classList.contains(styles["modal"])) closeModal();
+        const target = e.target as HTMLElement;
+        if (target && target.classList.contains(styles["modal"])) closeModal();
       }}
       className={`${styles["modal"]} ${
         activeModal === "submit" ? styles["active"] : ""
@@ -219,7 +228,7 @@ export default function SubmitModal({
         {!imageSubmitted ? (
           <form ref={submitModalRef} className={styles["submit__form"]}>
             <label className={styles["submit__label"]}>
-              what kind of car?*
+              what chassis?*
               <select
                 required
                 onChange={handleInputChange(setCarType)}
@@ -242,6 +251,31 @@ export default function SubmitModal({
                 })}
               </select>
             </label>
+            {carType.includes("C4") ? (
+              <label className={styles["submit__label"]}>
+                what model?*
+                <select onChange={handleInputChange(setSubType)} value={subType} className={styles["submit__input"]}>
+                  <option value="" disabled>
+                    select a car...
+                  </option>
+                  <option value="S4">S4</option>
+                  <option value="S6">S6</option>
+                </select>
+              </label>
+            ) : null}
+
+            {carType.includes("C3") ? (
+              <label className={styles["submit__label"]}>
+                what model?*
+                <select onChange={handleInputChange(setSubType)} value={subType} className={styles["submit__input"]}>
+                  <option value="" disabled>
+                    select a car...
+                  </option>
+                  <option value="10v">10v</option>
+                  <option value="20v">20v</option>
+                </select>
+              </label>
+            ) : null}
             <label className={styles["submit__label"]}>
               what size of wheel?*
               <select

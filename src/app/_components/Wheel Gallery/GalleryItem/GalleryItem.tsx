@@ -2,7 +2,11 @@ import React from "react";
 import styles from "./GalleryItem.module.css";
 import Image from "next/image";
 
-export default function GalleryItem({ imageInfo }) {
+export default function GalleryItem({
+  imageInfo,
+}: {
+  imageInfo: ImageInfo;
+}) {
   return (
     <div key={imageInfo?.id} className={styles["gallery__item"]}>
       <div className={styles["gallery__item_frame"]}>

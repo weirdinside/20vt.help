@@ -10,7 +10,7 @@ interface AboutModalProps {
 
 function AboutModal({ activeModal, closeModal }: AboutModalProps) {
 
-  function Mailto({ email="", subject = "", body = "", children }) {
+  function Mailto({ email="", subject = "", body = "", children }: {email: string, subject: string, body: string, children: string}) {
     let params = subject || body ? "?" : "";
     if (subject) params += `subject=${encodeURIComponent(subject)}`;
     if (body) params += `${subject ? "&" : ""}body=${encodeURIComponent(body)}`;

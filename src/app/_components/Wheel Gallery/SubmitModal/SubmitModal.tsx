@@ -42,10 +42,10 @@ export default function SubmitModal({
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
 
-  function isFormValid(){
+  function isFormValid() {
     const validFields = [wheelSize, carType, wheelBrand, wheelName];
 
-    if(carType.includes('C4') || carType.includes('C3')){
+    if (carType.includes("C4") || carType.includes("C3")) {
       validFields.push(subType);
     }
 
@@ -64,7 +64,6 @@ export default function SubmitModal({
     setWheelName("");
     setUsername("");
     if (imageInputRef.current) imageInputRef.current.value = "";
-    setImageUrls([]);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +94,7 @@ export default function SubmitModal({
         );
 
         let convertedSubType = null;
-        if(subType !== ''){
+        if (subType !== "") {
           convertedSubType = subType;
         }
 
@@ -229,7 +228,7 @@ export default function SubmitModal({
           submit a photo
           <div onClick={closeModal} className={styles["submit__heading_logo"]}>
             <SLogo color="white" inElement="landing" />
-            <p className={styles['submit__heading_logo_text']}>x</p>
+            <p className={styles["submit__heading_logo_text"]}>x</p>
           </div>
         </h1>
         {!imageSubmitted ? (
@@ -238,9 +237,9 @@ export default function SubmitModal({
               what chassis?*
               <select
                 required
-                onChange={(e)=>{
-                  setSubType('')
-                  setCarType(e.target.value)
+                onChange={(e) => {
+                  setSubType("");
+                  setCarType(e.target.value);
                 }}
                 value={carType}
                 className={styles["submit__input"]}
@@ -264,7 +263,11 @@ export default function SubmitModal({
             {carType.includes("C4") ? (
               <label className={styles["submit__label"]}>
                 what model?*
-                <select onChange={handleInputChange(setSubType)} value={subType} className={styles["submit__input"]}>
+                <select
+                  onChange={handleInputChange(setSubType)}
+                  value={subType}
+                  className={styles["submit__input"]}
+                >
                   <option value="" disabled>
                     select a car...
                   </option>
@@ -277,7 +280,11 @@ export default function SubmitModal({
             {carType.includes("C3") ? (
               <label className={styles["submit__label"]}>
                 what model?*
-                <select onChange={handleInputChange(setSubType)} value={subType} className={styles["submit__input"]}>
+                <select
+                  onChange={handleInputChange(setSubType)}
+                  value={subType}
+                  className={styles["submit__input"]}
+                >
                   <option value="" disabled>
                     select a car...
                   </option>

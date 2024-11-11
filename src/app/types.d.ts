@@ -2,7 +2,7 @@ declare interface FilterOptions {
   wheel_size: number[];
   wheel_brand: string[];
   car_type: string[];
-  subtype?: string[];
+  subtype: string[];
 }
 
 declare interface ImageInfo {

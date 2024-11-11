@@ -59,12 +59,49 @@ export default function WheelGallery() {
   // ---------------------------------------- //
 
   // toggles a checkbox from the possibleFilters and sets it in the checkedFilters object
+
+  function updateSubtypeOptions(car_typeFilters: string[]) {
+    const chassisC4 = ["C4 sedan", "C4 avant"];
+    const chassisC3 = ["C3 sedan", "C3 avant"];
+    const subtypesC4 = ["S4", "S6"];
+    const subtypesC3 = ["10v", "20v"];
+
+    if (car_typeFilters.some((item) => chassisC3.includes(item))) {
+      if (car_typeFilters.some((item) => chassisC4.includes(item))) {
+        return possibleFilters.subtype;
+      } else {
+        return possibleFilters.subtype?.filter((item) =>
+          subtypesC3.includes(item),
+        );
+      }
+    } else if (car_typeFilters.some((item) => chassisC4.includes(item))) {
+      return possibleFilters.subtype?.filter((item) =>
+        subtypesC4.includes(item),
+      );
+    } else {
+      return [];
+    }
+  }
+
   async function toggleOption(category: keyof FilterOptions, value: string) {
     setCheckedFilters((prevFilters) => {
       const categoryOptions = prevFilters[category];
       const updatedCategoryOptions = categoryOptions!.includes(value)
         ? categoryOptions!.filter((option) => option !== value)
         : [...categoryOptions!, value];
+
+      // Update the subtype options based on the car_type selection
+      if (category === "car_type") {
+        const subtypeOptions = updateSubtypeOptions(updatedCategoryOptions);
+        return {
+          ...prevFilters,
+          [category]: updatedCategoryOptions,
+          subtype: prevFilters.subtype.filter((item) =>
+            subtypeOptions.includes(item),
+          ),
+        };
+      }
+
       return {
         ...prevFilters,
         [category]: updatedCategoryOptions,
@@ -94,50 +131,19 @@ export default function WheelGallery() {
     });
   }
 
-  const setSubtypeExclusion = useCallback(()=>{
-  
-    console.log('this function ran')
-    const chassisC4 = ["C4 sedan", "C4 avant"];
-    const chassisC3 = ["C3 sedan", "C3 avant"];
-
-    const subtypesC4 = ["S4", "S6"];
-    const subtypesC3 = ["10v", "20v"];
-
-    const includesC3 =
-      checkedFilters.car_type.filter((item) => chassisC3.includes(item))
-        .length > 0;
-    const includesC4 =
-      checkedFilters.car_type.filter((item) => chassisC4.includes(item))
-        .length > 0;
-
-    if (includesC3 && includesC4) {
-      console.log('selection includes both C3 and C4')
-      setSTF(possibleFilters.subtype);
-    } else if (includesC3) {
-      console.log('selection includes C3 only')
-      setSTF(
-        possibleFilters.subtype?.filter((item) => subtypesC3.includes(item))
-      );
-    } else if (includesC4) {
-      console.log('selection includes C4 only')
-      setSTF(
-        possibleFilters.subtype?.filter((item) => subtypesC4.includes(item))
-      );
-    } else {
-
-      setSTF([]);
-    }
-  }
-, [checkedFilters, possibleFilters])
+  const setSubtypeExclusion = useCallback(() => {
+    setSTF(updateSubtypeOptions(checkedFilters.car_type));
+  }, [checkedFilters.car_type, updateSubtypeOptions]);
 
   // ---------------------------------------- //
   //                   HOOKS                  //
   // ---------------------------------------- //
 
-  useEffect(()=>{
-    setSubtypeExclusion();
-  }, [checkedFilters]
-  );
+  useEffect(() => {
+    if (checkedFilters && possibleFilters) {
+      setSubtypeExclusion();
+    }
+  }, [checkedFilters, possibleFilters]);
 
   useEffect(
     function readQueryOnLoad() {
@@ -147,6 +153,7 @@ export default function WheelGallery() {
         wheel_brand: [],
         subtype: [],
       };
+
       searchParams.forEach((value, key) => {
         const valuesArray = value.split(",").filter(Boolean);
         if (key in parsedOptions) {
@@ -156,24 +163,24 @@ export default function WheelGallery() {
               tempArray.push(parseInt(size));
             });
             parsedOptions["wheel_size"] = tempArray;
-            
           } else {
             parsedOptions[key as keyof FilterOptions] = valuesArray;
           }
         }
       });
       setIsFetching(false);
-      setSubtypeExclusion();
+
       setCheckedFilters(parsedOptions);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [setIsFetching]
+    [setIsFetching],
   );
 
   useEffect(() => {
     async function setQueryAndUpdateImages() {
       setPage(0);
       setIsFetching(true);
+
       const queryParameters = Object.entries(checkedFilters)
         .map(([category, values]: [string, string[]]) => {
           const queryString = values.join(",");
@@ -181,7 +188,9 @@ export default function WheelGallery() {
         })
         .filter(Boolean)
         .join("&");
+
       router.push(`?${queryParameters}`);
+
       setImages([]);
       paginatedFetch({
         filters: checkedFilters,
@@ -328,11 +337,24 @@ export default function WheelGallery() {
             </button>
           </div>
         </section>
+
         <Gallery
           loading={isFetching}
           images={images}
           galleryRef={galleryRef}
         ></Gallery>
+        <footer className={styles["footer"]}>
+          <p className={styles["footer__credits"]} id="site-credits-button">
+            site credits_
+          </p>
+          <Link
+            className={styles["footer__credits"]}
+            href="/"
+            id="back-home-button"
+          >
+            back to 20vt.help_
+          </Link>
+        </footer>
       </main>
       <SubmitModal
         activeModal={activeModal}

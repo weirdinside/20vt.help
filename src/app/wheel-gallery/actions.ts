@@ -8,6 +8,7 @@ export async function getUniqueElements(columnName) {
   const { data, error } = await supabase
     .from("images")
     .select(columnName, { count: "exact" })
+    .eq("approved", true)
     .order(columnName, { ascending: true });
 
   if (error) {
@@ -15,7 +16,7 @@ export async function getUniqueElements(columnName) {
     return error;
   }
 
-  const uniqueElements = [...new Set(data.map(item => item[columnName]))];
+  const uniqueElements = [...new Set(data.map((item) => item[columnName]))];
 
   return uniqueElements;
 }
@@ -25,7 +26,7 @@ export async function filterElements(filters: object) {
   let query = supabase.from("images").select("*").eq("approved", true);
 
   for (const [columnName, values] of Object.entries(filters)) {
-    if(values.length > 0){
+    if (values.length > 0) {
       query = query.in(columnName, values);
     }
   }
@@ -46,21 +47,23 @@ interface PaginatedFetchProps {
   page: number;
 }
 
-
-
-export async function paginatedFetch({filters, numItems, page}: PaginatedFetchProps){
+export async function paginatedFetch({
+  filters,
+  numItems,
+  page,
+}: PaginatedFetchProps) {
   const supabase = await createClient();
 
   let query = supabase.from("images").select("*").eq("approved", true);
 
   for (const [columnName, values] of Object.entries(filters)) {
-    if(values.length > 0){
+    if (values.length > 0) {
       query = query.in(columnName, values);
     }
   }
 
-  query = query.range(numItems * page, numItems * page + numItems)
-  
+  query = query.range(numItems * page, numItems * page + numItems);
+
   const { data, error } = await query;
   if (error) {
     console.error(error);

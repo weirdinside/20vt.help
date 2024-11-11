@@ -17,6 +17,11 @@ export default function ReviewItem({
   const [isDeleting, startDeleting] = useTransition();
   const [isApproving, startApproving] = useTransition();
 
+  const car_typeC3 = ["C3 sedan", "C3 avant"];
+  const car_typeC4 = ["C4 sedan", "C4 avant"];
+  const subtypeC3 = ["10v", "20v"];
+  const subtypeC4 = ["S4", "S6"];
+
   const [imageData, setImageData] = useState({
     approved: data.approved,
     car_type: data.car_type,
@@ -162,6 +167,46 @@ export default function ReviewItem({
                   );
                 })}
               </select>
+              {imageData.car_type.includes("C3") ? (
+                <select
+                  onChange={(e) => {
+                    handleDataChange({
+                      category: "subtype",
+                      value: e.target.value,
+                    });
+                  }}
+                  value={imageData.subtype}
+                  className={styles["edit__form_select"]}
+                >
+                  {subtypeC3.map((type) => {
+                    return (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    );
+                  })}
+                </select>
+              ) : null}
+               {imageData.car_type.includes("C4") ? (
+                <select
+                  onChange={(e) => {
+                    handleDataChange({
+                      category: "subtype",
+                      value: e.target.value,
+                    });
+                  }}
+                  value={imageData.subtype}
+                  className={styles["edit__form_select"]}
+                >
+                  {subtypeC4.map((type) => {
+                    return (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    );
+                  })}
+                </select>
+              ) : null}
               <select
                 onChange={(e) => {
                   handleDataChange({

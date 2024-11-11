@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { useEffect, useState, useCallback } from "react";
 import styles from "./PreviewModal.module.css";
 import { copyLink } from "@/app/utils";
+import SLogo from "../../Homepage/SLogo/SLogo";
 
 export default function PreviewModal({
   activeModal,
@@ -21,6 +22,7 @@ export default function PreviewModal({
     wheel_name: string;
     submitted_by: string;
     car_type: string;
+    subtype: string;
   } | null;
 }) {
   const [isCopying, setIsCopying] = useState(false);
@@ -113,7 +115,13 @@ export default function PreviewModal({
             {data!.wheel_brand} {data!.wheel_name}
           </h1>
           <p className={styles["image__cartype"]}>
-            {data!.submitted_by ? `${data!.submitted_by}'s` : ""} {data!.car_type}
+            {data!.submitted_by ? `${data!.submitted_by}'s` : ""}{" "}
+            {data.subtype
+              ? data!.car_type.slice(0, 2) +
+                " " +
+                data.subtype +
+                data!.car_type.slice(2, data?.car_type.length)
+              : ""}
           </p>
         </div>
         <div className={styles["preview-modal__options"]}>

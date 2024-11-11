@@ -2,7 +2,7 @@
 
 import { createClient } from "@/app/supabase/auth/server";
 
-export async function getUniqueElements(columnName) {
+export async function getUniqueElements(columnName: any) {
   const supabase = await createClient();
 
   const { data, error } = await supabase

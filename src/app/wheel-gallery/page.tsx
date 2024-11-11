@@ -50,6 +50,8 @@ export default function WheelGallery() {
   const [isFetching, setIsFetching] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
+  const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo | {}>({});
+
   // for handling modal state
 
   const [activeModal, setActiveModal] = useState<string>("");
@@ -57,6 +59,11 @@ export default function WheelGallery() {
   // ---------------------------------------- //
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
+
+  function handleImageClick(imageData: ImageInfo) {
+    setClickedPhotoData(imageData);
+    setActiveModal("preview");
+  }
 
   // toggles a checkbox from the possibleFilters and sets it in the checkedFilters object
 
@@ -90,7 +97,6 @@ export default function WheelGallery() {
         ? categoryOptions!.filter((option) => option !== value)
         : [...categoryOptions!, value];
 
-      // Update the subtype options based on the car_type selection
       if (category === "car_type") {
         const subtypeOptions = updateSubtypeOptions(updatedCategoryOptions);
         return {
@@ -257,7 +263,7 @@ export default function WheelGallery() {
   }, [setPossibleFilters, checkedFilters]);
 
   return (
-    <div className={styles["page"]}>
+    <div className={styles["page"]}> 
       <header className={styles["header"]}>
         <h1 className={styles["header__title"]}>wheel gallery.</h1>
         <div
@@ -339,6 +345,7 @@ export default function WheelGallery() {
         </section>
 
         <Gallery
+          handleImageClick={handleImageClick}
           loading={isFetching}
           images={images}
           galleryRef={galleryRef}
@@ -360,6 +367,11 @@ export default function WheelGallery() {
         activeModal={activeModal}
         closeModal={closeModal}
       ></SubmitModal>
+      <PreviewModal
+        activeModal={activeModal}
+        closeModal={closeModal}
+        data={clickedPhotoData}
+      ></PreviewModal>
     </div>
   );
 }

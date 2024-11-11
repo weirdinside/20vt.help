@@ -35,8 +35,8 @@ export default function GalleryItem({
 
         <p className={styles["gallery__item_description_user"]}>
           {imageInfo?.submitted_by
-            ? `${imageInfo?.submitted_by}'s ${imageInfo?.car_type}`
-            : `${imageInfo?.car_type}`}
+            ? `${imageInfo?.submitted_by}'s ${imageInfo.car_type.slice(0,2)} ${imageInfo?.subtype} ${imageInfo.car_type.slice(3, imageInfo.car_type.length)}`
+            : `${imageInfo.car_type.slice(0,2)} ${imageInfo?.subtype} ${imageInfo.car_type.slice(3, imageInfo.car_type.length)}`}
         </p>
       </div>
     </div>

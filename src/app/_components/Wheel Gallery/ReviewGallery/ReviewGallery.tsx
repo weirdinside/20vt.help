@@ -12,7 +12,7 @@ export default function ReviewGallery() {
   useEffect(() => {
     fetchAllUnapprovedImages()
       .then((data) => {
-        if(data && data.length > 0){
+        if(data){
           return setUnapprovedImages(data);
         }
       })

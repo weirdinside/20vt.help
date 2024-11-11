@@ -1,15 +1,24 @@
 import React from "react";
 import styles from "./ClickableGalleryItem.module.css";
-import Image from 'next/image';
+import Image from "next/image";
 
-export default function ClickableGalleryItem({ handleImageClick, imageInfo }) {
-
-  function handleClick(){
+export default function ClickableGalleryItem({
+  handleImageClick,
+  imageInfo,
+}: {
+  imageInfo: ImageInfo;
+  handleImageClick: (arg0: ImageInfo) => void;
+}) {
+  function handleClick() {
     handleImageClick(imageInfo);
   }
 
   return (
-    <div onClick={handleClick} key={imageInfo?.id} className={styles["gallery__item"]}>
+    <div
+      onClick={handleClick}
+      key={imageInfo?.id}
+      className={styles["gallery__item"]}
+    >
       <div className={styles["gallery__item_frame"]}>
         <p className={styles["gallery__item_description_size"]}>
           {imageInfo?.wheel_size}"
@@ -35,8 +44,20 @@ export default function ClickableGalleryItem({ handleImageClick, imageInfo }) {
         </p>
         <p className={styles["gallery__item_description_user"]}>
           {imageInfo?.submitted_by
-            ? `${imageInfo?.submitted_by}'s ${imageInfo.car_type.slice(0,2)} ${imageInfo?.subtype} ${imageInfo.car_type.slice(3, imageInfo.car_type.length)}`
-            : `${imageInfo.car_type.slice(0,2)} ${imageInfo?.subtype} ${imageInfo.car_type.slice(3, imageInfo.car_type.length)}`}
+            ? `${imageInfo?.submitted_by}'s ${imageInfo.car_type.slice(
+                0,
+                2,
+              )} ${imageInfo?.subtype} ${imageInfo.car_type.slice(
+                3,
+                imageInfo.car_type.length,
+              )}`
+            : `${imageInfo.car_type.slice(
+                0,
+                2,
+              )} ${imageInfo?.subtype} ${imageInfo.car_type.slice(
+                3,
+                imageInfo.car_type.length,
+              )}`}
         </p>
       </div>
     </div>

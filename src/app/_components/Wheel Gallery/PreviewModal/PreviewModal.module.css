@@ -32,6 +32,7 @@
 
 .preview-modal {
   scale: 0;
+  min-width: 30vw;
   max-width: 90vw;
   position: relative;
   overflow: hidden;
@@ -106,6 +107,7 @@
 }
 
 .image{
+  flex-grow: 1;
   width: auto;
   height: auto;
   object-fit: cover;

@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family:'Alte Haas Grotesk';
+  src: url(../app/assets/fonts/Alte\ Haas\ Grotesk/AlteHaasGroteskBold.ttf);
+}
+
 :root{
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #222222;
+  font-family: 'Alte Haas Grotesk';
 }

@@ -1,9 +1,12 @@
 "use client";
+
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import Link from "next/link";
-import styles from "./WheelGallery.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import Link from "next/link";
+
+// css
+import styles from "./WheelGallery.module.css";
 
 // actions
 import { paginatedFetch, getUniqueElements } from "./actions";
@@ -15,7 +18,7 @@ import CheckboxSection from "../_components/Wheel Gallery/CheckboxSection/Checkb
 import SubmitModal from "../_components/Wheel Gallery/SubmitModal/SubmitModal";
 import PreviewModal from "../_components/Wheel Gallery/PreviewModal/PreviewModal";
 
-function WheelGalleryContent(){
+function WheelGalleryContent() {
   // ---------------------------------------- //
   //            VARIABLE DECLARATION          //
   // ---------------------------------------- //
@@ -41,17 +44,17 @@ function WheelGalleryContent(){
     wheel_size: [],
     wheel_brand: [],
   });
-
   const [subtypeFilters, setSTF] = useState<string[]>([]);
 
   // for handling the gallery state
-
   const [currentPage, setPage] = useState(0);
   const [images, setImages] = useState<ImageInfo[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
+  // for handling modal state
+  const [activeModal, setActiveModal] = useState<string>("");
   const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo>({
     approved: true,
     wheel_size: 15,
@@ -64,21 +67,19 @@ function WheelGalleryContent(){
     car_type: "",
   });
 
-  // for handling modal state
-
-  const [activeModal, setActiveModal] = useState<string>("");
-
   // ---------------------------------------- //
   //               EVENT HANDLERS             //
   // ---------------------------------------- //
 
+  // on image click, pass image data to the preview modal and open it
   function handleImageClick(imageData: ImageInfo) {
     setClickedPhotoData(imageData);
     setActiveModal("preview");
   }
 
-  // toggles a checkbox from the possibleFilters and sets it in the checkedFilters object
-
+  // checks conditions for subtypes to be active. logic is as follows:
+  // if C3 sedan/avant are active, display '10v' and '20v' in the subtypes when available
+  // if C4 sedan/avant are active, display 'S4' and 'S6' in the subtypes when available
   const updateSubtypeOptions = useCallback(
     (car_typeFilters: string[]) => {
       const chassisC4 = ["C4 sedan", "C4 avant"];
@@ -105,11 +106,12 @@ function WheelGalleryContent(){
     [possibleFilters],
   );
 
+  // requests more images from the database
+  // this function is called by onScroll
   const loadMoreData = useCallback(async () => {
     if (fetchingMore) {
-      console.log("triggered but we returned baby");
       return;
-    }
+    } // prevents code from rerunning if loadMoreData is already running. prevents stacking
     setIsFetchingMore(true);
     paginatedFetch({
       filters: checkedFilters,
@@ -142,6 +144,7 @@ function WheelGalleryContent(){
       });
   }, [checkedFilters, currentPage, fetchingMore]);
 
+  //
   const onScroll = useCallback(async () => {
     const gallery = galleryRef.current;
 
@@ -158,6 +161,11 @@ function WheelGalleryContent(){
     }
   }, [currentPage, hasMore, isFetching, loadMoreData]);
 
+  // pathing for this function is as follows:
+  // it references checkedFilters which is at the top level (here)
+  // it is passed through CheckboxSection to FilterCheckbox, where
+  // it gets executed by toggling an option from the possible items.
+  // the possible items come in from the useEffect with fetchPossibleFilters
   async function toggleOption(
     category: keyof FilterOptions,
     value: string | number,
@@ -206,10 +214,12 @@ function WheelGalleryContent(){
     });
   }
 
+  // controls modal close, passed to modals/popups
   const closeModal = useCallback(() => {
     setActiveModal("");
   }, []);
 
+  // passed to previewModal, possibly could live in that component
   const copyUrl = useCallback(() => {
     if (window) {
       const url = window.location.href;
@@ -220,6 +230,7 @@ function WheelGalleryContent(){
     }
   }, [window]);
 
+  // clears checkedFilters
   function clearOptions() {
     setPage(0);
     setCheckedFilters({
@@ -230,6 +241,9 @@ function WheelGalleryContent(){
     });
   }
 
+  // checks which subtypes are possible and sets them
+  // the reason the subtypes show based on this array and not a CSS
+  // visibility property is due to the way CheckboxSection is styled
   const setSubtypeExclusion = useCallback(() => {
     setSTF(updateSubtypeOptions(checkedFilters.car_type));
   }, [checkedFilters.car_type, updateSubtypeOptions]);
@@ -238,6 +252,8 @@ function WheelGalleryContent(){
   //                   HOOKS                  //
   // ---------------------------------------- //
 
+  // when the document loads, gallery has a listener that calls onScroll
+  // (this is intended to trigger loadMoreImages in turn)
   useEffect(
     function setScrollListener() {
       const gallery = galleryRef.current;
@@ -246,15 +262,17 @@ function WheelGalleryContent(){
         gallery!.removeEventListener("scroll", onScroll);
       };
     },
-    [onScroll],
+    [onScroll, galleryRef], // this is a dependencies array. when these changes, the hook is rerun
   );
 
+  // checks active subtypes for cars on load and when filters are changed
   useEffect(() => {
     if (checkedFilters && possibleFilters) {
       setSubtypeExclusion();
     }
   }, [checkedFilters, possibleFilters]);
 
+  // reads query from URL on load and sets filters on page to its values
   useEffect(
     function readQueryOnLoad() {
       const parsedOptions: FilterOptions = {
@@ -287,6 +305,8 @@ function WheelGalleryContent(){
     [setIsFetching],
   );
 
+  // sets query and updates images, clears images present in array and repopulates it.
+  // isFetching controls whether or not the 12453 dots are present on screen
   useEffect(() => {
     async function setQueryAndUpdateImages() {
       setPage(0);
@@ -321,10 +341,13 @@ function WheelGalleryContent(){
         }
       });
     }
-
+    // the above function can probably be declared outside the useEffect, but i will have to check.
+    // this way, it does not have to be reloaded every time this hook is called
     setQueryAndUpdateImages();
   }, [router, checkedFilters]);
 
+  // checks table in supabase for possible values so no 1D query = 0 results
+  // returns them to the object possibleFilters and populates the CheckboxSection components
   useEffect(() => {
     async function fetchPossibleFilters() {
       const [carTypes, wheelSizes, wheelBrands, subtypes] = await Promise.all([
@@ -341,127 +364,130 @@ function WheelGalleryContent(){
         subtype: subtypes,
       });
     }
-
+    // the above function can probably be declared outside the useEffect, but i will have to check.
+    // this way, it does not have to be reloaded every time this hook is called
     fetchPossibleFilters();
   }, [setPossibleFilters, checkedFilters]);
 
+  // ---------------------------------------- //
+  //           MAIN COMPONENT RETURN          //
+  // ---------------------------------------- //
+
   return (
-      <div className={styles["page"]}>
-        <header className={styles["header"]}>
-          <h1 className={styles["header__title"]}>wheel gallery.</h1>
+    <div className={styles["page"]}>
+      <header className={styles["header"]}>
+        <h1 className={styles["header__title"]}>wheel gallery.</h1>
+        <div
+          onClick={() => {
+            setActiveModal("submit");
+          }}
+          className={styles["header__submit-modal-trigger"]}
+          id="submit-modal-trigger"
+        >
+          submit a wheel
+        </div>
+        <Link className={styles["header__logo"]} href="/">
+          <div className={styles["logo__big-rhombus"]} id="big-rhombus"></div>
           <div
-            onClick={() => {
-              setActiveModal("submit");
-            }}
-            className={styles["header__submit-modal-trigger"]}
-            id="submit-modal-trigger"
-          >
-            submit a wheel
-          </div>
-          <Link className={styles["header__logo"]} href="/">
-            <div className={styles["logo__big-rhombus"]} id="big-rhombus"></div>
-            <div
-              className={styles["logo__small-rhombus-1"]}
-              id="small-rhombus-1"
-            ></div>
-            <div
-              className={styles["logo__small-rhombus-2"]}
-              id="small-rhombus-2"
-            ></div>
-            <p className={styles["header__back"]}>back to 20vt.help</p>
-          </Link>
-        </header>
-        <main className={styles["main"]}>
-          <section className={styles["wheelfinder"]}>
-            <form className={styles["wheelfinder__selector"]}>
-              <CheckboxSection
-                key={1}
-                arrayName={"car_type"}
-                checkedFilters={checkedFilters}
-                toggleOption={toggleOption}
-                filtersArray={
-                  possibleFilters["car_type" as keyof FilterOptions]
-                }
-              ></CheckboxSection>
+            className={styles["logo__small-rhombus-1"]}
+            id="small-rhombus-1"
+          ></div>
+          <div
+            className={styles["logo__small-rhombus-2"]}
+            id="small-rhombus-2"
+          ></div>
+          <p className={styles["header__back"]}>back to 20vt.help</p>
+        </Link>
+      </header>
+      <main className={styles["main"]}>
+        <section className={styles["wheelfinder"]}>
+          <form className={styles["wheelfinder__selector"]}>
+            <CheckboxSection
+              key={1}
+              arrayName={"car_type"}
+              checkedFilters={checkedFilters}
+              toggleOption={toggleOption}
+              filtersArray={possibleFilters["car_type" as keyof FilterOptions]}
+            ></CheckboxSection>
 
-              <CheckboxSection
-                key={4}
-                arrayName={"subtype"}
-                checkedFilters={checkedFilters}
-                toggleOption={toggleOption}
-                filtersArray={subtypeFilters}
-              ></CheckboxSection>
+            <CheckboxSection
+              key={4}
+              arrayName={"subtype"}
+              checkedFilters={checkedFilters}
+              toggleOption={toggleOption}
+              filtersArray={subtypeFilters}
+            ></CheckboxSection>
 
-              <CheckboxSection
-                key={2}
-                arrayName={"wheel_size"}
-                checkedFilters={checkedFilters}
-                toggleOption={toggleOption}
-                filtersArray={
-                  possibleFilters["wheel_size" as keyof FilterOptions]
-                }
-              ></CheckboxSection>
+            <CheckboxSection
+              key={2}
+              arrayName={"wheel_size"}
+              checkedFilters={checkedFilters}
+              toggleOption={toggleOption}
+              filtersArray={
+                possibleFilters["wheel_size" as keyof FilterOptions]
+              }
+            ></CheckboxSection>
 
-              <CheckboxSection
-                key={3}
-                arrayName={"wheel_brand"}
-                checkedFilters={checkedFilters}
-                toggleOption={toggleOption}
-                filtersArray={
-                  possibleFilters["wheel_brand" as keyof FilterOptions]
-                }
-              ></CheckboxSection>
-            </form>
-            <div className={styles["wheelfinder__button_section"]}>
-              <button
-                type="reset"
-                className={styles["wheelfinder__button"]}
-                id="wheelfinder-clear"
-                onClick={clearOptions}
-              >
-                reset selection
-              </button>
-              <button
-                onClick={copyUrl}
-                className={styles["wheelfinder__button"]}
-              >
-                share results
-              </button>
-            </div>
-          </section>
-          <Gallery
-            fetching={fetchingMore}
-            handleImageClick={handleImageClick}
-            loading={isFetching}
-            images={images}
-            galleryRef={galleryRef}
-          ></Gallery>
-          <footer className={styles["footer"]}>
-            <p className={styles["footer__credits"]} id="site-credits-button">
-              site credits_
-            </p>
-            <Link
-              className={styles["footer__credits"]}
-              href="/"
-              id="back-home-button"
+            <CheckboxSection
+              key={3}
+              arrayName={"wheel_brand"}
+              checkedFilters={checkedFilters}
+              toggleOption={toggleOption}
+              filtersArray={
+                possibleFilters["wheel_brand" as keyof FilterOptions]
+              }
+            ></CheckboxSection>
+          </form>
+          <div className={styles["wheelfinder__button_section"]}>
+            <button
+              type="reset"
+              className={styles["wheelfinder__button"]}
+              id="wheelfinder-clear"
+              onClick={clearOptions}
             >
-              back to 20vt.help_
-            </Link>
-          </footer>
-        </main>
-        <SubmitModal
-          activeModal={activeModal}
-          closeModal={closeModal}
-        ></SubmitModal>
-        <PreviewModal
-          activeModal={activeModal}
-          closeModal={closeModal}
-          data={clickedPhotoData}
-        ></PreviewModal>
-      </div>
+              reset selection
+            </button>
+            <button onClick={copyUrl} className={styles["wheelfinder__button"]}>
+              share results
+            </button>
+          </div>
+        </section>
+        <Gallery
+          fetching={fetchingMore}
+          handleImageClick={handleImageClick}
+          loading={isFetching}
+          images={images}
+          galleryRef={galleryRef}
+        ></Gallery>
+        <footer className={styles["footer"]}>
+          <p className={styles["footer__credits"]} id="site-credits-button">
+            site credits_
+          </p>
+          <Link
+            className={styles["footer__credits"]}
+            href="/"
+            id="back-home-button"
+          >
+            back to 20vt.help_
+          </Link>
+        </footer>
+      </main>
+      <SubmitModal
+        activeModal={activeModal}
+        closeModal={closeModal}
+      ></SubmitModal>
+      <PreviewModal
+        activeModal={activeModal}
+        closeModal={closeModal}
+        data={clickedPhotoData}
+      ></PreviewModal>
+    </div>
   );
 }
 
+// this is a bit strange and not something i am used to -
+// the whole component has to be wrapped in a 'suspense' component, due to the
+// fact that i am using useSearchParams();. i will have to investigate this
 export default function WheelGallery() {
   return (
     <Suspense fallback={<div>Loading...</div>}>

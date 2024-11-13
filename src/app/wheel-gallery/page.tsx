@@ -46,13 +46,13 @@ export default function WheelGallery() {
   // for handling the gallery state
 
   const [currentPage, setPage] = useState(0);
-  const [images, setImages] = useState<object[]>([]);
+  const [images, setImages] = useState<ImageInfo[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [scrollTop, setScrollTop] = useState(0);
 
-  const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo | {}>({});
+  const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo>({});
 
   // for handling modal state
 
@@ -93,7 +93,10 @@ export default function WheelGallery() {
   }
 
   const loadMoreData = useCallback(async () => {
-    if (isFetching) return;
+    if (fetchingMore){
+      console.log('triggered but we returned baby');
+      return
+    }
     setIsFetchingMore(true);
     paginatedFetch({
       filters: checkedFilters,
@@ -110,7 +113,7 @@ export default function WheelGallery() {
           } else if (data.length > 25) {
             setHasMore(true);
           }
-          console.log("images set,", data, isFetching, currentPage);
+          console.log("images set,", data, fetchingMore, currentPage);
           return setImages((prevImages) => [
             ...prevImages,
             ...data?.slice(0, 25),
@@ -124,7 +127,7 @@ export default function WheelGallery() {
         console.log('data loaded')
         setIsFetchingMore(false);
       });
-  }, [checkedFilters, currentPage, isFetching]);
+  }, [checkedFilters, currentPage, fetchingMore]);
 
   const onScroll = useCallback(async () => {
     const gallery = galleryRef.current;
@@ -143,10 +146,10 @@ export default function WheelGallery() {
     }
   }, [currentPage, hasMore, isFetching, loadMoreData]);
 
-  async function toggleOption(category: keyof FilterOptions, value: string) {
+  async function toggleOption(category: keyof FilterOptions, value: string | number) {
     setCheckedFilters((prevFilters) => {
       const categoryOptions = prevFilters[category];
-      const updatedCategoryOptions = categoryOptions!.includes(value)
+      const updatedCategoryOptions: (string | number)[] = categoryOptions!.includes(value)
         ? categoryOptions!.filter((option) => option !== value)
         : [...categoryOptions!, value];
 
@@ -407,8 +410,8 @@ export default function WheelGallery() {
             </button>
           </div>
         </section>
-
         <Gallery
+          fetching={fetchingMore}
           handleImageClick={handleImageClick}
           loading={isFetching}
           images={images}

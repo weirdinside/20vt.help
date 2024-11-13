@@ -14,16 +14,7 @@ export default function PreviewModal({
 }: {
   activeModal: string;
   closeModal: () => void;
-  data: {
-    wheel_size: number;
-    id: number;
-    photo_url: string;
-    wheel_brand: string;
-    wheel_name: string;
-    submitted_by: string;
-    car_type: string;
-    subtype: string;
-  } | null;
+  data: ImageInfo;
 }) {
   const [isCopying, setIsCopying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -85,6 +76,9 @@ export default function PreviewModal({
           activeModal === "preview" ? styles["active"] : ""
         }`}
       >
+         <div onClick={closeModal} className={styles["preview-modal__logo"]}>
+            <SLogo color="#cf2a2a" inElement="landing" />
+          </div>
         <div className={styles["image-container"]}>
           <div
             className={`${styles["image__loading"]} ${

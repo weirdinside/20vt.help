@@ -24,6 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .modal.active {
@@ -33,9 +34,20 @@
 .preview-modal {
   scale: 0;
   min-width: 30vw;
-  max-width: 90vw;
+  max-width: 80vw;
   position: relative;
-  overflow: hidden;
+  overflow: visible 1;
+  
+}
+
+.preview-modal__logo_text{
+  position: absolute;
+  font-weight: 700;
+  color: white;
+  top: -41;
+  font-size: 20px;
+  right: -123px;
+  pointer-events: none;
 }
 
 .preview-modal.active {
@@ -175,6 +187,14 @@
   margin-top: 0;
   margin-bottom: 3%;
 }
+
+.preview-modal__logo {
+  z-index: 1;
+  position: absolute;
+  top: 60px;
+  right: 175px;
+}
+
 
 @media screen and (max-width: 600px) {
   .image-container{

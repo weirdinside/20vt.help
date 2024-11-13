@@ -4,11 +4,13 @@ import ClickableGalleryItem from "../ClickableGalleryItem/ClickableGalleryItem";
 
 export default function Gallery({
   loading,
+  fetching,
   galleryRef,
   handleImageClick,
   images,
 }: {
   loading: boolean;
+  fetching: boolean;
   galleryRef: React.RefObject<HTMLDivElement>;
   handleImageClick: (imageData: ImageInfo) => void;
   images: ImageInfo[];
@@ -33,6 +35,9 @@ export default function Gallery({
           ></ClickableGalleryItem>
         );
       })}
+      {fetching ? (
+        <div className={styles["gallery__fetching"]}>LOADING</div>
+      ) : null}
     </div>
   );
 }

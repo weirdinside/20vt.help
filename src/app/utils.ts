@@ -9,9 +9,9 @@ export async function convertBlobUrlToFile(blobUrl: string) {
   return file;
 }
 
-export function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
+export function debounce(func: ()=>void, delay: number) {
+  let timeoutId: any;
+  return function (...args: []) {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }

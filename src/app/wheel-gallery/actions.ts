@@ -2,7 +2,7 @@
 
 import { createClient } from "@/app/supabase/auth/server";
 
-export async function getUniqueElements(columnName: any) {
+export async function getUniqueElements(columnName: any): Promise<string[]> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -13,10 +13,10 @@ export async function getUniqueElements(columnName: any) {
 
   if (error) {
     console.error(error);
-    return error;
+    return [];
   }
 
-  const uniqueElements = [...new Set(data.map((item) => item[columnName]))];
+  const uniqueElements = data ? [...new Set(data.map((item) => item[columnName]))] : [];
 
   return uniqueElements;
 }

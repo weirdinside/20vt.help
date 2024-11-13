@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, MutableRefObject, RefObject, LegacyRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./Marquee.module.css";
 
 interface MarqueeProps {
@@ -19,7 +19,7 @@ export default function Marquee({
   // on page load, set style and transition: right 0px and transition to true
 
   const [scrollTime, setScrollTime] = useState(0); // stores scrollTime variable after calculation in checkWindowSize hook
-  const [width, setWidth] = useState(window.innerWidth); // arbitrary number but tracks window width 
+  const [width, setWidth] = useState(0); // arbitrary number but tracks window width 
   const [difference, setDifference] = useState(0);
   const [textStyle, setTextStyle] = useState({});
   const [intervalTime, setIntervalTime] = useState(0);
@@ -29,7 +29,9 @@ export default function Marquee({
 
   // sets 'width' variable to the size of the window, does nothing but triggers the container to check if its size potentially has changed
   const handleWindowSizeChange = () => {
-    setWidth(window.innerWidth);
+    if(window){
+      setWidth(window.innerWidth);
+    }
   };
 
   const setStylesSequentially = useCallback(async ()=>{
@@ -121,7 +123,7 @@ export default function Marquee({
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange);
     };
-  }, []);
+  }, [window, handleWindowSizeChange]);
 
   return (
     <div className={styles["marquee"]} ref={marqueeRef}>

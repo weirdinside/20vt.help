@@ -19,22 +19,22 @@ export async function setApproved(id: number) {
 
 export async function updateImageData({
   id,
-  carType,
-  wheelSize,
+  car_type,
+  wheel_size,
   subtype,
-  wheelBrand,
-  wheelName,
-}) {
+  wheel_brand,
+  wheel_name,
+}: Partial<ImageInfo>) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("images")
     .update({
       subtype: subtype,
-      car_type: carType,
-      wheel_size: wheelSize,
-      wheel_brand: wheelBrand,
-      wheel_name: wheelName,
+      car_type: car_type,
+      wheel_size: wheel_size,
+      wheel_brand: wheel_brand,
+      wheel_name: wheel_name,
     })
     .eq("id", id);
 
@@ -48,7 +48,7 @@ export async function updateImageData({
   return data;
 }
 
-export async function deleteImage({url}){
+export async function deleteImage({url}: {url: string}){
 
   const convertedUrl = url.slice(url.lastIndexOf('/') + 1);
   console.log(convertedUrl, url)
@@ -67,7 +67,7 @@ export async function deleteImage({url}){
   return (`Image deleted ${data}`);
 }
 
-export async function deleteEntry({ id }) {
+export async function deleteEntry({ id }: {id: number}) {
   const supabase = await createClient();
 
   const { data, error: deleteError } = await supabase

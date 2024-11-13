@@ -7,7 +7,7 @@ import { greetingTime } from "@/app/utils";
 
 import ReviewGallery from "../ReviewGallery/ReviewGallery";
 
-export default function ReviewPage({ userData }) {
+export default function ReviewPage({ userData }: any) {
 
   const [loggingOut, setLoggingOut] = useTransition();
 

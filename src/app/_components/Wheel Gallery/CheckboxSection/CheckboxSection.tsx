@@ -28,7 +28,9 @@ export default function CheckboxSection({
   const [scrollPosition, setScrollPosition] = useState("");
 
   const handleWindowSizeChange = () => {
-    setWindowWidth(window.innerWidth);
+    if(window){
+      setWindowWidth(window.innerWidth);
+    }
   };
 
   useEffect(() => {

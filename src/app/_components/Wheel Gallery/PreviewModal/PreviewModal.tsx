@@ -18,6 +18,17 @@ export default function PreviewModal({
 }) {
   const [isCopying, setIsCopying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [imageInfo, setImageInfo] = useState<ImageInfo>({
+    approved: true,
+    wheel_size: 15,
+    id: 0,
+    subtype: '',
+    photo_url: "",
+    wheel_brand: "",
+    wheel_name: "",
+    submitted_by: "",
+    car_type: "",
+  });
 
   const handleCloseModal = useCallback(() => {
     closeModal();
@@ -50,6 +61,13 @@ export default function PreviewModal({
   );
 
   useEffect(
+    function setData() {
+      setImageInfo(data);
+    },
+    [data],
+  );
+
+  useEffect(
     function listenForEsc() {
       function handleEscClose(e: KeyboardEvent) {
         if (e.key === "Escape") {
@@ -76,9 +94,9 @@ export default function PreviewModal({
           activeModal === "preview" ? styles["active"] : ""
         }`}
       >
-         <div onClick={closeModal} className={styles["preview-modal__logo"]}>
-            <SLogo color="#cf2a2a" inElement="landing" />
-          </div>
+        <div onClick={closeModal} className={styles["preview-modal__logo"]}>
+          <SLogo color="#cf2a2a" inElement="landing" />
+        </div>
         <div className={styles["image-container"]}>
           <div
             className={`${styles["image__loading"]} ${
@@ -87,7 +105,7 @@ export default function PreviewModal({
           ></div>
           {/* THIS NEXT CODE IS SHITTY! THIS IS A SHITTY WORKAROUND!
           see more: https://github.com/vercel/next.js/discussions/18531*/}
-          {data!.photo_url ? (
+          {imageInfo!.photo_url ? (
             <Image
               className={styles["image"]}
               loading="eager"
@@ -96,7 +114,7 @@ export default function PreviewModal({
               }}
               decoding="async"
               alt="modal-image"
-              src={data!.photo_url}
+              src={imageInfo!.photo_url}
               quality={100}
               width={0}
               height={0}
@@ -106,24 +124,29 @@ export default function PreviewModal({
         </div>
         <div className={styles["image__text"]}>
           <h1 className={styles["image__wheelname"]}>
-            {data!.wheel_brand} {data!.wheel_name}
+            {imageInfo!.wheel_brand} {imageInfo!.wheel_name}
           </h1>
           <p className={styles["image__cartype"]}>
-            {data!.submitted_by ? `${data!.submitted_by}'s` : ""}{" "}
-            {data!.subtype
-              ? data!.car_type.slice(0, 2) +
-                " " +
-                data!.subtype +
-                data!.car_type.slice(2, data?.car_type.length)
+            {imageInfo.submitted_by ? `${imageInfo.submitted_by}'s ` : ""}
+            {imageInfo.car_type.length > 0
+              ? `${imageInfo.car_type.slice(
+                  0,
+                  imageInfo.car_type.indexOf(" "),
+                )} ${
+                  imageInfo.subtype ? imageInfo.subtype : ""
+                } ${imageInfo.car_type.slice(
+                  imageInfo.car_type.indexOf(" ") + 1,
+                  imageInfo.car_type.length,
+                )}`
               : ""}
           </p>
         </div>
         <div className={styles["preview-modal__options"]}>
-          {data?.submitted_by?.includes("@") ? (
+          {imageInfo?.submitted_by?.includes("@") ? (
             <Link
               target="_blank"
-              href={`https://instagram.com/${data.submitted_by.slice(
-                data.submitted_by.indexOf("@") + 1,
+              href={`https://instagram.com/${imageInfo.submitted_by.slice(
+                imageInfo.submitted_by.indexOf("@") + 1,
               )}`}
             >
               <button className={styles["preview-modal__button"]}>
@@ -131,13 +154,13 @@ export default function PreviewModal({
               </button>
             </Link>
           ) : null}
-          {/* {data.photo_url ? (
+          {/* {imageInfo.photo_url ? (
             <Link
-              href={`${data.photo_url}?download=${data.wheel_brand}-${
-                data.wheel_name
-              }_${data.car_type}${data.subtype}.${data.photo_url.slice(
-                data.photo_url.lastIndexOf("."),
-                data.photo_url.length,
+              href={`${imageInfo.photo_url}?download=${imageInfo.wheel_brand}-${
+                imageInfo.wheel_name
+              }_${imageInfo.car_type}${imageInfo.subtype}.${imageInfo.photo_url.slice(
+                imageInfo.photo_url.lastIndexOf("."),
+                imageInfo.photo_url.length,
               )}`}
             >
               <button

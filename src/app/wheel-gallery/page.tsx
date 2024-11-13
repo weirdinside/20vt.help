@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import styles from "./WheelGallery.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 // actions
 import { paginatedFetch, getUniqueElements } from "./actions";
@@ -14,7 +15,7 @@ import CheckboxSection from "../_components/Wheel Gallery/CheckboxSection/Checkb
 import SubmitModal from "../_components/Wheel Gallery/SubmitModal/SubmitModal";
 import PreviewModal from "../_components/Wheel Gallery/PreviewModal/PreviewModal";
 
-export default function WheelGallery() {
+function WheelGalleryContent(){
   // ---------------------------------------- //
   //            VARIABLE DECLARATION          //
   // ---------------------------------------- //
@@ -50,9 +51,18 @@ export default function WheelGallery() {
   const [isFetching, setIsFetching] = useState(false);
   const [fetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [scrollTop, setScrollTop] = useState(0);
 
-  const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo>({});
+  const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo>({
+    approved: true,
+    wheel_size: 15,
+    id: 0,
+    subtype: "",
+    photo_url: "",
+    wheel_brand: "",
+    wheel_name: "",
+    submitted_by: "",
+    car_type: "",
+  });
 
   // for handling modal state
 
@@ -69,33 +79,36 @@ export default function WheelGallery() {
 
   // toggles a checkbox from the possibleFilters and sets it in the checkedFilters object
 
-  function updateSubtypeOptions(car_typeFilters: string[]) {
-    const chassisC4 = ["C4 sedan", "C4 avant"];
-    const chassisC3 = ["C3 sedan", "C3 avant"];
-    const subtypesC4 = ["S4", "S6"];
-    const subtypesC3 = ["10v", "20v"];
+  const updateSubtypeOptions = useCallback(
+    (car_typeFilters: string[]) => {
+      const chassisC4 = ["C4 sedan", "C4 avant"];
+      const chassisC3 = ["C3 sedan", "C3 avant"];
+      const subtypesC4 = ["S4", "S6"];
+      const subtypesC3 = ["10v", "20v"];
 
-    if (car_typeFilters.some((item) => chassisC3.includes(item))) {
-      if (car_typeFilters.some((item) => chassisC4.includes(item))) {
-        return possibleFilters.subtype;
-      } else {
+      if (car_typeFilters.some((item) => chassisC3.includes(item))) {
+        if (car_typeFilters.some((item) => chassisC4.includes(item))) {
+          return possibleFilters.subtype;
+        } else {
+          return possibleFilters.subtype?.filter((item) =>
+            subtypesC3.includes(item),
+          );
+        }
+      } else if (car_typeFilters.some((item) => chassisC4.includes(item))) {
         return possibleFilters.subtype?.filter((item) =>
-          subtypesC3.includes(item),
+          subtypesC4.includes(item),
         );
+      } else {
+        return [];
       }
-    } else if (car_typeFilters.some((item) => chassisC4.includes(item))) {
-      return possibleFilters.subtype?.filter((item) =>
-        subtypesC4.includes(item),
-      );
-    } else {
-      return [];
-    }
-  }
+    },
+    [possibleFilters],
+  );
 
   const loadMoreData = useCallback(async () => {
-    if (fetchingMore){
-      console.log('triggered but we returned baby');
-      return
+    if (fetchingMore) {
+      console.log("triggered but we returned baby");
+      return;
     }
     setIsFetchingMore(true);
     paginatedFetch({
@@ -104,7 +117,7 @@ export default function WheelGallery() {
       page: currentPage + 1,
     })
       .then((data) => {
-        if(data){
+        if (data) {
           if (data.length > 0) {
             setPage((prevPage) => prevPage + 1);
           }
@@ -124,14 +137,13 @@ export default function WheelGallery() {
         console.error(`Error loading more data: ${error}`);
       })
       .finally(() => {
-        console.log('data loaded')
+        console.log("data loaded");
         setIsFetchingMore(false);
       });
   }, [checkedFilters, currentPage, fetchingMore]);
 
   const onScroll = useCallback(async () => {
     const gallery = galleryRef.current;
-    setScrollTop(gallery!.scrollTop);
 
     if (isFetching) return;
     if (
@@ -146,27 +158,50 @@ export default function WheelGallery() {
     }
   }, [currentPage, hasMore, isFetching, loadMoreData]);
 
-  async function toggleOption(category: keyof FilterOptions, value: string | number) {
+  async function toggleOption(
+    category: keyof FilterOptions,
+    value: string | number,
+  ) {
     setCheckedFilters((prevFilters) => {
-      const categoryOptions = prevFilters[category];
-      const updatedCategoryOptions: (string | number)[] = categoryOptions!.includes(value)
-        ? categoryOptions!.filter((option) => option !== value)
-        : [...categoryOptions!, value];
-
+      // deals with subtyping
       if (category === "car_type") {
-        const subtypeOptions = updateSubtypeOptions(updatedCategoryOptions);
+        const stringValue = String(value);
+        const updatedCarTypes = prevFilters.car_type.includes(stringValue)
+          ? prevFilters.car_type.filter((option) => option !== stringValue)
+          : [...prevFilters.car_type, stringValue];
+
+        const subtypeOptions = updateSubtypeOptions(updatedCarTypes);
         return {
           ...prevFilters,
-          [category]: updatedCategoryOptions,
+          car_type: updatedCarTypes,
           subtype: prevFilters.subtype.filter((item) =>
             subtypeOptions.includes(item),
           ),
         };
       }
 
+      // separate due to number value
+      if (category === "wheel_size") {
+        const numValue = Number(value);
+        const updatedWheelSizes = prevFilters.wheel_size.includes(numValue)
+          ? prevFilters.wheel_size.filter((option) => option !== numValue)
+          : [...prevFilters.wheel_size, numValue];
+
+        return {
+          ...prevFilters,
+          wheel_size: updatedWheelSizes,
+        };
+      }
+
+      const stringValue = String(value);
+      const categoryOptions = prevFilters[category] as string[];
+      const updatedOptions = categoryOptions.includes(stringValue)
+        ? categoryOptions.filter((option) => option !== stringValue)
+        : [...categoryOptions, stringValue];
+
       return {
         ...prevFilters,
-        [category]: updatedCategoryOptions,
+        [category]: updatedOptions,
       };
     });
   }
@@ -176,12 +211,14 @@ export default function WheelGallery() {
   }, []);
 
   const copyUrl = useCallback(() => {
-    const url = window.location.href;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => alert("URL copied to clipboard!"))
-      .catch((err) => console.error("Failed to copy:", err));
-  }, []);
+    if (window) {
+      const url = window.location.href;
+      navigator.clipboard
+        .writeText(url)
+        .then(() => alert("URL copied to clipboard!"))
+        .catch((err) => console.error("Failed to copy:", err));
+    }
+  }, [window]);
 
   function clearOptions() {
     setPage(0);
@@ -229,22 +266,23 @@ export default function WheelGallery() {
 
       searchParams.forEach((value, key) => {
         const valuesArray = value.split(",").filter(Boolean);
+
         if (key in parsedOptions) {
-          if (key === "wheel_size") {
-            const tempArray: number[] = [];
-            valuesArray.map((size) => {
-              tempArray.push(parseInt(size));
-            });
-            parsedOptions["wheel_size"] = tempArray;
-          } else {
-            parsedOptions[key as keyof FilterOptions] = valuesArray;
+          const category = key as keyof FilterOptions;
+          if (category === "wheel_size") {
+            parsedOptions[category] = valuesArray.map((size) => parseInt(size));
+          } else if (
+            category === "car_type" ||
+            category === "wheel_brand" ||
+            category === "subtype"
+          ) {
+            parsedOptions[category] = valuesArray;
           }
         }
       });
-      setIsFetching(false);
 
+      setIsFetching(false);
       setCheckedFilters(parsedOptions);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [setIsFetching],
   );
@@ -288,157 +326,146 @@ export default function WheelGallery() {
   }, [router, checkedFilters]);
 
   useEffect(() => {
-    async function setOptions() {
-      getUniqueElements("car_type").then((res) => {
-        let tempArray: string[] = [];
-        res.map((value) => {
-          tempArray.push(value);
-        });
-        setPossibleFilters((prevFilters) => {
-          return { ...prevFilters, car_type: [...tempArray] };
-        });
-      });
-      getUniqueElements("wheel_size").then((res) => {
-        let tempArray: number[] = [];
-        res.map((value) => {
-          tempArray.push(parseInt(value));
-        });
-        setPossibleFilters((prevFilters) => {
-          return { ...prevFilters, wheel_size: [...tempArray] };
-        });
-      });
-      getUniqueElements("wheel_brand").then((res) => {
-        let tempArray: string[] = [];
-        res.map((value) => {
-          tempArray.push(value);
-        });
-        setPossibleFilters((prevFilters) => {
-          return { ...prevFilters, wheel_brand: [...tempArray] };
-        });
-      });
-      getUniqueElements("subtype").then((res) => {
-        let tempArray: string[] = [];
-        res.map((value) => {
-          tempArray.push(value);
-        });
-        setPossibleFilters((prevFilters) => {
-          return { ...prevFilters, subtype: [...tempArray] };
-        });
+    async function fetchPossibleFilters() {
+      const [carTypes, wheelSizes, wheelBrands, subtypes] = await Promise.all([
+        getUniqueElements("car_type"),
+        getUniqueElements("wheel_size"),
+        getUniqueElements("wheel_brand"),
+        getUniqueElements("subtype"),
+      ]);
+
+      setPossibleFilters({
+        car_type: carTypes,
+        wheel_size: wheelSizes.map(Number),
+        wheel_brand: wheelBrands,
+        subtype: subtypes,
       });
     }
-    setOptions();
+
+    fetchPossibleFilters();
   }, [setPossibleFilters, checkedFilters]);
 
   return (
-    <div className={styles["page"]}> 
-      <header className={styles["header"]}>
-        <h1 className={styles["header__title"]}>wheel gallery.</h1>
-        <div
-          onClick={() => {
-            setActiveModal("submit");
-          }}
-          className={styles["header__submit-modal-trigger"]}
-          id="submit-modal-trigger"
-        >
-          submit a wheel
-        </div>
-        <Link className={styles["header__logo"]} href="/">
-          <div className={styles["logo__big-rhombus"]} id="big-rhombus"></div>
+      <div className={styles["page"]}>
+        <header className={styles["header"]}>
+          <h1 className={styles["header__title"]}>wheel gallery.</h1>
           <div
-            className={styles["logo__small-rhombus-1"]}
-            id="small-rhombus-1"
-          ></div>
-          <div
-            className={styles["logo__small-rhombus-2"]}
-            id="small-rhombus-2"
-          ></div>
-          <p className={styles["header__back"]}>back to 20vt.help</p>
-        </Link>
-      </header>
-      <main className={styles["main"]}>
-        <section className={styles["wheelfinder"]}>
-          <form className={styles["wheelfinder__selector"]}>
-            <CheckboxSection
-              key={1}
-              arrayName={"car_type"}
-              checkedFilters={checkedFilters}
-              toggleOption={toggleOption}
-              filtersArray={possibleFilters["car_type" as keyof FilterOptions]}
-            ></CheckboxSection>
-
-            {/* there needs to be another checkboxsection that appears here and will display 20v and 10v
-          restrictively as well as s4/s6 restrictively based on the options selected */}
-            <CheckboxSection
-              key={4}
-              arrayName={"subtype"}
-              checkedFilters={checkedFilters}
-              toggleOption={toggleOption}
-              filtersArray={subtypeFilters}
-            ></CheckboxSection>
-
-            <CheckboxSection
-              key={2}
-              arrayName={"wheel_size"}
-              checkedFilters={checkedFilters}
-              toggleOption={toggleOption}
-              filtersArray={
-                possibleFilters["wheel_size" as keyof FilterOptions]
-              }
-            ></CheckboxSection>
-
-            <CheckboxSection
-              key={3}
-              arrayName={"wheel_brand"}
-              checkedFilters={checkedFilters}
-              toggleOption={toggleOption}
-              filtersArray={
-                possibleFilters["wheel_brand" as keyof FilterOptions]
-              }
-            ></CheckboxSection>
-          </form>
-          <div className={styles["wheelfinder__button_section"]}>
-            <button
-              type="reset"
-              className={styles["wheelfinder__button"]}
-              id="wheelfinder-clear"
-              onClick={clearOptions}
-            >
-              reset selection
-            </button>
-            <button onClick={copyUrl} className={styles["wheelfinder__button"]}>
-              share results
-            </button>
-          </div>
-        </section>
-        <Gallery
-          fetching={fetchingMore}
-          handleImageClick={handleImageClick}
-          loading={isFetching}
-          images={images}
-          galleryRef={galleryRef}
-        ></Gallery>
-        <footer className={styles["footer"]}>
-          <p className={styles["footer__credits"]} id="site-credits-button">
-            site credits_
-          </p>
-          <Link
-            className={styles["footer__credits"]}
-            href="/"
-            id="back-home-button"
+            onClick={() => {
+              setActiveModal("submit");
+            }}
+            className={styles["header__submit-modal-trigger"]}
+            id="submit-modal-trigger"
           >
-            back to 20vt.help_
+            submit a wheel
+          </div>
+          <Link className={styles["header__logo"]} href="/">
+            <div className={styles["logo__big-rhombus"]} id="big-rhombus"></div>
+            <div
+              className={styles["logo__small-rhombus-1"]}
+              id="small-rhombus-1"
+            ></div>
+            <div
+              className={styles["logo__small-rhombus-2"]}
+              id="small-rhombus-2"
+            ></div>
+            <p className={styles["header__back"]}>back to 20vt.help</p>
           </Link>
-        </footer>
-      </main>
-      <SubmitModal
-        activeModal={activeModal}
-        closeModal={closeModal}
-      ></SubmitModal>
-      <PreviewModal
-        activeModal={activeModal}
-        closeModal={closeModal}
-        data={clickedPhotoData}
-      ></PreviewModal>
-    </div>
+        </header>
+        <main className={styles["main"]}>
+          <section className={styles["wheelfinder"]}>
+            <form className={styles["wheelfinder__selector"]}>
+              <CheckboxSection
+                key={1}
+                arrayName={"car_type"}
+                checkedFilters={checkedFilters}
+                toggleOption={toggleOption}
+                filtersArray={
+                  possibleFilters["car_type" as keyof FilterOptions]
+                }
+              ></CheckboxSection>
+
+              <CheckboxSection
+                key={4}
+                arrayName={"subtype"}
+                checkedFilters={checkedFilters}
+                toggleOption={toggleOption}
+                filtersArray={subtypeFilters}
+              ></CheckboxSection>
+
+              <CheckboxSection
+                key={2}
+                arrayName={"wheel_size"}
+                checkedFilters={checkedFilters}
+                toggleOption={toggleOption}
+                filtersArray={
+                  possibleFilters["wheel_size" as keyof FilterOptions]
+                }
+              ></CheckboxSection>
+
+              <CheckboxSection
+                key={3}
+                arrayName={"wheel_brand"}
+                checkedFilters={checkedFilters}
+                toggleOption={toggleOption}
+                filtersArray={
+                  possibleFilters["wheel_brand" as keyof FilterOptions]
+                }
+              ></CheckboxSection>
+            </form>
+            <div className={styles["wheelfinder__button_section"]}>
+              <button
+                type="reset"
+                className={styles["wheelfinder__button"]}
+                id="wheelfinder-clear"
+                onClick={clearOptions}
+              >
+                reset selection
+              </button>
+              <button
+                onClick={copyUrl}
+                className={styles["wheelfinder__button"]}
+              >
+                share results
+              </button>
+            </div>
+          </section>
+          <Gallery
+            fetching={fetchingMore}
+            handleImageClick={handleImageClick}
+            loading={isFetching}
+            images={images}
+            galleryRef={galleryRef}
+          ></Gallery>
+          <footer className={styles["footer"]}>
+            <p className={styles["footer__credits"]} id="site-credits-button">
+              site credits_
+            </p>
+            <Link
+              className={styles["footer__credits"]}
+              href="/"
+              id="back-home-button"
+            >
+              back to 20vt.help_
+            </Link>
+          </footer>
+        </main>
+        <SubmitModal
+          activeModal={activeModal}
+          closeModal={closeModal}
+        ></SubmitModal>
+        <PreviewModal
+          activeModal={activeModal}
+          closeModal={closeModal}
+          data={clickedPhotoData}
+        ></PreviewModal>
+      </div>
+  );
+}
+
+export default function WheelGallery() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <WheelGalleryContent />
+    </Suspense>
   );
 }

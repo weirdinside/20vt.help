@@ -17,8 +17,6 @@ export default function ReviewItem({
   const [isDeleting, startDeleting] = useTransition();
   const [isApproving, startApproving] = useTransition();
 
-  const car_typeC3 = ["C3 sedan", "C3 avant"];
-  const car_typeC4 = ["C4 sedan", "C4 avant"];
   const subtypeC3 = ["10v", "20v"];
   const subtypeC4 = ["S4", "S6"];
 
@@ -93,11 +91,11 @@ export default function ReviewItem({
     startApproving(() => {
       updateImageData({
         id: imageData.id,
-        carType: imageData.car_type,
+        car_type: imageData.car_type,
         subtype: imageData.subtype,
-        wheelSize: imageData.wheel_size,
-        wheelBrand: imageData.wheel_brand,
-        wheelName: imageData.wheel_name,
+        wheel_size: imageData.wheel_size,
+        wheel_brand: imageData.wheel_brand,
+        wheel_name: imageData.wheel_name,
       })
         .then(() => {
           setEditMode(false);

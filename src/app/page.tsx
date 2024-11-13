@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import styles from "./Homepage.module.css";
 import SLogo from "./_components/Homepage/SLogo/SLogo";
@@ -10,16 +9,8 @@ import AboutModal from "./_components/Homepage/AboutModal/AboutModal";
 import NavItem from "./_components/Homepage/NavItem/NavItem";
 
 export default function Homepage() {
-  const router = useRouter();
   const [activeModal, setActiveModal] = useState<"about" | "">("");
-  const [isLoading, setIsLoading] = useState(false);
 
-  function openLink(page: string) {
-    setIsLoading(true);
-    setTimeout(() => {
-      router.push(`/${page}`);
-    }, 2000);
-  }
 
   const closeModal = () => {
     setActiveModal("");
@@ -27,28 +18,6 @@ export default function Homepage() {
 
   return (
     <div className={styles["page"]}>
-      <div
-          className={`${styles["page__loading"]} ${
-            isLoading ? styles["active"] : null
-          }`}
-        >
-          <div
-            className={`${styles["page__loading_firingorder"]} ${
-              isLoading ? styles["active"] : null
-            }`}
-          >
-            <div className={styles["page__loading_fire"]}></div>
-            <div className={styles["page__loading_fire"]}></div>
-            <div className={styles["page__loading_fire"]}></div>
-            <div className={styles["page__loading_fire"]}></div>
-            <div className={styles["page__loading_fire"]}></div>
-          </div>
-          <div
-            className={`${styles["page__loading_background"]} ${
-              isLoading ? styles["active"] : null
-            }`}
-          ></div>
-        </div>
       <div className={styles["page__container"]}>
         
         <header className={styles.header}>
@@ -68,16 +37,6 @@ export default function Homepage() {
           </p>
         </header>
         <nav className={styles.nav}>
-          <div
-            onClick={() => {
-              openLink("compendium");
-            }}
-          >
-            <NavItem
-              title="compendium"
-              description={"an information resource for C4 audi owners"}
-            />
-          </div>
 
           <Link href="/wheel-gallery" style={{ textDecoration: "none" }}>
             <NavItem

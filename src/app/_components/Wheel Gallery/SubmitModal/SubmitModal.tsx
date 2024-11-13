@@ -51,14 +51,18 @@ export default function SubmitModal({
     return (
       validFields.every(Boolean) &&
       imageUrls.length > 0 &&
-      !honeypotRef.current.checked
+      !honeypotRef?.current?.checked
     );
   }
 
   const handleInputChange =
-    (setter: (arg0: any) => void) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-      setter(e.target.value);
+    (setter: (value: string) => void) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
+      const sanitizedInput = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
+      setter(sanitizedInput);
+
+    }
+
 
   const clearAllFields = () => {
     setWheelSize("");

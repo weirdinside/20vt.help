@@ -23,7 +23,6 @@ function WheelGalleryContent() {
   //            VARIABLE DECLARATION          //
   // ---------------------------------------- //
 
-  const searchParams = useSearchParams();
   const router = useRouter();
   const galleryRef = useRef<HTMLDivElement>(null);
 
@@ -49,9 +48,10 @@ function WheelGalleryContent() {
   // for handling the gallery state
   const [currentPage, setPage] = useState(0);
   const [images, setImages] = useState<ImageInfo[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [fetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [readComplete, setReadComplete] = useState(false);
 
   // for handling modal state
   const [activeModal, setActiveModal] = useState<string>("");
@@ -159,7 +159,7 @@ function WheelGalleryContent() {
       await loadMoreData();
       return;
     }
-  }, [currentPage, hasMore, isFetching, loadMoreData]);
+  }, [hasMore, isFetching, loadMoreData]);
 
   // pathing for this function is as follows:
   // it references checkedFilters which is at the top level (here)
@@ -228,7 +228,7 @@ function WheelGalleryContent() {
         .then(() => alert("URL copied to clipboard!"))
         .catch((err) => console.error("Failed to copy:", err));
     }
-  }, [window]);
+  }, []);
 
   // clears checkedFilters
   function clearOptions() {
@@ -270,11 +270,16 @@ function WheelGalleryContent() {
     if (checkedFilters && possibleFilters) {
       setSubtypeExclusion();
     }
-  }, [checkedFilters, possibleFilters]);
+    console.log('setSubtypeExclusion')
+  }, [setSubtypeExclusion, checkedFilters, possibleFilters]);
 
   // reads query from URL on load and sets filters on page to its values
+  const searchParams = useSearchParams();
+  const searchParamsRef = useRef(searchParams);
+
   useEffect(
     function readQueryOnLoad() {
+      const params = searchParamsRef.current;
       const parsedOptions: FilterOptions = {
         car_type: [],
         wheel_size: [],
@@ -282,7 +287,7 @@ function WheelGalleryContent() {
         subtype: [],
       };
 
-      searchParams.forEach((value, key) => {
+      params.forEach((value, key) => {
         const valuesArray = value.split(",").filter(Boolean);
 
         if (key in parsedOptions) {
@@ -298,16 +303,16 @@ function WheelGalleryContent() {
           }
         }
       });
-
+      setReadComplete(true);
       setIsFetching(false);
       setCheckedFilters(parsedOptions);
-    },
-    [setIsFetching],
-  );
+      console.log('readQueryOnLoad')
+    },[]);
 
   // sets query and updates images, clears images present in array and repopulates it.
   // isFetching controls whether or not the 12453 dots are present on screen
   useEffect(() => {
+    if(!readComplete) return
     async function setQueryAndUpdateImages() {
       setPage(0);
       setIsFetching(true);
@@ -341,10 +346,11 @@ function WheelGalleryContent() {
         }
       });
     }
+    console.log('setQueryAndUpdateImages');
     // the above function can probably be declared outside the useEffect, but i will have to check.
     // this way, it does not have to be reloaded every time this hook is called
     setQueryAndUpdateImages();
-  }, [router, checkedFilters]);
+  }, [readComplete, router, checkedFilters]);
 
   // checks table in supabase for possible values so no 1D query = 0 results
   // returns them to the object possibleFilters and populates the CheckboxSection components
@@ -367,6 +373,7 @@ function WheelGalleryContent() {
     // the above function can probably be declared outside the useEffect, but i will have to check.
     // this way, it does not have to be reloaded every time this hook is called
     fetchPossibleFilters();
+    console.log('fetchPossibleFilters')
   }, [setPossibleFilters, checkedFilters]);
 
   // ---------------------------------------- //

@@ -79,8 +79,9 @@ export default function CheckboxSection({
           }
         }
       }
+      console.log('checkWindowSize');
     },
-    [windowWidth, filtersArray, setIsWide, containerRef, optionsRef]
+    [windowWidth, isOpen, filtersArray, setIsWide, containerRef, optionsRef]
   );
 
   useEffect(
@@ -90,12 +91,10 @@ export default function CheckboxSection({
       if (scrollWidth > 0) {
         setScrollPosition("left");
       }
-
       const handleScroll = () => {
         const scrollLeft = instance!.scrollLeft;
         const scrollDecimal = (scrollLeft / scrollWidth).toFixed(2);
         if (Number(scrollDecimal) <= 0.05) {
-          setScrollPosition("left");
         } else if (Number(scrollDecimal) >= 0.95) {
           setScrollPosition("right");
         } else if (
@@ -107,7 +106,6 @@ export default function CheckboxSection({
           setScrollPosition("");
         }
       };
-
       const debouncedHandleScroll = debounce(handleScroll, 20);
       if (instance) {
         instance!.addEventListener("scroll", debouncedHandleScroll);

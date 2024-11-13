@@ -11,7 +11,7 @@ export default function Gallery({
   loading: boolean;
   galleryRef: React.RefObject<HTMLDivElement>;
   handleImageClick: (imageData: ImageInfo) => void;
-  images: object[];
+  images: ImageInfo[];
 }) {
   return (
     <div ref={galleryRef} className={styles["gallery"]}>
@@ -24,7 +24,7 @@ export default function Gallery({
           <div className={styles["gallery__loading_fire"]}></div>
         </div>
       ) : null}
-      {images.map((image, index) => {
+      {images.map((image: ImageInfo, index: number) => {
         return (
           <ClickableGalleryItem
             handleImageClick={handleImageClick}

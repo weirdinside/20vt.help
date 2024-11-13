@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/wheel-gallery/admin',
+    '/wheel-gallery/review',
     /*
      * Match all request paths except for the ones starting with:
      * - _next/static (static files)

@@ -101,7 +101,6 @@ export default function Marquee({
         if (trigger) {
           interval = setInterval(() => {
             setStylesSequentially();
-            console.log('animated')
           }, intervalTime);
           setStylesSequentially();
         }

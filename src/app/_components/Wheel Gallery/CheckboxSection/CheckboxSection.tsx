@@ -13,8 +13,8 @@ export default function CheckboxSection({
 }: {
   arrayName: keyof FilterOptions;
   checkedFilters: FilterOptions;
-  toggleOption: (category: keyof FilterOptions, value: string) => Promise<void>;
-  filtersArray: [];
+  toggleOption: (category: keyof FilterOptions, value: string | number) => Promise<void>;
+  filtersArray: number[] | string[];
 }) {
   const [tooWide, setIsWide] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -69,14 +69,10 @@ export default function CheckboxSection({
       if (containerRef.current && optionsRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         const optionsWidth = optionsRef.current.scrollWidth;
-        if (optionsWidth > containerWidth) {
-          return setIsWide(true);
+        if (optionsWidth > containerWidth) { // if we've got a large width of options
+          return setIsWide(true); // set that to be too wide
         } else {
           if(!isOpen){
-            setIsWide(false);
-          }
-          if(isOpen && tooWide){
-            setIsOpen(false)
             setIsWide(false);
           }
         }

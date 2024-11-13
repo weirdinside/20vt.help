@@ -5,6 +5,13 @@
     padding-bottom: 75%;
     overflow: hidden;
     container-type: inline-size;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .gallery__item:hover{
+    scale: 1.05;
+    z-index: 6;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   
   .gallery__item_description {

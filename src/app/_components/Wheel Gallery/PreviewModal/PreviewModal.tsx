@@ -91,7 +91,7 @@ export default function PreviewModal({
               isLoading ? styles["active"] : ""
             }`}
           ></div>
-          {/* THIS IS SHITTY! THIS IS A WORKAROUND!
+          {/* THIS NEXT CODE IS SHITTY! THIS IS A SHITTY WORKAROUND!
           see more: https://github.com/vercel/next.js/discussions/18531*/}
           {data!.photo_url ? (
             <Image
@@ -116,10 +116,10 @@ export default function PreviewModal({
           </h1>
           <p className={styles["image__cartype"]}>
             {data!.submitted_by ? `${data!.submitted_by}'s` : ""}{" "}
-            {data.subtype
+            {data!.subtype
               ? data!.car_type.slice(0, 2) +
                 " " +
-                data.subtype +
+                data!.subtype +
                 data!.car_type.slice(2, data?.car_type.length)
               : ""}
           </p>
@@ -137,7 +137,20 @@ export default function PreviewModal({
               </button>
             </Link>
           ) : null}
-
+          {/* {data.photo_url ? (
+            <Link
+              href={`${data.photo_url}?download=${data.wheel_brand}-${
+                data.wheel_name
+              }_${data.car_type}${data.subtype}.${data.photo_url.slice(
+                data.photo_url.lastIndexOf("."),
+                data.photo_url.length,
+              )}`}
+            >
+              <button
+                className={`${styles["preview-modal__button"]} ${styles["download"]}`}
+              ></button>
+            </Link>
+          ) : null} */}
           <button
             onClick={() => {
               handleCopyLink();

@@ -39,7 +39,7 @@ export async function uploadImage({ file, bucket, folder }: UploadProps) {
   return { imageUrl, error: "" };
 }
 
-export async function fetchAllApprovedImages() {
+export async function fetchAllApprovedImages(): Promise<ImageInfo[] | null> {
   const supabase = createSupabaseClient();
 
   const { data, error } = await supabase

@@ -48,7 +48,9 @@ export default function WheelGallery() {
   const [currentPage, setPage] = useState(0);
   const [images, setImages] = useState<object[]>([]);
   const [isFetching, setIsFetching] = useState(false);
+  const [fetchingMore, setIsFetchingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [scrollTop, setScrollTop] = useState(0);
 
   const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo | {}>({});
 
@@ -89,6 +91,57 @@ export default function WheelGallery() {
       return [];
     }
   }
+
+  const loadMoreData = useCallback(async () => {
+    if (isFetching) return;
+    setIsFetchingMore(true);
+    paginatedFetch({
+      filters: checkedFilters,
+      numItems: 25,
+      page: currentPage + 1,
+    })
+      .then((data) => {
+        if(data){
+          if (data.length > 0) {
+            setPage((prevPage) => prevPage + 1);
+          }
+          if (data.length <= 25) {
+            setHasMore(false);
+          } else if (data.length > 25) {
+            setHasMore(true);
+          }
+          console.log("images set,", data, isFetching, currentPage);
+          return setImages((prevImages) => [
+            ...prevImages,
+            ...data?.slice(0, 25),
+          ]);
+        }
+      })
+      .catch((error) => {
+        console.error(`Error loading more data: ${error}`);
+      })
+      .finally(() => {
+        console.log('data loaded')
+        setIsFetchingMore(false);
+      });
+  }, [checkedFilters, currentPage, isFetching]);
+
+  const onScroll = useCallback(async () => {
+    const gallery = galleryRef.current;
+    setScrollTop(gallery!.scrollTop);
+
+    if (isFetching) return;
+    if (
+      gallery!.scrollTop + gallery!.offsetHeight >= gallery!.scrollHeight &&
+      !isFetching
+    ) {
+      if (!hasMore) {
+        return console.log("no more images to load");
+      }
+      await loadMoreData();
+      return;
+    }
+  }, [currentPage, hasMore, isFetching, loadMoreData]);
 
   async function toggleOption(category: keyof FilterOptions, value: string) {
     setCheckedFilters((prevFilters) => {
@@ -144,6 +197,17 @@ export default function WheelGallery() {
   // ---------------------------------------- //
   //                   HOOKS                  //
   // ---------------------------------------- //
+
+  useEffect(
+    function setScrollListener() {
+      const gallery = galleryRef.current;
+      gallery!.addEventListener("scroll", onScroll);
+      return () => {
+        gallery!.removeEventListener("scroll", onScroll);
+      };
+    },
+    [onScroll],
+  );
 
   useEffect(() => {
     if (checkedFilters && possibleFilters) {

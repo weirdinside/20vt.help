@@ -8,8 +8,6 @@ import SLogo from "@/app/_components/Homepage/SLogo/SLogo";
 import { createSupabaseClient } from "@/app/supabase/client";
 import { wheelSizes, carTypes } from "@/app/constants";
 
-// PLEASE IMPLEMENT FORM VALIDATION
-
 export default function SubmitModal({
   activeModal,
   closeModal,
@@ -25,6 +23,7 @@ export default function SubmitModal({
 
   const imageInputRef = useRef<HTMLInputElement>(null);
   const submitModalRef = useRef<HTMLFormElement>(null);
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const [shadowPosition, setShadowPosition] = useState("");
 
@@ -49,7 +48,11 @@ export default function SubmitModal({
       validFields.push(subType);
     }
 
-    return validFields.every(Boolean) && imageUrls.length > 0;
+    return (
+      validFields.every(Boolean) &&
+      imageUrls.length > 0 &&
+      !honeypotRef.current.checked
+    );
   }
 
   const handleInputChange =
@@ -111,12 +114,20 @@ export default function SubmitModal({
         }));
 
         const supabase = createSupabaseClient();
+
         const { error: insertError } = await supabase
           .from("images")
           .insert(rowsToInsert);
 
-        if (insertError)
+        if (insertError) {
+          const convertedUrls = imageUrls.map((url) => {
+            return url.slice(url.lastIndexOf("/") + 1);
+          });
+          await supabase.storage
+            .from("submitted-images")
+            .remove([...convertedUrls]);
           throw new Error(`Insert error: ${insertError.message}`);
+        }
 
         clearAllFields();
         setSubmitted(true);
@@ -127,13 +138,13 @@ export default function SubmitModal({
   };
 
   function scrollCheck() {
+    if (!submitModalRef || !submitModalRef.current) return;
     const submitForm = submitModalRef.current;
-    const containerHeight = submitForm!.offsetHeight;
+    const containerHeight = submitForm.offsetHeight;
     const scrollHeight = submitForm!.scrollHeight;
     const scrollPosition = submitForm!.scrollTop;
     if (scrollHeight > containerHeight) {
       if (scrollPosition < 10) {
-        console.log("top");
         return setShadowPosition("bottom");
       } else if (scrollHeight - scrollPosition - containerHeight < 10) {
         return setShadowPosition("top");
@@ -171,10 +182,6 @@ export default function SubmitModal({
 
     setImageList(renderImageList());
   }, [imageUrls]);
-
-  useEffect(() => {
-    console.log(submitModalRef);
-  }, [submitModalRef]);
 
   useEffect(() => {
     const submitForm = submitModalRef.current;
@@ -361,6 +368,20 @@ export default function SubmitModal({
                 className={styles["submit__input_file"]}
               />
             </label>
+            <input
+              ref={honeypotRef}
+              type="checkbox"
+              name="contact_me_by_fax"
+              tabIndex={-1}
+              style={{
+                visibility: "hidden",
+                opacity: "0",
+                position: "absolute",
+                zIndex: "-20",
+                pointerEvents: "none",
+              }}
+              autoComplete="off"
+            />
             {imageList}
             <div className={styles["submit__button_container"]}>
               <button

@@ -12,9 +12,6 @@ import SubmitModal from "../_components/Wheel Gallery/SubmitModal/SubmitModal";
 import CheckboxSection from "../_components/Wheel Gallery/CheckboxSection/CheckboxSection";
 import PreviewModal from "../_components/Wheel Gallery/PreviewModal/PreviewModal";
 
-// if C4 sedan or avant is selected, open up a new checkbox section that shows "S6 or S4"
-// if C3 sedan or avant is selected, open up a new checkbox section that shows "10v or 20v"
-
 export default function WheelGallery() {
   // ---------------------------------------- //
   //            VARIABLE DECLARATION          //
@@ -142,7 +139,6 @@ export default function WheelGallery() {
       gallery!.scrollTop + gallery!.offsetHeight >= gallery!.scrollHeight &&
       !isFetching
     ) {
-      console.log(hasMore, currentPage);
       if (!hasMore) {
         return console.log("no more images to load");
       }

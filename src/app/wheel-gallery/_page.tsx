@@ -53,6 +53,7 @@ export default function WheelGalleryContent({
 
   const [hideFilters, setHideFilters] = useState(false);
 
+  const [urlUpdating, setUrlUpdating] = useState(false);
   // for handling modal state
   const [activeModal, setActiveModal] = useState<string>("");
   const [clickedPhotoData, setClickedPhotoData] = useState<ImageInfo>({
@@ -313,6 +314,7 @@ export default function WheelGalleryContent({
     async function setQueryAndUpdateImages() {
       setPage(0);
       setIsFetching(true);
+      setUrlUpdating(true);
 
       const queryParameters = Object.entries(checkedFilters)
         .map(([category, values]: [string, string[]]) => {
@@ -346,6 +348,7 @@ export default function WheelGalleryContent({
     // the above function can probably be declared outside the useEffect, but i will have to check.
     // this way, it does not have to be reloaded every time this hook is called
     setQueryAndUpdateImages();
+    setUrlUpdating(false);
   }, [readComplete, router, checkedFilters]);
 
   // checks table in supabase for possible values so no 1D query = 0 results
@@ -367,6 +370,7 @@ export default function WheelGalleryContent({
           id="submit-modal-trigger"
         >
           submit a wheel
+          <div className={styles['header__submit-modal-trigger-bg']}></div>
         </div>
         <Link className={styles["header__logo"]} href="/">
           <div className={styles["logo__big-rhombus"]} id="big-rhombus"></div>
@@ -446,6 +450,7 @@ export default function WheelGalleryContent({
               style={hideFilters ? { opacity: "0", pointerEvents: "none" } : {}}
               onClick={copyUrl}
               className={styles["wheelfinder__button"]}
+              disabled={urlUpdating}
             >
               share
             </button>
@@ -457,6 +462,7 @@ export default function WheelGalleryContent({
           loading={isFetching}
           images={images}
           galleryRef={galleryRef}
+          reset={clearOptions}
         ></Gallery>
         <footer className={styles["footer"]}>
           <p onClick={()=>{

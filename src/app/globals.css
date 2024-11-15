@@ -10,8 +10,8 @@
 :root{
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: #222222;
+  align-items: flex-start;
+  background-color: #181818;
   font-family: 'Alte Haas Grotesk';
   --work-sans: var(--font-work-sans);
 }

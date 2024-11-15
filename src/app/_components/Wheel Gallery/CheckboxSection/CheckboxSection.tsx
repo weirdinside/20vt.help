@@ -93,7 +93,8 @@ export default function CheckboxSection({
       const handleScroll = () => {
         const scrollLeft = instance!.scrollLeft;
         const scrollDecimal = (scrollLeft / scrollWidth).toFixed(2);
-        if (Number(scrollDecimal) <= 0.05) {
+        if (Number(scrollDecimal) <= 0.07) {
+          setScrollPosition('left');
         } else if (Number(scrollDecimal) >= 0.95) {
           setScrollPosition("right");
         } else if (

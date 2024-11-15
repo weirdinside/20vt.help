@@ -58,6 +58,38 @@
   );
 }
 
+@keyframes bounce {
+  0%{
+    top: -15px;
+    opacity: 0;
+  }
+  10%{
+    top: -12px;
+    opacity: 1;
+  }
+  90%{
+    top: 0px;
+    opacity: 1;
+  }
+  100%{
+    top: 0px;
+    opacity: 0;
+  }
+}
+
+.shadow__bottom_arrow{
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  background-image: url('/images/carat.png') ;
+  height: 100%;
+  background-position: center;
+  background-size: 8%;
+  background-repeat: no-repeat;
+  rotate: 180deg;
+  animation: 1s bounce linear infinite;
+}
+
 .shadow__top{
   position: absolute;
   top: 40px;
@@ -320,35 +352,6 @@
     border: 2px solid #00000000;
     max-width: calc(100vw - 20px);
     max-height: calc(100svh - 100px);
-  }
-
-  .submit__heading_logo {
-    top: 50px;
-    right: 165px;
-  }
-
-  .submit__heading {
-    font-size: 25px;
-  }
-
-  .submit__button-i {
-    font-size: 18px;
-  }
-
-  .submit__button {
-    font-size: 28px;
-  }
-}
-
-@media screen and (max-height: 700px) {
-  .modal{
-    height: 100svh;
-  }
-
-  .submit {
-    border: 2px solid #00000000;
-    max-width: calc(100vw - 20px);
-    max-height: 100svh;
   }
 
   .submit__heading_logo {

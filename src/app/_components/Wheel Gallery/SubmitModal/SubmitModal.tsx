@@ -58,7 +58,7 @@ export default function SubmitModal({
   const handleInputChange =
     (setter: (value: string) => void) =>
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
-      const sanitizedInput = e.target.value.replace(/[^a-zA-Z0-9@/ ]/g, "");
+      const sanitizedInput = e.target.value.replace(/[^a-zA-Z0-9@_/ -]/g, "");
       setter(sanitizedInput);
     }
 
@@ -204,6 +204,10 @@ export default function SubmitModal({
     };
   }, [submitModalRef]);
 
+  useEffect(()=>{
+    scrollCheck();
+  }, [imageSubmitted, activeModal])
+
   return (
     <div
       onClick={(e) => {
@@ -218,7 +222,9 @@ export default function SubmitModal({
       <div className={styles["submit"]}>
         <div className={styles["submit__shadow"]}>
           {shadowPosition === "bottom" || shadowPosition === "center" ? (
-            <div className={styles["shadow__bottom"]}></div>
+            <div className={styles["shadow__bottom"]}>
+              <div className={styles['shadow__bottom_arrow']}></div>
+            </div>
           ) : null}
           {shadowPosition === "top" || shadowPosition === "center" ? (
             <div className={styles["shadow__top"]}></div>

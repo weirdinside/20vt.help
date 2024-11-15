@@ -17,6 +17,7 @@
 
 .modal {
   margin: 0;
+  opacity: 0;
   position: absolute;
   width: 100vw;
   min-height: 100vh;
@@ -34,6 +35,7 @@
 }
 
 .modal.active {
+  opacity: 1;
   z-index: 30;
 }
 
@@ -235,7 +237,7 @@
   .preview-modal {
     max-height: 80svh;
     max-width: 90svw;
-    min-width: 50vw;
+    min-width: 85svw;
   }
 
   .image-container {

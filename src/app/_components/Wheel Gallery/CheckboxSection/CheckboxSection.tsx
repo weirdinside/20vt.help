@@ -79,7 +79,6 @@ export default function CheckboxSection({
           }
         }
       }
-      console.log('checkWindowSize');
     },
     [windowWidth, isOpen, filtersArray, setIsWide, containerRef, optionsRef]
   );

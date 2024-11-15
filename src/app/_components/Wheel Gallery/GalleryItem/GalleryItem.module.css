@@ -36,7 +36,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-image: url("../../../assets/images/polaroid_frame-wide.png");
+    background-image: url("/images/polaroid_frame-wide.png");
   }
   
   .gallery__item_photo_container {
@@ -57,3 +57,11 @@
     font-weight: 700;
     font-size: 4cqw; 
   }
+
+  /* -------------------------------------------------------------------------------- */
+/*                           MOBILE LANDSCAPE BREAKPOINT                            */
+/* -------------------------------------------------------------------------------- */
+
+@media screen and (max-height: 670px) and (min-height: 300px) {
+  
+}

@@ -38,7 +38,6 @@ export async function updateImageData({
     })
     .eq("id", id);
 
-  console.log(data);
 
   if (error) {
     console.error("Error updating image data:", error);
@@ -51,7 +50,6 @@ export async function updateImageData({
 export async function deleteImage({url}: {url: string}){
 
   const convertedUrl = url.slice(url.lastIndexOf('/') + 1);
-  console.log(convertedUrl, url)
   const supabase = await createClient();
 
   const { data, error } = await supabase

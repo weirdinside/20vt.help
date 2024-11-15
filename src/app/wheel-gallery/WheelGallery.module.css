@@ -227,6 +227,7 @@
   font-family: "Work Sans", sans-serif;
   color: white;
   clip-path: polygon(0 0, 0% 0, 0% 100%, 0% 100%);
+  transition: 0.5s max-height cubic-bezier(0.075, 0.82, 0.165, 1);
   animation: clipIn 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s forwards;
 }
 
@@ -240,10 +241,10 @@
 .wheelfinder__button {
   box-sizing: border-box;
   font-family: "Work Sans", sans-serif;
-  font-weight: 700;
-  color: black;
-  background: #d9d9d9;
-  border: 1px solid #d9d9d9;
+  font-weight: 500;
+  color: #d9d9d9;
+  background: #181818;
+  border: 2px solid #d9d9d9;
   margin: 10px 0px 0px 0px;
   padding: 5px;
   font-size: 16px;
@@ -257,13 +258,14 @@
 }
 
 .wheelfinder__button:hover {
-  border: 1px solid red;
-  cursor: pointer;
-  color: red;
+  border: 2px solid #d9d9d9;
+  background-color: #d9d9d9;
+  color: black;
 }
 
 .wheelfinder__button:active {
   content: "";
+  color: white;
   background-color: rgba(255, 0, 0, 0.3);
 }
 
@@ -471,7 +473,7 @@
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   display: flex;
-  font-family: "Work Sans";
+  font-family: "Work Sans", sans-serif;
   font-size: 20px;
   font-weight: 400;
   margin: auto 0 0 0;
@@ -500,31 +502,31 @@
 
 @keyframes imageLoader {
   0% {
-    background-image: url(../assets/images/wheels/fuch16.png);
+    background-image: url(/images/wheels/fuch16.png);
     rotate: 0deg;
   }
   17% {
-    background-image: url(../assets/images/wheels/avantgarde17.png);
+    background-image: url(/images/wheels/avantgarde17.png);
     rotate: 60deg;
   }
   34% {
-    background-image: url(../assets/images/wheels/bbs18.png);
+    background-image: url(/images/wheels/bbs18.png);
     rotate: 120deg;
   }
   51% {
-    background-image: url(../assets/images/wheels/speedline15.png);
+    background-image: url(/images/wheels/speedline15.png);
     rotate: 180deg;
   }
   68% {
-    background-image: url(../assets/images/wheels/audi19.png);
+    background-image: url(/images/wheels/audi19.png);
     rotate: 240deg;
   }
   85% {
-    background-image: url(../assets/images/wheels/audirotor20.png);
+    background-image: url(/images/wheels/audirotor20.png);
     rotate: 300deg;
   }
   100% {
-    background-image: url(../assets/images/wheels/fuch16.png);
+    background-image: url(/images/wheels/fuch16.png);
     rotate: 360deg;
   }
 }
@@ -554,7 +556,7 @@
   display: flex;
   min-width: 93px;
   min-height: 93px;
-  background-image: url(../assets/images/wheels/fuch16.png);
+  background-image: url(/images/wheels/fuch16.png);
   background-position: center;
   border-radius: 50%;
 }
@@ -649,12 +651,12 @@
   opacity: 0.3;
   transition: opacity 1s ease;
   margin: 0px 20px 0px 0px;
-  cursor: url(../assets/icons/cursors/open-cursor.png), pointer;
+  cursor: url(/icons/cursors/open-cursor.png), pointer;
 }
 
 .footer__credits:hover {
   opacity: 1;
-  cursor: url(../assets/icons/cursors/open-cursor.png), pointer;
+  cursor: url(/icons/cursors/open-cursor.png), pointer;
 }
 
 .footer__site-settings {
@@ -670,7 +672,7 @@
 
 .footer__site-settings:hover {
   opacity: 1;
-  cursor: url(../assets/icons/cursors/open-cursor.png), pointer;
+  cursor: url(/icons/cursors/open-cursor.png), pointer;
 }
 
 .gallery__loader {
@@ -698,6 +700,10 @@
 
   .page {
     width: 100vw;
+    max-height: 100svh;
+    min-height: -moz-available;
+    min-height: -webkit-fill-available;
+    min-height: fill-available;
     background-color: #181818;
     display: flex;
     flex-direction: column;
@@ -790,6 +796,7 @@
   }
 
   .footer {
+    font-size: 12px;
     margin-top: 5px;
     margin-bottom: 17px;
     margin-right: 20px;
@@ -825,12 +832,22 @@
 /* -------------------------------------------------------------------------------- */
 
 @media screen and (max-height: 670px) and (min-height: 300px) {
+
+  .page{
+    max-height: 100svh;
+  }
+
   .wheelfinder__selector {
     overflow-y: scroll;
     overflow-x: hidden;
   }
 
   .main {
-    max-height: calc(100vh - 105px);
+    max-height: calc(100vh);
   }
+
+  .wheelfinder__button_section{
+    justify-content: space-between;
+  }
+
 }

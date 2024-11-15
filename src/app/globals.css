@@ -4,7 +4,7 @@
 
 @font-face {
   font-family:'Alte Haas Grotesk';
-  src: url(../app/assets/fonts/Alte\ Haas\ Grotesk/AlteHaasGroteskBold.ttf);
+  src: url(/fonts/Alte\ Haas\ Grotesk/AlteHaasGroteskBold.ttf);
 }
 
 :root{
@@ -13,4 +13,5 @@
   align-items: center;
   background-color: #222222;
   font-family: 'Alte Haas Grotesk';
+  --work-sans: var(--font-work-sans);
 }

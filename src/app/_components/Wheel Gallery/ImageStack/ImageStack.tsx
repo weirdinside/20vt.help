@@ -19,7 +19,7 @@ export default function ImageStack() {
   }, []);
 
   useEffect(() => {
-    setStartIndex(getRandomInt(images.length) - 6);
+    setStartIndex(getRandomInt(images.length - 7));
   }, [images]);
 
   return (

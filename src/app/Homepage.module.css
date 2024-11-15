@@ -124,8 +124,11 @@
 
 .page{
   width: 100vw;
-  height: 100vh;
-  background-image: url(./assets/backgroundwhite.png);
+  min-height: 100vh;
+  min-height: -moz-available;
+  min-height: -webkit-fill-available;
+  min-height: fill-available;
+  background-image: url(/backgroundwhite.png);
   animation: 60s moveBackground linear infinite;
   display: flex;
   margin: 0;
@@ -334,6 +337,8 @@
 
   .page{
     width: 100vw;
+    max-height: 100svh;
+    overflow: hidden;
     padding: 0;
   }
 
@@ -373,6 +378,10 @@
 /* -------------------------------------------------------------------------------- */
 
 @media screen and (max-height: 670px) and (min-height: 300px) {
+
+  .page{
+    max-height: 100svh;
+  }
 
   .modal__container {
     max-height: 70%;

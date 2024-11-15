@@ -77,6 +77,10 @@
 }
 
 @media screen and (max-width: 600px) {
+  .login{
+    max-height: 100svh;
+  }
+  
   .login__photo-stack {
     height: 60vw;
   }

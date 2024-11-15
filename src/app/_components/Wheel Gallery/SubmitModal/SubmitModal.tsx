@@ -58,9 +58,8 @@ export default function SubmitModal({
   const handleInputChange =
     (setter: (value: string) => void) =>
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
-      const sanitizedInput = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
+      const sanitizedInput = e.target.value.replace(/[^a-zA-Z0-9@/ ]/g, "");
       setter(sanitizedInput);
-
     }
 
 

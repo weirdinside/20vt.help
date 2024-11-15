@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 .gallery__item {
+  font-family: "Work Sans", sans-serif;
   position: relative;
   display: flex;
   width: 100%;
@@ -19,6 +22,7 @@
 .gallery__item_description {
   z-index: 4;
   position: absolute;
+  font-weight: normal;
   color: black;
   bottom: 5%;
   left: 6%;
@@ -32,6 +36,7 @@
 .gallery__item_description_user {
   font-style: italic;
   font-size: 3cqw;
+  font-weight: normal;
 }
 
 .gallery__item_frame {
@@ -44,7 +49,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-image: url("../../../assets/images/polaroid_frame-wide.png");
+  background-image: url('/images/polaroid_frame-wide.png')
 }
 
 .gallery__item_photo_container {
@@ -64,4 +69,12 @@
   right: 6%;
   font-weight: 700;
   font-size: 4cqw;
+}
+
+@media screen and (max-width: 700px) and (min-width: 320px) {
+  .gallery__item{
+    max-width: calc(100svh - 50px);
+    height: 0;
+    min-height: min-content;
+  }
 }

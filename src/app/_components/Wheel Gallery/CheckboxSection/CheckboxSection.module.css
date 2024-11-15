@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 .wheelfinder__category {
+  font-family: "Work Sans", sans-serif;
   max-width: 100%;
   flex-grow: 0;
   flex-shrink: 0;
@@ -54,7 +57,7 @@
 
 .wheelfinder__category_options {
   position: relative;
-
+  font-weight: 500;
   width: fit-content;
   max-width: calc(100vw - 50px);
   display: flex;

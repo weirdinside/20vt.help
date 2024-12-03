@@ -52,8 +52,18 @@ export default function Homepage() {
             style={{ textDecoration: "none" }}
           >
             <NavItem
-              title="quattroworld forum"
+              title="quattroworld (UrS4/6)"
               description={"browse older/source documentation for UrS4/UrS6"}
+            ></NavItem>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://forums.quattroworld.com/9080/"
+            style={{ textDecoration: "none" }}
+          >
+            <NavItem
+              title="quattroworld (B3/B4)"
+              description={"browse older/source documentation for B3/B4 Audis"}
             ></NavItem>
           </Link>
           <Link
@@ -66,6 +76,36 @@ export default function Homepage() {
               description={
                 "join the premiere facebook group for the UrS4/UrS6 community"
               }
+            ></NavItem>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://www.motorgeek.com/"
+            style={{ textDecoration: "none" }}
+          >
+            <NavItem
+              title="motorgeek"
+              description={"a forum populated by a ton of vintage audi nerds"}
+            ></NavItem>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://www.s2forum.com/"
+            style={{ textDecoration: "none" }}
+          >
+            <NavItem
+              title="s2forum"
+              description={"one of the original 5 cylinder online forums for vintage audi"}
+            ></NavItem>
+          </Link>
+          <Link
+            target="_blank"
+            href="https://theprojectpad.com/index.php"
+            style={{ textDecoration: "none" }}
+          >
+            <NavItem
+              title="the project pad"
+              description={"a forum from and by old-school 5 cylinder enthusiasts, housing build threads and DIY writeups"}
             ></NavItem>
           </Link>
           <Link
@@ -86,4 +126,6 @@ export default function Homepage() {
       </div>
     </div>
   );
+
+
 }

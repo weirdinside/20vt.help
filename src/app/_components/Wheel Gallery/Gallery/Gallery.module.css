@@ -3,7 +3,6 @@
   src: url(/fonts/PodiumSharp/podiumsharp-9.12.otf);
 }
 
-
 .gallery {
   position: relative;
   margin: 10px 0;
@@ -39,6 +38,14 @@
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+.gallery__no_results_subtext:hover{
+  color: #cf2a2a;
+  background-color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
 .gallery__no_results_subtext{
   font-family: 'Work Sans' ,sans-serif;
   color: white;
@@ -47,6 +54,7 @@
   border: 2px solid white;
   font-size: 15px;
   border-radius: 10px;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .gallery__loading {

@@ -151,7 +151,9 @@
   position: relative;
   cursor: pointer;
   z-index: 1;
+
 }
+
 
 .header__submit-modal-trigger-bg{
   position: absolute;
@@ -161,6 +163,11 @@
   left: -6%;
   z-index: -3;
   transform: skew(-15deg);
+  clip-path: polygon(0 0, 0% 0, 0% 100%, 0% 100%);
+}
+
+.header__submit-modal-trigger:hover .header__submit-modal-trigger-bg{
+  animation: clipIn 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
 
 .header__submit-modal-trigger:hover {

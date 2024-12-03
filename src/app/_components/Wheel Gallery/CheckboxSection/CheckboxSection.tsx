@@ -71,7 +71,7 @@ export default function CheckboxSection({
       if (containerRef.current && optionsRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         const optionsWidth = optionsRef.current.scrollWidth;
-        if (optionsWidth > containerWidth) { // if we've got a large width of options
+        if (optionsWidth >= containerWidth) { // if we've got a large width of options
           return setIsWide(true); // set that to be too wide
         } else {
           if(!isOpen){
@@ -93,6 +93,7 @@ export default function CheckboxSection({
       const handleScroll = () => {
         const scrollLeft = instance!.scrollLeft;
         const scrollDecimal = (scrollLeft / scrollWidth).toFixed(2);
+        console.log(scrollDecimal);
         if (Number(scrollDecimal) <= 0.07) {
           setScrollPosition('left');
         } else if (Number(scrollDecimal) >= 0.95) {
@@ -106,6 +107,9 @@ export default function CheckboxSection({
           setScrollPosition("");
         }
       };
+
+      handleScroll();
+
       const debouncedHandleScroll = debounce(handleScroll, 20);
       if (instance) {
         instance!.addEventListener("scroll", debouncedHandleScroll);

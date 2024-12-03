@@ -32,8 +32,6 @@ export default function WheelGalleryContent({
 
   // for handling the checkbox states
 
-  // ___ holds the possible items for each column, so no single query yields zero results
-
   // ____ holds all checekd options
   const [checkedFilters, setCheckedFilters] = useState<FilterOptions>({
     car_type: [],

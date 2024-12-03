@@ -24,6 +24,7 @@ export async function updateImageData({
   subtype,
   wheel_brand,
   wheel_name,
+  submitted_by
 }: Partial<ImageInfo>) {
   const supabase = await createClient();
 
@@ -35,6 +36,7 @@ export async function updateImageData({
       wheel_size: wheel_size,
       wheel_brand: wheel_brand,
       wheel_name: wheel_name,
+      submitted_by: submitted_by,
     })
     .eq("id", id);
 

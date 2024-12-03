@@ -43,21 +43,18 @@ export default function ClickableGalleryItem({
           {imageInfo?.wheel_brand} {imageInfo?.wheel_name}
         </p>
         <p className={styles["gallery__item_description_user"]}>
-          {imageInfo?.submitted_by
-            ? `${imageInfo?.submitted_by}'s ${imageInfo.car_type.slice(
+          {imageInfo.submitted_by ? `${imageInfo.submitted_by}'s ` : ""}
+          {imageInfo.car_type.length > 0
+            ? `${imageInfo.car_type.slice(
                 0,
-                imageInfo.car_type.indexOf(' '),
-              )} ${String(imageInfo?.subtype)} ${imageInfo.car_type.slice(
-                imageInfo.car_type.indexOf(' ') + 1,
+                imageInfo.car_type.indexOf(" "),
+              )} ${
+                imageInfo.subtype ? imageInfo.subtype : ""
+              } ${imageInfo.car_type.slice(
+                imageInfo.car_type.indexOf(" ") + 1,
                 imageInfo.car_type.length,
               )}`
-            : `${imageInfo.car_type.slice(
-                0,
-                imageInfo.car_type.indexOf(' ')
-              )} ${imageInfo.subtype ? imageInfo.subtype : ''} ${imageInfo.car_type.slice(
-                imageInfo.car_type.indexOf(' '),
-                imageInfo.car_type.length,
-              )}`}
+            : ""}
         </p>
       </div>
     </div>

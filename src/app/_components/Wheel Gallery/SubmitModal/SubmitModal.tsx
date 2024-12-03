@@ -244,7 +244,6 @@ export default function SubmitModal({
           submit a photo
           <div onClick={closeModal} className={styles["submit__heading_logo"]}>
             <SLogo color="white" inElement="landing" />
-            <p className={styles["submit__heading_logo_text"]}>x</p>
           </div>
         </h1>
         {!imageSubmitted ? (

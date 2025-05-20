@@ -19,7 +19,7 @@ function NavItem({ title, description }: {title: string, description: string}) {
       }}
     >
       <h1 className={styles["nav__item"]}>
-        {title}.<div className={styles["nav__item_hover-background"]}></div>
+        {title}.<div className={styles["nav__item_hover-background"]}/>
         <div className={styles["nav__item_description"]}>
           <Marquee
             trigger={isMousedOver}

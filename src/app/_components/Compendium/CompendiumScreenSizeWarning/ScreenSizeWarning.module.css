@@ -1,0 +1,409 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kosugi&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap");
+
+.ssw__container {
+  z-index: -2;
+  font-family: "Work sans", sans-serif;
+  display: flex;
+  opacity: 0;
+  position: fixed;
+  color: white;
+  visibility: hidden;
+  scale: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+  filter: blur(5px);
+}
+
+.ssw__back {
+  position: absolute;
+  top: -20px;
+  left: 0px;
+  max-width: 100%;
+  font-style: italic;
+  opacity: 0;
+  scale: 1;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.ssw__back:hover {
+  opacity: 1;
+  font-style: normal;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.ssw__logo {
+  position: absolute;
+  display: flex;
+}
+
+.ssw__demo {
+  width: 100%;
+  height: 200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.ssw__demo-container {
+  position: absolute;
+  top: 0;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.ssw__warning {
+  width: 80%;
+  margin: auto auto;
+  position: relative;
+}
+
+.ssw__title {
+  margin: auto auto;
+}
+
+.rotate-phone {
+  position: relative;
+  margin: 0 auto;
+  height: 90px;
+  width: 90px;
+}
+
+.phoneicon {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: phoneIcon 6s ease-in-out infinite;
+}
+
+.increase-screensize {
+  position: relative;
+  margin: 0 auto;
+  height: 200px;
+  width: 200px;
+}
+
+.ss__mouse {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: -10px;
+  left: -10px;
+  rotate: -10deg;
+  animation: mouseMove 6s ease-in-out infinite;
+}
+
+.ss__urlline {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: urlLineScale 6s ease-in-out infinite;
+}
+
+.ss__buttons {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: buttonFade 6s ease-in-out infinite;
+}
+
+.ss__screen {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: screenScale 6s ease-in-out infinite;
+}
+
+.rotateicon {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: rotateIcon 6s ease-in-out infinite;
+}
+
+@media screen and (max-height: 550px) {
+  .ssw__container {
+    opacity: 1;
+    filter: blur(0px);
+    z-index: 3;
+    visibility: visible;
+    scale: 1;
+  }
+
+  .header__logo {
+    animation: slideIn 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .ssw__back {
+    animation: 1s fadeIn 2s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes rotateIcon {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg);
+  }
+
+  3% {
+    opacity: 0;
+    transform: rotate(0deg);
+  }
+
+  5% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 1;
+    transform: rotate(-90deg);
+  }
+  32% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes phoneIcon {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(0deg);
+  }
+
+  30% {
+    transform: rotate(-90deg);
+  }
+
+  40% {
+    transform: rotate(-90deg);
+    opacity: 1;
+  }
+  42% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+}
+
+@keyframes screenScale {
+  0% {
+    opacity: 0%;
+    top: 0;
+    left: 0;
+  }
+
+  42% {
+    opacity: 0%;
+  }
+  44% {
+    opacity: 100%;
+    scale: 1;
+  }
+
+  50% {
+    scale: 1;
+    top: 0;
+    left: 0;
+  }
+  90% {
+    scale: 1.5;
+    top: 22.5%;
+    left: 22.5%;
+  }
+  95% {
+    opacity: 1;
+    top: 22.5%;
+    left: 22.5%;
+  }
+  100% {
+    scale: 1.5;
+    opacity: 0;
+    top: 22.5%;
+    left: 22.5%;
+  }
+}
+
+@keyframes urlLineScale {
+  0% {
+    opacity: 0%;
+    top: 0;
+    left: 0;
+  }
+
+  42% {
+    opacity: 0%;
+  }
+  44% {
+    opacity: 100%;
+    transform: scaleX(1);
+  }
+
+  50% {
+    transform: scaleX(1);
+    top: 0;
+    left: 0;
+  }
+  90% {
+    transform: scaleX(1.5);
+
+    left: 22.5%;
+  }
+  95% {
+    opacity: 1;
+
+    left: 22.5%;
+  }
+  100% {
+    transform: scaleX(1.5);
+    opacity: 0;
+
+    left: 22.5%;
+  }
+}
+
+@keyframes mouseMove {
+  0% {
+    opacity: 0%;
+    top: 0;
+    left: 0;
+  }
+
+  42% {
+    opacity: 0%;
+  }
+  44% {
+    opacity: 100%;
+    top: 5%;
+    left: 5%;
+  }
+
+  50% {
+    top: -5%;
+    left: -7%;
+  }
+  90% {
+    top: 22.5%;
+    left: 22.5%;
+  }
+  95% {
+    top: 22.5%;
+    left: 22.5%;
+    opacity: 100%;
+  }
+  100% {
+    top: 22.5%;
+    left: 22.5%;
+    opacity: 0;
+  }
+}
+
+@keyframes buttonFade {
+  0% {
+    opacity: 0%;
+  }
+
+  42% {
+    opacity: 0%;
+  }
+  44% {
+    opacity: 100%;
+  }
+
+  50% {
+  }
+  90% {
+  }
+  95% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: scaleX(0);
+    transform: scale(0.9);
+    left: 0px;
+  }
+  100% {
+    transform: scaleX(1);
+    transform: scale(0.9);
+    left: 120px;
+  }
+}
+
+.header__logo {
+  position: absolute;
+  display: flex;
+  z-index: -2;
+  top: -5px;
+  left: 120px;
+  transform: scale(0.9);
+  cursor: pointer;
+}
+
+.logo__big-rhombus {
+  width: 30px;
+  height: 38px;
+  margin-right: 3px;
+  transform: skewX(-15deg);
+  background-color: #cf2a2a;
+}
+
+.logo__big-rhombus.in_footer {
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.logo__small-rhombus-1 {
+  width: 10px;
+  height: 38px;
+  margin-right: 3px;
+  transform: skewX(-15deg);
+  background-color: #cf2a2a;
+}
+
+.logo__small-rhombus-2 {
+  width: 10px;
+  height: 38px;
+  transform: skewX(-15deg);
+  background-color: #cf2a2a;
+}
+
+.header__logo .logo__small-rhombus-1,
+.header__logo .logo__small-rhombus-2 {
+  transition: transform 0.5s ease;
+}
+
+.header__logo:hover .logo__small-rhombus-1 {
+  transform: translateX(-10px) skewX(-15deg);
+}
+.header__logo:hover .logo__small-rhombus-2 {
+  transform: translateX(-20px) skewX(-15deg);
+}

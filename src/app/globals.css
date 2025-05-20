@@ -1,17 +1,44 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @font-face {
-  font-family:'Alte Haas Grotesk';
+  font-family: "Alte Haas Grotesk";
   src: url(/fonts/Alte\ Haas\ Grotesk/AlteHaasGroteskBold.ttf);
 }
 
-:root{
+:root {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   background-color: #181818;
-  font-family: 'Alte Haas Grotesk';
+  font-family: "Alte Haas Grotesk";
+  max-width: 100svw;
+  max-height: 100svh;
   --work-sans: var(--font-work-sans);
+}
+
+input:focus {
+  outline: none;
+}
+
+input:checked + .slider {
+  /* background-color: #2196F3; */
+  background-color: #cf2a2a;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(12px);
+  -ms-transform: translateX(12px);
+  transform: translateX(12px);
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+a {
+  color: inherit;
 }

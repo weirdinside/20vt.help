@@ -32,7 +32,7 @@ export default function FilterCheckbox({
     const filterArray = checkedFilters[arrayName] as (string | number)[];
     setCheckedState(filterArray.includes(label));
   }, [arrayName, checkedFilters, label]);
-  
+
   const sanitizedLabel = String(label).replace(/[^a-zA-Z0-9]/g, "");
   const key = sanitizedLabel + modifier;
 

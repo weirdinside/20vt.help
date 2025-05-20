@@ -1,0 +1,810 @@
+/* ----------------------- */
+/* ----------FONTS-------- */
+/* ----------------------- */
+
+@import url("https://fonts.googleapis.com/css2?family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+@font-face {
+  font-family: "DSEG14ClassicMini";
+  src: url("../../../../assets/fonts/DSEG14/DSEG14ClassicMini-Bold.woff2");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "DSEG14ClassicMini";
+  src: url("../../../../assets/fonts/DSEG14/DSEG14ClassicMini-BoldItalic.woff2");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../../../../assets/fonts/Roboto/Roboto-BoldItalic.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Podium Sharp";
+  src: url("../../../../assets/fonts/PodiumSharp/podiumsharp-9.12.otf");
+}
+@font-face {
+  font-family: "Alte Haas Grotesk";
+  src: url("../../../../assets/fonts/Alte\ Haas\ Grotesk/AlteHaasGroteskBold.ttf");
+}
+
+@keyframes arrowBounce {
+  0% {
+    right: -2%;
+  }
+  50% {
+    right: -6%;
+  }
+  100% {
+    right: -2%;
+  }
+}
+
+@keyframes arrowBounce2 {
+  0% {
+    left: -1%;
+  }
+  50% {
+    left: -4%;
+  }
+  100% {
+    left: -1%;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+@keyframes bgColorPulse {
+  0% {
+    background-color: #1e1e1e;
+  }
+  50% {
+    background-color: #303030;
+  }
+  100% {
+    background-color: #1e1e1e;
+  }
+}
+
+@keyframes bgColorPulse2 {
+  0% {
+    background-color: #311f1f;
+  }
+  50% {
+    background-color: #4b1010;
+  }
+  100% {
+    background-color: #311f1f;
+  }
+}
+
+@keyframes tutorialStage1Entry {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+.tr:nth-child(even) {
+  background-color: #3a3a3a;
+}
+
+.ch1__search {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  background-color: #d9d9d900;
+  border: none;
+  text-align: right;
+  margin-right: 5px;
+  margin-bottom: 0px;
+  padding: 0;
+  width: 70%;
+}
+
+.ch1__table {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 3px solid black;
+  position: relative;
+  font-size: 15px;
+  background-color: #d9d9d9;
+  color: black;
+  font-family: monospace;
+  margin: 0px auto;
+  width: 95%;
+}
+
+.ch1__lower-table {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin: 0 auto 20px;
+  overflow: auto;
+  height: 200px;
+  width: 95%;
+}
+
+.ch1__table-code {
+  color: black;
+  font-size: 16px;
+  background-color: #d9d9d9;
+  font-family: monospace;
+  padding-right: 20px;
+  padding-left: 10px;
+  border-bottom: 3px solid #000000;
+}
+
+.ch1__table-caption {
+  color: black;
+  background-color: #d9d9d9;
+  font-size: 15px;
+  border-bottom: 3px solid #000000;
+  font-family: monospace;
+  box-sizing: border-box;
+  width: 100%;
+  padding-left: 20px;
+  line-height: 140%;
+}
+
+/* ----------------------- */
+/* ---------BUTTONS------- */
+/* ----------------------- */
+
+.button {
+  cursor: pointer;
+  z-index: 4;
+  height: 17%;
+  position: absolute;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.auto_button {
+  top: 35%;
+  left: 5%;
+  height: 34.5%;
+  width: 12.5%;
+}
+
+.defrost_button {
+  top: 13.5%;
+  left: 5%;
+  height: 15.5%;
+  width: 12.5%;
+}
+
+.ac_button {
+  width: 12.5%;
+  height: 15.5%;
+  top: 75.5%;
+  left: 5%;
+}
+
+.topvent_button {
+  width: 13%;
+  top: 12.5%;
+  right: 4%;
+  border-radius: 5px;
+}
+
+.centervent_button {
+  width: 13%;
+  top: 33.5%;
+  right: 4%;
+  border-radius: 5px;
+}
+
+.bottomvent_button {
+  width: 13%;
+  top: 54%;
+  right: 4%;
+  border-radius: 5px;
+}
+
+.recirc_button {
+  width: 13%;
+  bottom: 8%;
+  right: 4%;
+  border-radius: 5px;
+}
+
+.LMinus_button {
+  width: 12.5%;
+  bottom: 8%;
+  left: 23%;
+  border-radius: 5px;
+}
+
+.LPlus_button {
+  width: 12.5%;
+  bottom: 8%;
+  left: 37%;
+  border-radius: 5px;
+}
+
+.RMinus_button {
+  width: 10%;
+  bottom: 8%;
+  right: 33.5%;
+  border-radius: 5px;
+}
+
+.RPlus_button {
+  width: 9.5%;
+  bottom: 8%;
+  right: 22.5%;
+  border-radius: 5px;
+}
+
+/* ----------------------- */
+/* -------CONTAINERS------ */
+/* ----------------------- */
+
+.climatecontrol {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.climatecontrol__container {
+  font-family: "DSEG14ClassicMini";
+  font-style: italic;
+  display: flex;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 900/320;
+  position: relative;
+}
+
+.climatecontrol__main-screen {
+  position: absolute;
+  background-color: rgba(139, 17, 17, 0.257);
+  z-index: 4;
+  width: 26.5%;
+  height: 49.5%;
+  top: 16%;
+  left: 23%;
+  border-radius: 7px;
+  container-name: mainscreen;
+  container-type: inline-size;
+}
+
+.climatecontrol__right-screen_element {
+  position: absolute;
+  background-position: center;
+  background-size: contain;
+  z-index: 99;
+  top: 3%;
+  left: 2%;
+  width: 100%;
+  height: 92%;
+  border-radius: 7px;
+}
+
+.climatecontrol__right-screen {
+  position: absolute;
+  z-index: 3;
+  background-color: rgba(139, 17, 17, 0.257);
+  width: 21%;
+  height: 49.5%;
+  top: 16%;
+  right: 22.5%;
+  container-name: rightscreen;
+  container-type: inline-size;
+}
+
+.right-screen_fanspeed {
+  position: absolute;
+  /* background-color: black; */
+  z-index: 6;
+  width: 10%;
+  height: 88.3%;
+  top: 4.5%;
+  left: 5%;
+  display: flex;
+  flex-flow: column-reverse;
+  box-sizing: border-box;
+  container-name: fanspeed;
+  container-type: inline-size;
+  flex-direction: column;
+  rotate: 180deg;
+  margin: 0;
+}
+
+.right-screen_fanspeed_tick {
+  box-sizing: border-box;
+  z-index: 90;
+  margin: 0;
+  margin-bottom: 16cqw;
+  padding: 0;
+  background-color: rgb(155, 30, 30);
+  height: 6.1%;
+  width: 90%;
+}
+
+.information__container {
+  border: 5px solid #262626;
+  color: #d9d9d9;
+  background-color: #1e1e1e;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-top: -2%;
+  container-name: informationcontainer;
+  container-type: inline-size;
+}
+
+/* ----------------------- */
+/* ----------TEXT--------- */
+/* ----------------------- */
+
+@container mainscreen (min-width: 0) {
+  .climatecontrol__main-screen-text {
+    font-size: 29cqw;
+  }
+
+  .climatecontrol__fahrenheit-text {
+    font-size: 11cqw;
+  }
+
+  .climatecontrol__codes-text {
+    font-size: 15.5cqw;
+  }
+
+  .climatecontrol__auto-text {
+    font-size: 12cqw;
+  }
+}
+
+@container rightscreen (min-width: 0) {
+  .right-screen_manual {
+    font-size: 15cqw;
+  }
+}
+
+/* !!!! YOU DO NOT NEED TO PUT THESE FONT SIZES IN A CONTAINER QUERY - PLEASE CONVERT THEM TO MEDIA QUERIES */
+@container informationcontainer (min-width: 0) {
+  .information__title {
+    margin-top: 3cqw;
+    margin-left: 2cqw;
+    font-size: 3.3cqw;
+    margin-right: 1cqw;
+  }
+
+  .information__body {
+    margin-left: 2cqw;
+    margin-top: 2cqw;
+    margin-right: 1cqw;
+    font-size: 2.3cqw;
+  }
+
+  .tutorial__toggle {
+    margin-top: 3cqw;
+    padding: 0;
+  }
+
+  /* .tutorial__toggle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 3cqh;
+    max-width: 20cqw;
+    font-size: 1.9cqw;
+    margin: 0;
+    text-align: center;
+  } */
+}
+
+.climatecontrol__main-screen-text {
+  position: absolute;
+  z-index: 2;
+  color: rgb(155, 30, 30);
+  top: 25%;
+  left: 30%;
+  margin: 0;
+  padding: 0;
+}
+
+.climatecontrol__codes-text {
+  position: absolute;
+  z-index: 2;
+  bottom: 27%;
+  right: 9%;
+  color: #9b1e1e;
+}
+
+.climatecontrol__aux-screen-text {
+  position: absolute;
+  z-index: 2;
+}
+
+.climatecontrol__fahrenheit-text {
+  position: absolute;
+  font-family: "Roboto";
+  color: rgb(155, 30, 30);
+  top: 17%;
+  right: 13%;
+  z-index: 4;
+}
+
+.climatecontrol__auto-text {
+  font-family: "Roboto";
+  color: rgb(155, 30, 30);
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 1%;
+  left: 40%;
+}
+
+.right-screen_manual {
+  font-family: "Roboto";
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  color: rgb(155, 30, 30);
+}
+
+.information__title {
+  font-family: "Alte Haas Grotesk";
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.information__body {
+  font-family: "Alte Haas Grotesk";
+  font-weight: 400;
+  margin: 0px 2cqw 10px 2cqw;
+  text-align: left;
+}
+
+/* ----------------------- */
+/* ---------IMAGES-------- */
+/* ----------------------- */
+
+.climatecontrol__image-top {
+  z-index: 1;
+  position: absolute;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  border-radius: 10px;
+  background-image: url("../../../../assets/articles/climate_control_diagnostic/climate-control-images/default.png");
+}
+
+.climatecontrol__image-bottom {
+  background-image: url("../../../../assets/articles/climate_control_diagnostic/climate-control-images/default.png");
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+/* ----------------------- */
+/* --------TUTORIAL------- */
+/* ----------------------- */
+
+@container tutorialstate1 (min-width: 0px) {
+  .tutorial__heading {
+    font-size: 4cqw;
+  }
+
+  .tutorial__body {
+    font-size: 3cqw;
+  }
+}
+
+@container tutorialstate3 (min-width: 0px) {
+  .tutorial__heading {
+    font-size: 4cqw;
+  }
+
+  .tutorial__body {
+    font-size: 4.5cqw;
+  }
+}
+
+@container tutorialstate4 (min-width: 0px) {
+  .tutorial__heading {
+    font-size: 4cqw;
+  }
+
+  .tutorial__body {
+    font-size: 2.8cqw;
+  }
+}
+@container tutorialstate5 (min-width: 0px) {
+  .tutorial__heading {
+    font-size: 3.8cqw;
+  }
+
+  .tutorial__body {
+    font-size: 2.5cqw;
+  }
+}
+
+.tutorial {
+  color: black;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.tutorial__state1 {
+  container-name: tutorialstate1;
+  container-type: inline-size;
+  z-index: 99;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 80%;
+  height: 100%;
+  background: rgb(31, 31, 31);
+  background: linear-gradient(
+    90deg,
+    rgba(31, 31, 31, 0.7833508403361344) 0%,
+    rgba(32, 32, 32, 1) 47%,
+    rgba(61, 61, 61, 0.335171568627451) 80%
+  );
+  backdrop-filter: blur(10px);
+}
+
+.tutorial__arrow-recirc {
+  margin: 0;
+  padding: 0;
+  bottom: 12%;
+  right: -2%;
+  position: absolute;
+  font-style: normal;
+  font-size: 20px;
+  color: rgb(155, 30, 30);
+  animation: arrowBounce 2s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+}
+
+.tutorial__arrow-topvent {
+  position: absolute;
+  font-style: normal;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  color: rgb(155, 30, 30);
+  top: 15%;
+  right: -2%;
+  font-size: 20px;
+  animation: arrowBounce 2s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+}
+
+.tutorial__heading {
+  font-family: "Podium Sharp";
+  text-align: left;
+  margin-left: 4%;
+  margin-top: 4%;
+  margin-bottom: 0%;
+  line-height: 30px;
+}
+
+.tutorial__state1-preventclick {
+  position: absolute;
+  width: 20%;
+  height: 40%;
+  z-index: 1000;
+  right: -22%;
+  top: 32%;
+  pointer-events: all;
+}
+
+.tutorial__subheading {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-style: regular;
+  text-align: left;
+  margin-left: 4%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tutorial__toggle {
+  color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  font-size: 2cqw;
+  font-style: bold;
+  position: absolute;
+  right: 5%;
+  /* height: 2cqh; */
+  padding: 0.3cqh;
+}
+
+.tutorial__toggle.active {
+  color: #d9d9d9;
+  background-color: #9b1e1e;
+  transition: 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.tutorial__body {
+  font-family: "Alte Haas Grotesk";
+  font-weight: 500;
+  font-style: normal;
+  text-align: left;
+  margin-left: 5%;
+  margin-top: 2%;
+  margin-right: 4%;
+  margin-bottom: 1%;
+}
+
+.btn {
+  border-radius: 8px;
+  border: 4px solid transparent;
+  /* padding: 0.6em 1.2em; */
+  padding: 0.2em 0.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #3f3f3f;
+  cursor: pointer;
+  transition: 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.btn:hover {
+  transition: 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation: bgColorPulse2 1s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
+  border-color: rgb(155, 30, 30);
+}
+
+.tutorial__state3 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+.tutorial__state3-coverleft {
+  position: absolute;
+  width: 22.5%;
+  height: 100%;
+  z-index: 90;
+  background: rgb(31, 31, 31);
+  background: linear-gradient(
+    90deg,
+    rgba(31, 31, 31, 0.7833508403361344) 0%,
+    rgba(32, 32, 32, 1) 47%,
+    rgba(61, 61, 61, 0.335171568627451) 80%
+  );
+  backdrop-filter: blur(10px);
+}
+
+.tutorial__state3-coverright {
+  container-name: tutorialstate3;
+  container-type: inline-size;
+  position: absolute;
+  background: rgb(31, 31, 31);
+  background: linear-gradient(
+    -90deg,
+    rgba(31, 31, 31, 0.7833508403361344) 0%,
+    rgba(32, 32, 32, 1) 47%,
+    rgba(61, 61, 61, 0.335171568627451) 80%
+  );
+  backdrop-filter: blur(10px);
+  width: 50%;
+  right: 0;
+  height: 100%;
+  z-index: 90;
+  pointer-events: all;
+}
+
+.tutorial__state3-next {
+  animation: bgColorPulse 2s ease-in-out infinite;
+  color: white;
+  position: absolute;
+  font-family: "Alte Haas Grotesk";
+  font-weight: bold;
+  bottom: 10%;
+  right: 10%;
+}
+
+.tutorial__state4 {
+  position: absolute;
+  z-index: 90;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tutorial__state4-cover {
+  container-name: tutorialstate4;
+  container-type: inline-size;
+  position: absolute;
+  z-index: 90;
+  margin: 0;
+  padding: 0;
+  width: 80%;
+  height: 100%;
+  background: rgb(31, 31, 31);
+  background: linear-gradient(
+    90deg,
+    rgba(31, 31, 31, 0.7833508403361344) 0%,
+    rgba(32, 32, 32, 1) 47%,
+    rgba(61, 61, 61, 0.335171568627451) 80%
+  );
+  backdrop-filter: blur(10px);
+}
+
+.tutorial__state5 {
+  container-name: tutorialstate5;
+  container-type: inline-size;
+  position: absolute;
+  z-index: 90;
+  margin: 0;
+  padding: 0;
+  width: 80%;
+  height: 100%;
+  right: 0;
+  background: rgb(31, 31, 31);
+  background: linear-gradient(
+    -90deg,
+    rgba(31, 31, 31, 0.7833508403361344) 0%,
+    rgba(32, 32, 32, 1) 47%,
+    rgba(61, 61, 61, 0.335171568627451) 80%
+  );
+  backdrop-filter: blur(10px);
+}
+
+.tutorial__arrow-auto {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+  position: absolute;
+  font-style: normal;
+  font-size: 20px;
+  color: rgb(155, 30, 30);
+  top: 47%;
+  left: -2%;
+  font-size: 20px;
+  animation: arrowBounce2 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+}
+
+/* CSSTransition */
+.tutorial__state-enter {
+  opacity: 0%;
+  transform: translateX(-100px);
+}
+.tutorial__state-enter-active {
+  opacity: 100%;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.tutorial__state-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.tutorial__state-exit-active {
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+@media screen and (max-width: 720px) and (min-width: 370px) {
+  .tutorial__state3-next {
+    max-width: 1cqw;
+    font-size: 12px;
+  }
+}

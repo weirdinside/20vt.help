@@ -5,7 +5,7 @@ function CompendiumAboutModal({ activeModal, closeModal }) {
   return (
     <div
       onClick={(e) => {
-        if (e.target.classList.contains(styles['modal'])) closeModal();
+        if (e.target.classList.contains(styles["modal"])) closeModal();
       }}
       className={`${styles["modal"]} ${
         activeModal === "compendium-about" && styles["active"]
@@ -13,6 +13,25 @@ function CompendiumAboutModal({ activeModal, closeModal }) {
       id="compendium-about-modal"
     >
       <div className={styles["modal__container"]}>
+        <a
+          onClick={closeModal}
+          className={styles["footer__logo"]}
+          id="about-close"
+        >
+          <div
+            className={`${styles["logo__big-rhombus"]} ${styles["in_footer"]}`}
+            id="big-rhombus"
+          />
+          <div
+            className={styles["logo__small-rhombus-1"]}
+            id="small-rhombus-1"
+          />
+          <div
+            className={styles["logo__small-rhombus-2"]}
+            id="small-rhombus-2"
+          />
+          <div className={styles["text_floater"]}>close</div>
+        </a>
         <p className={styles["information__cited"]}>
           site designed and administrated by Ani Bharadwaj
         </p>

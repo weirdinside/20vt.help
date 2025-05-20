@@ -1,8 +1,26 @@
 @font-face {
   font-family: "Alte Haas Grotesk";
-  src: url(/fonts/Alte\ Haas\ Grotesk/AlteHaasGroteskBold.ttf);
+  src: url("../../public/fonts/Alte\ Haas\ Grotesk/AlteHaasGroteskRegular.ttf");
 }
 
+body {
+  font-family: var(--font-work-sans), sans-serif;
+  overflow: hidden;
+}
+
+.code {
+  font-family: var(--font-sometype-mono), monospace;
+}
+
+.jp {
+  font-family: var(--font-kosugi), sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
 :root {
   display: flex;
   justify-content: center;
@@ -16,21 +34,6 @@
 
 input:focus {
   outline: none;
-}
-
-input:checked + .slider {
-  /* background-color: #2196F3; */
-  background-color: #cf2a2a;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(12px);
-  -ms-transform: translateX(12px);
-  transform: translateX(12px);
 }
 
 .switch input {

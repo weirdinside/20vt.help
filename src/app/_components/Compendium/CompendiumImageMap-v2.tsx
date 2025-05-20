@@ -156,7 +156,7 @@ function CompendiumImageMap({
     const handleImageLoad = () => {
       setTimeout(() => {
         drawAll();
-      }, 0); // small delay to wait for imageMapResize. i don't know why this is necessary
+      }, 10); // small delay to wait for imageMapResize. i don't know why this is necessary
     };
 
     const img = imageInHTML.current;
@@ -205,13 +205,14 @@ function CompendiumImageMap({
           </p>
           <label className={styles["settings__switch"]}>
             <input
+              className={styles['settings__input']}
               style={{ height: "0", width: "0" }}
               id="click-through-for-search"
               type="checkbox"
               checked={clickSetting}
               onChange={handleClickCheckbox}
             />
-            <span className={styles["slider"]}></span>
+            <span className={styles["slider"]}/>
           </label>
         </div>
       </div>

@@ -76,12 +76,11 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 10px auto;
+  margin: 10px 40px;
   justify-content: center;
   min-width: 600px;
   max-width: 900px;
   overflow-y: hidden;
-  padding: 0 10px;
   transform: rotate3d(0, 0, 0);
   max-height: calc(100% - 60px);
 }
@@ -559,7 +558,7 @@
   display: flex;
   width: 100%;
   height: 40px;
-  font-family: "Sometype Mono", sans-serif;
+  font-family: "Sometype Mono", monospace;
   font-weight: 700;
   gap: 10px;
   margin: 0 0 10px 0;
@@ -567,11 +566,10 @@
 }
 
 .collapsed__nest-back {
-  font-family: "Sometype Mono", sans-serif;
+  font-family: "Sometype Mono", monospace;
   font-weight: 700;
   cursor: pointer;
   min-width: max-content;
-  height: 100%;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -946,11 +944,11 @@
 }
 
 /* Hide default HTML checkbox */
-/* .switch input {
+.switch {
   opacity: 0;
   width: 0;
   height: 0;
-} */
+}
 
 /* The slider */
 .slider {
@@ -979,11 +977,26 @@
   border-radius: 50%;
 }
 
+.settings__input:checked + .slider {
+  /* background-color: #2196F3; */
+  background-color: #cf2a2a;
+}
+
+.settings__input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+.settings__input:checked + .slider:before {
+  -webkit-transform: translateX(12px);
+  -ms-transform: translateX(12px);
+  transform: translateX(12px);
+}
+
 /* -------------------------------------------------------------------------------- */
 /*                                  MOBILE BREAKPOINT 1                             */
 /* -------------------------------------------------------------------------------- */
 
-@media screen and (max-width: 720px) and (min-width: 370px) {
+@media screen and (max-width: 750px) and (min-width: 370px) {
   .figure__grid {
     grid-template-columns: repeat(minmax(1, 2), minmax(200px, auto));
   }
@@ -997,8 +1010,12 @@
   }
 
   .page {
+    max-width: 100svw;
     min-width: 320px;
-    width:calc(100% - 20px);
+    margin: 10px 10px;
+    /* width: calc(100% - 60px); */
+    /* margin: 10px 30px; */
+    overflow-x: hidden;
   }
 
   .header {

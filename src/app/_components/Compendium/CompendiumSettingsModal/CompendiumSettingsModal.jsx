@@ -18,11 +18,31 @@ function CompendiumSettingsModal({
       id="settings-modal"
     >
       <div className={styles["modal__container"]}>
+        <a
+          onClick={closeModal}
+          className={styles["footer__logo"]}
+          id="settings-close"
+        >
+          <div
+            className={`${styles["logo__big-rhombus"]} ${styles["in_footer"]}`}
+            id="big-rhombus"
+          />
+          <div
+            className={styles["logo__small-rhombus-1"]}
+            id="small-rhombus-1"
+          />
+          <div
+            className={styles["logo__small-rhombus-2"]}
+            id="small-rhombus-2"
+          />
+          <div className={styles["text_floater"]}>close settings</div>
+        </a>
         <h2 className={styles["settings__title"]}>settings</h2>
         <div className={styles["settings__setting"]}>
           <p>automatically search part number on click</p>
           <label className={styles["settings__switch"]}>
             <input
+              className={styles["settings__input"]}
               style={{ height: "0", width: "0" }}
               id="click-through-for-search"
               type="checkbox"

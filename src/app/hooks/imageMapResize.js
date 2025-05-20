@@ -3,7 +3,7 @@ import { useEffect } from "react";
 function imageMapResize() {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "/imageMapResizer.min.js";
+    script.src = "/ImageMapResizer.min.js";
     script.async = true;
 
     script.onload = () => {

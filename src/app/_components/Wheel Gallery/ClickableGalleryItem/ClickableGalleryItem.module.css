@@ -24,18 +24,20 @@
   position: absolute;
   font-weight: normal;
   color: black;
-  bottom: 5%;
+  bottom: 7%;
   left: 6%;
   font-size: 4cqw;
 }
 
 .gallery__item_description_name {
   font-weight: 700;
+  margin: 0;
 }
 
 .gallery__item_description_user {
   font-style: italic;
   font-size: 3cqw;
+  margin: 0;
   font-weight: normal;
 }
 
@@ -66,6 +68,7 @@
 .gallery__item_description_size {
   position: absolute;
   bottom: 12%;
+  margin: 0;
   right: 6%;
   font-weight: 700;
   font-size: 4cqw;

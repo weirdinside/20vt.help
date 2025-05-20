@@ -15,38 +15,38 @@
   }
 }
 
-@keyframes pulseText{
-  0%{
+@keyframes pulseText {
+  0% {
     opacity: 100%;
     scale: 1;
     content: "loading.";
   }
-  50%{
+  50% {
     opacity: 50%;
     scale: 1;
-    content: "loading.."
+    content: "loading..";
   }
-  100%{
+  100% {
     opacity: 100%;
     scale: 1;
-    content: "loading..."
+    content: "loading...";
   }
 }
 
-@keyframes moveBackground{
-  0%{
+@keyframes moveBackground {
+  0% {
     background-position: 0% 0%;
   }
-  100%{
+  100% {
     background-position: 0% 100%;
   }
 }
 
-@keyframes fireOrder{
-  0%{
+@keyframes fireOrder {
+  0% {
     background-color: white;
   }
-  100%{
+  100% {
     background-color: rgba(255, 255, 255, 0);
   }
 }
@@ -122,9 +122,9 @@
 
 /* page */
 
-.page{
+.page {
   width: 100vw;
-  min-height: 100vh;
+  min-height: 100svh;
   min-height: -moz-available;
   min-height: -webkit-fill-available;
   min-height: fill-available;
@@ -132,7 +132,8 @@
   animation: 60s moveBackground linear infinite;
   display: flex;
   margin: 0;
-  padding: 0 40px;
+  padding: 0;
+
   background-color: #181818;
   background-repeat: repeat;
   background-size: 50%;
@@ -143,14 +144,14 @@
   background-color: #18181800;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   overflow: hidden;
   transform: rotate3d(0, 0, 0);
   overflow-y: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 0 40px;
   justify-content: center;
   min-width: 500px;
   max-width: 1000px;
@@ -159,7 +160,7 @@
 /* header */
 
 .header {
-  animation: clipIn 1.5s ease-out;
+  animation: clipIn 1.1s ease-out;
   display: flex;
   position: relative;
   align-items: flex-end;
@@ -175,7 +176,7 @@
   font-family: "Work Sans", sans-serif;
   display: flex;
   align-items: end;
-  animation: clipIn 1.5s cubic-bezier(0.17, 0.67, 0.45, 0.98);
+  animation: clipIn 1s cubic-bezier(0.17, 0.67, 0.45, 0.98);
   font-weight: bold;
   color: #e1e1e1;
   margin: 0px;
@@ -197,7 +198,7 @@
 }
 
 .header__about-modal-trigger {
-  animation: fadeInLate 2s cubic-bezier(0.17, 0.67, 0.45, 0.98);
+  animation: fadeInLate 3s cubic-bezier(0.17, 0.67, 0.45, 0.98);
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   font-family: "Work Sans", sans-serif;
@@ -229,6 +230,71 @@
   width: 100%;
 }
 
+.other-links {
+}
+
+.link-cta {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Work sans", Arial, Helvetica, sans-serif;
+  animation: clipIn 0.5s cubic-bezier(0.17, 0.67, 0.45, 0.98);
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.319);
+  color: #e1e1e1;
+  z-index: 4;
+  margin: 0px 0px 3px;
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  font-size: clamp(1cqw, 36px, 2.4cqw);
+}
+
+.link-cta__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: #cf2a2a;
+  transform: skewX(-15deg);
+  clip-path: polygon(0 0, 0% 0, 0% 100%, 0% 100%);
+  scale: 1;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.link-cta:hover {
+  .link-cta__background {
+    animation: clipIn 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+    scale: 1.1;
+    z-index: -1;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+}
+
+.link-cta__arrow {
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  rotate: 0deg;
+}
+
+.link-cta__arrow.open {
+  rotate: 90deg;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.link-list {
+  max-height: 0px;
+  padding-left: 2%;
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.link-list.open {
+  max-height: 700px;
+  transition: 2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
 /* modal */
 
 .modal {
@@ -252,11 +318,10 @@
   visibility: visible;
 }
 
-.homepage__footer{
-  
+.homepage__footer {
 }
 
-.page__loading{
+.page__loading {
   left: 0;
   top: 0;
   display: flex;
@@ -271,18 +336,18 @@
   overflow: hidden;
 }
 
-.page__loading.active{
+.page__loading.active {
   z-index: 20;
 }
 
-.page__loading_text{
+.page__loading_text {
   animation: pulseText 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
   position: absolute;
   color: white;
   z-index: 10;
 }
 
-.page__loading_background{
+.page__loading_background {
   background-color: #cf2a2a;
   position: absolute;
   width: 100vw;
@@ -290,11 +355,11 @@
   transform: skew(-15deg) scaleX(1.5) translateX(-100vw);
 }
 
-.page__loading_background.active{
+.page__loading_background.active {
   animation: 0.5s backgroundSlide cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
 
-.page__loading_firingorder{
+.page__loading_firingorder {
   display: flex;
   gap: 10px;
   position: absolute;
@@ -302,27 +367,27 @@
   transform: translateX(-100vw);
 }
 
-.page__loading_firingorder.active{
+.page__loading_firingorder.active {
   animation: 0.5s firingOrderSlide cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
 
-.page__loading_firingorder :nth-child(1){
+.page__loading_firingorder :nth-child(1) {
   animation: 1s fireOrder 0s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
-.page__loading_firingorder :nth-child(2){
-  animation: 1s fireOrder 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955)  infinite;
+.page__loading_firingorder :nth-child(2) {
+  animation: 1s fireOrder 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
-.page__loading_firingorder :nth-child(3){
+.page__loading_firingorder :nth-child(3) {
   animation: 1s fireOrder 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
-.page__loading_firingorder :nth-child(4){
+.page__loading_firingorder :nth-child(4) {
   animation: 1s fireOrder 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
-.page__loading_firingorder :nth-child(5){
+.page__loading_firingorder :nth-child(5) {
   animation: 1s fireOrder 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
 }
 
-.page__loading_fire{
+.page__loading_fire {
   width: 40px;
   height: 40px;
   border-radius: 50px;
@@ -334,8 +399,7 @@
 /* -------------------------------------------------------------------------------- */
 
 @media screen and ((max-width: 600px) and (min-width: 320px)) {
-
-  .page{
+  .page {
     width: 100vw;
     max-height: 100svh;
     overflow: hidden;
@@ -343,7 +407,6 @@
   }
 
   .page__container {
-
     min-width: 320px;
     max-width: 100%;
     margin: 0 20px;
@@ -357,6 +420,11 @@
 
   .nav__item {
     font-size: 28px;
+  }
+
+  .link-cta {
+    font-size: 25px;
+    line-height: 35px;
   }
 
   .modal__container {
@@ -378,8 +446,7 @@
 /* -------------------------------------------------------------------------------- */
 
 @media screen and (max-height: 670px) and (min-height: 300px) {
-
-  .page{
+  .page {
     max-height: 100svh;
   }
 

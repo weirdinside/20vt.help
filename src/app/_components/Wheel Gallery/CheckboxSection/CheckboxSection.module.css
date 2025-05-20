@@ -9,6 +9,7 @@
   position: relative;
   display: flex;
   overflow: hidden;
+  border: none;
   justify-content: space-between;
   border-bottom: 1px solid white;
 }

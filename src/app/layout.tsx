@@ -1,8 +1,25 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Work_Sans } from "next/font/google";
+import { Work_Sans, Kosugi, Sometype_Mono } from "next/font/google";
 
-const work_sans = Work_Sans({ subsets: ["latin"] });
+const workSans = Work_Sans({
+  subsets: ["latin"],
+  variable: "--font-work-sans",
+  display: "swap",
+});
+
+const kosugi = Kosugi({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-kosugi",
+  display: "swap",
+});
+
+const sometypeMono = Sometype_Mono({
+  subsets: ["latin"],
+  variable: "--font-sometype-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "20vt.help",
@@ -15,7 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={work_sans.className}>
+    <html
+      lang="en"
+      className={`${workSans.variable} ${kosugi.variable} ${sometypeMono.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

@@ -350,7 +350,7 @@
 
   .submit {
     border: 2px solid #00000000;
-    max-width: calc(100vw - 20px);
+    max-width: calc(100vw - 50px);
     max-height: calc(100svh - 100px);
   }
 

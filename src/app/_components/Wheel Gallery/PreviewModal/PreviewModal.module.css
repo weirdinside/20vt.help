@@ -117,6 +117,7 @@
   right: auto;
   padding: 5px 10px;
   font-size: 30px;
+  margin: 0;
   width: fit-content;
   border-radius: 10px;
   height: fit-content;
@@ -137,6 +138,7 @@
 .image {
   flex-grow: 1;
   width: auto;
+  overflow: hidden;
   height: auto;
   object-fit: cover;
 }

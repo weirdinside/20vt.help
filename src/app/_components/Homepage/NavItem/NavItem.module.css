@@ -77,7 +77,7 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.319);
   color: #e1e1e1;
   margin: 0px 0px 3px;
-  font-size: clamp(2cqw, 36px, 3.4cqw);
+  font-size: clamp(3cqw, 36px, 2.4cqw);
   padding: 0;
   z-index: 3;
   transform: skewX(0deg);

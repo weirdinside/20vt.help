@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Work_Sans, Kosugi, Sometype_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next";
+import { SearchProvider } from "./contexts/SearchProvider";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -32,11 +34,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${workSans.variable} ${kosugi.variable} ${sometypeMono.variable}`}
-    >
-      <body>{children}</body>
-    </html>
+    <SearchProvider>
+      <NuqsAdapter>
+        <html
+          lang="en"
+          className={`${workSans.variable} ${kosugi.variable} ${sometypeMono.variable}`}
+        >
+          <body>{children}</body>
+        </html>
+      </NuqsAdapter>
+    </SearchProvider>
   );
 }

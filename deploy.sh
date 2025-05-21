@@ -38,8 +38,7 @@ rsync -avzP --delete \
 
 echo "Installing dependencies and restarting application..."
 ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH && \
-    npm install --production && \
-    pm2 restart $PM2_APP_NAME || \
-    pm2 start npm --name $PM2_APP_NAME -- start"
+    npm install --production --legacy-peer-deps && \
+    pm2 restart all"
 
 echo "Deployment complete!"

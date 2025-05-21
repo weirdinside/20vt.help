@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import styles from "./CompendiumContent.module.css";
 
 //------------------------------------//
@@ -37,7 +37,6 @@ import ScreenSizeWarning from "./CompendiumScreenSizeWarning/ScreenSizeWarning";
 //------------------------------------//
 //                IMAGES              //
 //------------------------------------//
-
 
 import AANexhaustManifold1 from "../../assets/articles/exhaust_manifold/AAN-exhaust-manifold-1.png";
 import AANexhaustManifold2 from "../../assets/articles/exhaust_manifold/AAN-exhaust-manifold-2.png";
@@ -100,15 +99,20 @@ import * as rearShockSpringPartsImageMap1BA from "../../assets/rearShockSpringPa
 import * as rearShockSpringImageMap1BE from "../../assets/rearShockSpringPartsImageMap1BE.json";
 import * as rearSubframePartsImageMap1BA from "../../assets/rearSubframePartsImageMap1BA.json";
 import * as rearSubframePartsImageMap1BE from "../../assets/rearSubframePartsImageMap1BE.json";
+import { useQueryState } from "nuqs";
+import { SearchContext } from "@/app/contexts/SearchProvider";
 
 export default function CompendiumContent() {
   const [bigWindow, setBigWindow] = useState<boolean>(true);
-  const [searchInput, setSearchInput] = useState<string>("");
   const [clickSetting, setClickSetting] = useState<boolean>(false);
   const [pictureModalData, setPictureModalData] = useState({});
   const [windowWidth, setWindowWidth] = useState<number>();
   const [windowHeight, setWindowHeight] = useState<number>();
   const [activeModal, setActiveModal] = useState<string>("");
+
+  const [searchValue, setSearchValue] = useQueryState("search");
+
+  const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
   //------------------------------------//
   //              HANDLERS              //
@@ -120,7 +124,7 @@ export default function CompendiumContent() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setSearchInput(e.target.value);
+    setSearchTerm(e.target.value);
   };
 
   function handlePictureClick(item: any) {
@@ -152,12 +156,14 @@ export default function CompendiumContent() {
   }
 
   useEffect(() => {
+    if (searchTerm !== searchValue) setSearchValue(searchTerm);
+  }, [searchTerm]);
+
+  useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
     };
-
     window.addEventListener("keyup", handleKeyUp);
-
     return () => {
       window.removeEventListener("keyup", handleKeyUp);
     };
@@ -184,7 +190,7 @@ export default function CompendiumContent() {
       <ScreenSizeWarning />
       <div className={styles["page"]}>
         <CompendiumHeader
-          searchInput={searchInput}
+          searchInput={searchTerm}
           handleChange={handleChange}
         />
         <CompendiumBody>

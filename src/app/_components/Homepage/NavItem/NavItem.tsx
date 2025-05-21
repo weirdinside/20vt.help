@@ -28,7 +28,7 @@ function NavItem({ title, description }: {title: string, description: string}) {
             fontFamily={"Work Sans"}
             pauseTime={600}
             scrollSpeed={1}
-          ></Marquee>
+          />
         </div>
       </h1>
     </div>

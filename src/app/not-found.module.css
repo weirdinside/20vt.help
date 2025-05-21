@@ -13,19 +13,18 @@
   background-size: 400px;
 }
 
-
-@keyframes moveBackground{
-    0%{
-      background-position: 0% 0%;
-    }
-    100%{
-      background-position: 0% 100%;
-    }
+@keyframes moveBackground {
+  0% {
+    background-position: 0% 0%;
   }
-  
+  100% {
+    background-position: 0% 100%;
+  }
+}
 
 .notfound__container {
-    max-width: 90vw;
+  max-width: 90vw;
+  width: 80%;
 }
 
 .notfound__title {
@@ -37,14 +36,13 @@
 }
 
 .nav {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 100%;
-  }
-  
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+}
 
-.notfound__description{
-    color: white;
+.notfound__description {
+  color: white;
 }

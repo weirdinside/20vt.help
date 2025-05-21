@@ -133,7 +133,8 @@
   display: flex;
   margin: 0;
   padding: 0;
-
+  justify-content: center;
+  align-items: center;
   background-color: #181818;
   background-repeat: repeat;
   background-size: 50%;
@@ -150,6 +151,8 @@
   overflow-y: hidden;
   position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   margin: 0 40px;
   justify-content: center;

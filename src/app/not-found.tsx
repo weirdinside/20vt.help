@@ -15,7 +15,10 @@ export default function NotFound() {
         </p>
         <nav className={styles.nav}>
           <Link href="/" style={{ textDecoration: "none" }}>
-            <NavItem title="the homepage" description={""} />
+            <NavItem title="the homepage" description={"go back to 20vt.help/"} />
+          </Link>
+          <Link href="/compendium" style={{ textDecoration: "none" }}>
+            <NavItem title="the compendium" description={"an index of information and DIYs for C4 Audi owners"} />
           </Link>
           <Link href="/wheel-gallery" style={{ textDecoration: "none" }}>
             <NavItem

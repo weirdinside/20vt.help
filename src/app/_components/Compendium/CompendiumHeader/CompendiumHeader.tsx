@@ -1,6 +1,7 @@
-import React, { ChangeEventHandler } from "react";
+import React, { ChangeEventHandler, useContext } from "react";
 import Link from "next/link";
 import styles from "./CompendiumHeader.module.css";
+import { SearchContext } from "@/app/contexts/SearchProvider";
 
 export default function CompendiumHeader({
   searchInput,
@@ -9,9 +10,21 @@ export default function CompendiumHeader({
   searchInput: string;
   handleChange: ChangeEventHandler<HTMLInputElement>;
 }) {
+  const { setSearchTerm } = useContext(SearchContext);
   return (
     <header className={styles["header"]}>
+       {searchInput && (
+        <div
+          onClick={() => {
+            setSearchTerm("");
+          }}
+          className={styles["search__close"]}
+        >
+          ✕
+        </div>
+      )}
       <h1 className={styles["header__title"]}>Compendium.</h1>
+     
       <input
         className={styles["header__search"]}
         type="text"

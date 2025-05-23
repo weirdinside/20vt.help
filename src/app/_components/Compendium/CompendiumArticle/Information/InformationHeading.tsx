@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../Compendium.module.css";
+import styles from "../../CompendiumContent.module.css";
 
 function InformationHeading({
   children,

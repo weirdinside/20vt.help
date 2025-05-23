@@ -87,6 +87,12 @@ import modified7400housing from "../../assets/articles/turbocharger/modified7400
 import nicAllen7400Dyno from "../../assets/articles/turbocharger/nic-allen-7400-dyno.png";
 import RS2turbo from "../../assets/articles/turbocharger/RS2turbo.png";
 
+import MAPSensor from "../../assets/articles/tuning/3BarBoschMAP.jpeg";
+import MTM1Plus from "../../assets/articles/tuning/MTM 1+ - quattron8-jc.jpg";
+import wetterauer1 from "../../assets/articles/tuning/wetteraeur stage 1 - neacail.jpg";
+import wetterauer2 from "../../assets/articles/tuning/wetterauer stage 1 (2) - neacail.jpg";
+import TAPstage1or2 from "../../assets/articles/tuning/TAP stage 1 or 2 - quattron8-jc.jpeg";
+
 //------------------------------------//
 //             IMAGE MAPS             //
 //------------------------------------//
@@ -101,6 +107,8 @@ import * as rearSubframePartsImageMap1BA from "../../assets/rearSubframePartsIma
 import * as rearSubframePartsImageMap1BE from "../../assets/rearSubframePartsImageMap1BE.json";
 import { useQueryState } from "nuqs";
 import { SearchContext } from "@/app/contexts/SearchProvider";
+import InformationHeading from "./CompendiumArticle/Information/InformationHeading";
+import ECUPinout from "./CompendiumArticle/ECUPinout/ECUPinout";
 
 export default function CompendiumContent() {
   const [bigWindow, setBigWindow] = useState<boolean>(true);
@@ -482,11 +490,189 @@ export default function CompendiumContent() {
             models={["100", "A6", "UrS4", "UrS6"]}
           >
             <InformationText>
-              C4 UrS aftermarket suspension, though available, is very limited
-              in customizability. Coilovers are available from 2Bennett and KW,
-              but KW does not ship to the United States and 2Bennett's price tag
-              is a bit hefty. The most customizable and cost effective option is
-              to build your own setup.
+              C4 UrS coilovers, though available, are very limited in options.
+              Coilovers are available from 2Bennett, and KW*, but KW does not
+              ship to North America and 2Bennett's price tag is a bit hefty
+              (when I purchased a set from 2B in 2019, it cost me just around
+              $3,800 USD shipped to my doorstep). The most customizable and cost
+              effective option is to build your own setup.
+              <br /> <br />
+              <span style={{ fontStyle: "italic" }}>
+                {" "}
+                *as of 2024, TA Technix and MTS autotechnik also make coilovers
+                for these cars. They are more cost effective than the 2B variant
+                and will ship to the US unlike KW. People have achieved positive
+                results with the MTS kit, including{" "}
+                <InformationLink
+                  title="Joel Francisco"
+                  inline
+                  customText="Joel Francisco"
+                  link="https://instagram.com/rs6_jolio"
+                />
+                ,{" "}
+                <InformationLink
+                  customText="Valentino Di Rico"
+                  inline
+                  link="https://instagram.com/spaghetti_n_quattros"
+                />
+                , and Jay Alford, but the TA Technix kit is akin to a cheap BC
+                Racing coilover.
+              </span>
+            </InformationText>
+            <InformationHeading>Rear Coilover DIY</InformationHeading>
+            <InformationText>
+              The easier coilover conversion to do (by quite a large margin) is
+              the rear suspension. In most cases, if your car already has an
+              aftermarket Bilstein or Koni shock, a budget rear coilover is
+              almost a must if you're a UrS avant owner putting loads of stuff
+              in the hatch.
+            </InformationText>
+            <InformationText>
+              Starting with the shocks, you have the option of either a Bilstein
+              or Koni.
+            </InformationText>
+            <InformationCited>
+              2 x Koni 80 2630 sport -{" "}
+              <InformationLink
+                link="https://www.fcpeuro.com/products/audi-shock-absorber-koni-sport-802630sport"
+                inline
+                customText="fcpeuro.com"
+              />
+            </InformationCited>
+            <InformationCited>
+              2 x Bilstein B8 24-020664 -{" "}
+              <InformationLink
+                link="https://www.fcpeuro.com/products/audi-shock-absorber-100-quattro-a6-quattro-s6-5000-quattro-v8-quattro-24-020664"
+                inline
+                customText="fcpeuro.com"
+              />
+            </InformationCited>
+            <InformationText>
+              They are roughly the same price, so you may choose whichever you
+              please. However, if you go the Koni route, note that you will
+              likely need{" "}
+              <InformationLink
+                link="https://www.amazon.com/gp/product/B002E7HLY0/"
+                customText="a spring perch like this"
+                inline
+              />
+              , as the stock seat on the shock is not removable to my knowledge
+              and cannot be used by a coilover spring. Since the Bilsteins have
+              a removable perch and utilize a circlip that you can reuse for the
+              sleeve to sit on, an additional perch is not necessary, but is
+              recommended in case the circlip decides to fail. I have not
+              experienced this on my avant with 500lb springs through New York
+              winters, but if you're going for a more aggressive setup, the
+              extra failsafe couldn't hurt.
+            </InformationText>
+            <InformationText>
+              Next are the slip-ons for the shock body. You have the option of
+              buying these items separately, as I did from A1-Racing:
+            </InformationText>
+            <InformationCited>
+              2 x bottom spring perch (A1-12460) -{" "}
+              <InformationLink
+                inline
+                link="https://www.a1racing.com/A1_Racing_Products_12460_2_1/2_Spring_Coil_Over_Adjusting_Nut.aspx"
+                customText="A1 Racing"
+              />
+            </InformationCited>
+            <InformationCited>
+              2 x non slotted spring top perch -{" "}
+              <InformationLink
+                inline
+                link="https://www.a1racing.com/A1_Racing_Products_12470_2_1/2_Spring_NonSlotted_Coil_Over_Top.aspx"
+                customText="A1 Racing"
+              />
+            </InformationCited>
+            <InformationCited>
+              2 x threaded sleeve (BUY ONLY IF YOU HAVE BILSTEIN) -{" "}
+              <InformationLink
+                inline
+                link="https://www.a1racing.com/A1_Racing_Products_12451_5_Coil_Over_Sleeve.aspx"
+                customText="A1 Racing"
+              />
+            </InformationCited>
+            <InformationCited>
+              2 x threaded sleeve (BUY ONLY IF YOU HAVE KONI) -{" "}
+              <InformationLink
+                inline
+                link="https://www.a1racing.com/A1_Racing_Products_12450_5_Coil_Over_Sleeve.aspx"
+                customText="A1 Racing"
+              />
+            </InformationCited>
+            <InformationText>
+              You could also try out either one of these kits instead of buying
+              the parts separately - I have no experience with them, but I'm
+              certain either of them would work the same:
+            </InformationText>
+            <InformationCited>
+              2 x Bilstein coilover sleeve kit -{" "}
+              <InformationLink
+                inline
+                link="https://carolinaracingsupply.com/product/00/303-193117/BILSTEIN-COIL-OVER-KIT-with-7-SLEEVE"
+                customText="carolinaracingsupply.com  "
+              />
+            </InformationCited>
+            <InformationCited>
+              2 x Bilstein coilover sleeve kit -{" "}
+              <InformationLink
+                inline
+                link="https://www.speedwaymotors.com/Coilover-Kits-2-Inch-Body-7-Inch-Coilover-Sleeve,31667.html?sku=91046238-BIL"
+              />
+            </InformationCited>
+            <InformationText>
+              Now for the springs. We're looking specifically for 2.5" ID
+              springs that are around 7" in length. I used the ones linked
+              below, but you can play with spring rates and lengths at your own
+              preference. I also opted to use helper springs, which I don't
+              actually believe help too much - many have gone without them and
+              achieved great results.
+            </InformationText>
+
+            <InformationCited>
+              2 x Eibach 500LB spring -{" "}
+              <InformationLink
+                inline
+                link="https://pitstopusa.com/products/eibach-7-coil-over-spring-2-1-2-i-d-500-lb"
+              />
+            </InformationCited>
+
+            <InformationCited>
+              2 x Hyperco takeup spring (OPTIONAL) -{" "}
+              <InformationLink
+                inline
+                link="https://pitstopusa.com/products/hypercoils-4-take-up-spring-2-1-2-i-d-25-lb"
+              />
+            </InformationCited>
+            <InformationCited>
+              2 x Eibach spring spacer (OPTIONAL - ONLY FOR USE WITH HELPER
+              SPRINGS OR A 2 SPRING SETUP) -{" "}
+              <InformationLink
+                inline
+                link="https://pitstopusa.com/products/eibach-2-1-2-i-d-spring-spacer"
+              />
+            </InformationCited>
+            <InformationText>
+              Instead of buying the straight spring above, you could also buy a
+              set of barrel springs below (recommended by Phil Jolicoeur)
+            </InformationText>
+            <InformationCited>
+              2 x Eibach 500LB barrel spring -{" "}
+              <InformationLink
+                inline
+                link="https://eibach.com/product/0700.2530.0500"
+              />
+            </InformationCited>
+            <InformationText>
+              A step by step assembly can be found at{" "}
+              <InformationLink
+                inline
+                link="https://theprojectpad.com/viewtopic.php?f=28&t=3068"
+              />
+              , courtesy of Phil Jolicoeur.
+              <br />
+              Photo instructions will be available here soon as well.
             </InformationText>
           </CompendiumArticle>
           {/* ECU */}
@@ -564,11 +750,19 @@ export default function CompendiumContent() {
               been replaced. If they haven't, switch them to spades - no
               modification is necessary.
             </InformationText>
+            <InformationText>
+              Below is a rough pinout of the UrS4/UrS6 Motronic 2.3.2 ECU,
+              viewing it with the "Motronic" logo facing upwards. The pins go
+              1-55 from right to left, bottom to top (starting with Pin 1 in the
+              bottom right). Hover / Touch a pin to get its number & purpose, or
+              reference the table below it.
+            </InformationText>
+            <ECUPinout />
             <InformationLink
               num="00"
               title="Technical Data"
               link="https://forums.quattroworld.com/s4s6/msgs/21009.phtml"
-            ></InformationLink>
+            />
             <InformationLink
               num="05"
               title="Tuning / PRJmod"
@@ -642,14 +836,14 @@ export default function CompendiumContent() {
               Apart from the OEM options, there are a few other routes you can
               go:
               <InformationLink
-                inline="true"
+                inline
                 link="https://shop.efi-motorsport.com/products/rs2_evo_exhaust_manifold"
                 title="The wagner manifold"
               ></InformationLink>
               , which outflows the OEM manifolds and is a bit sturdier in its
               construction;
               <InformationLink
-                inline="true"
+                inline
                 link="https://www.ebay.com/itm/234581339922"
                 title="The eBay tubular manifold"
               ></InformationLink>
@@ -910,7 +1104,7 @@ export default function CompendiumContent() {
                   More information on the factory turbochargers is available
                   here:{" "}
                   <InformationLink
-                    inline="true"
+                    inline
                     link="https://www.audiworld.com/forums/audi-original-s-cars-25/oe-k24-7000-rs2-k24-7200-turbo-info-input-welcomed-2836186/"
                   />{" "}
                   (courtesy of Scott Justusson and UrS4boy)
@@ -986,7 +1180,7 @@ export default function CompendiumContent() {
                   [8-12-24], the kit is still{" "}
                   <InformationLink
                     link="https://www.034motorsport.com/turbo-kit-audi-i5-20v-garrett-gt.html"
-                    inline="true"
+                    inline
                     customText="available for sale on their website."
                   ></InformationLink>{" "}
                 </InformationText>
@@ -1000,9 +1194,163 @@ export default function CompendiumContent() {
                 </InformationText>
               </NestedNavItem>
               <NestedNavItem id="alt-turbo" title="Custom Solutions">
-                <p>nope</p>
+                <p>not here yet!</p>
               </NestedNavItem>
             </NestedNav>
+          </CompendiumArticle>
+          {/* Tuning */}
+          <CompendiumArticle title="Tuning" models={["UrS4", "UrS6"]}>
+            <InformationText>
+              From the factory, UrS4s and UrS6s with the AAN 5 cylinder engine
+              were equipped with a Bosch Motronic 2.3.2 ECU (More information on
+              these ECUs can be found in the ECU section). Given that these ECUs
+              parse motor and boost data from a pair of EEPROMs, These are quite
+              difficult to tune, as the tooling required to be able to do so is
+              not cheap or readily available.
+            </InformationText>
+            <InformationText>
+              Once upon a time, a plethora of off-the-shelf options were
+              available for these cars, but your best bet these days is to put a
+              post out on one of the forums (Yacht Club, quattroworld, Discord,
+              S2Forum) and hope that someone is selling a set of EEPROMs or an
+              ECU for the hardware you want to run. Below is a list of pictures
+              of chips and their required hardware:
+            </InformationText>
+            <InformationText>
+              MTM 1+ was a very common modification on these cars. They required
+              a 300KPA (3 bar) MAP sensor to be installed into the ECU in the
+              place of the stock 250KPA (2.5 bar) sensor.
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                caption={"MTM 1+ Chipset"}
+                imageSrc={MTM1Plus.src}
+                handlePictureClick={handlePictureClick}
+                figureNum={"1a"}
+              />
+              <FigureListItem
+                caption={
+                  "3 bar MAP sensor (located on the bottom side of the ECU)"
+                }
+                imageSrc={MAPSensor.src}
+                handlePictureClick={handlePictureClick}
+                figureNum={"1b"}
+              />
+            </FigureList>
+            <InformationText>
+              This is a Wetterauer Stage 1 (pictures courtesy of neacail on QW),
+              not much is known about this chip but it appears to be in use here
+              with the stock 2.5 bar MAP sensor.
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                caption={
+                  "Wetterauer Stage 1 Boost Chip (courtesy of neacail on QW)"
+                }
+                imageSrc={wetterauer1.src}
+                handlePictureClick={handlePictureClick}
+                figureNum={"2a"}
+              />
+              <FigureListItem
+                caption={
+                  "Wetterauer Stage 1 Motor Chip (courtesy of neacail on QW)"
+                }
+                imageSrc={wetterauer2.src}
+                handlePictureClick={handlePictureClick}
+                figureNum={"2b"}
+              />
+            </FigureList>
+            <InformationText>
+              TAP (Total Audi Performance) also made quite a few chips for
+              UrS4/UrS6. Stage 1 and Stage 2 (engine chip 391, boost chip 483)
+              allowed use of the stock MAP, Stage 3 required a 3 bar MAP and
+              Stage 4 required a 3.2 bar MAP.
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                caption={"TAP Stage 1 / 2 (courtesy of quattron8-JC on QW"}
+                imageSrc={TAPstage1or2.src}
+                handlePictureClick={handlePictureClick}
+                figureNum={"3a"}
+              />
+            </FigureList>
+            <InformationText>
+              IA (Intended Acceleration) chips, made by Ned Ritchie, are another
+              option. Currently I do not have photos of any of the IA chips, but{" "}
+              <InformationLink
+                customText="Ned's site"
+                inline
+                link="https://intendedacceleration.com/pricing.html"
+              />{" "}
+              is still up and has information on each chipset.
+            </InformationText>
+
+            <InformationHeading>
+              Tuning on Bosch Motronic 2.3.2 (STOCK ECU)
+            </InformationHeading>
+            <InformationText>
+              If you are looking to tune your car on the stock setup, you need
+              the following:
+            </InformationText>
+            <InformationCited>
+              - 2 x EEPROM emulators; PRJ (creator of prjmod software &
+              m232.org) recommends the Moates Ostrich, but that's discontinued
+              and very difficult to find
+            </InformationCited>
+            <InformationCited>
+              - A windows laptop with TunerPro installed on it
+            </InformationCited>
+            <InformationCited>
+              - The tuning configuration / mapping for TunerPro (.rdx file){" "}
+            </InformationCited>
+            <InformationCited>
+              - (OPTIONAL) A wideband gauge to monitor AFR
+            </InformationCited>
+            <InformationText>
+              More information is needed on this section, this is as far as I
+              know right now. If you know more than I do and want to help
+              contribute, email me at ani@20vt.help or check out{" "}
+              <InformationLink
+                inline
+                customText="PRJ's wiki on M2.3.2."
+                link="https://m232.org/index.php/Main_Page"
+              />
+            </InformationText>
+            <InformationHeading>
+              Standalone ECUs (Plug & Play)
+            </InformationHeading>
+            <InformationText>
+              If you are comfortable ditching the stock ECU in favor of
+              something more modern and customizable, there are a few routes to
+              go, some with hardware restrictions. Below are the most popular
+              PNP (Plug & Play) options that are available for UrS 20vt owners.
+              These kits will often come with an adapter harness for (or are
+              designed to accept) the stock 55 pin connector that the Motronic
+              ECU utilizes. The most you will have to do is pin a few extra
+              wires for knock sensing or LSU 4.2/4.9
+            </InformationText>
+            <InformationText>
+              <span style={{ fontWeight: "800" }}>VEMS</span> is the plug & play
+              option of choice by many UrS owners, as it has been around for the
+              longest, has a decent amount of support and a good UI as well as
+              add ons, like an app and a display to quickly monitor values at a
+              glance.
+            </InformationText>
+            <InformationText>
+              <span style={{ fontWeight: "800" }}>ECUMaster</span> also makes a
+              couple of ECUs that have P&P harnesses available (EMU Classic and
+              EMU Black), and are not as widely used. The setup is a bit more
+              difficult than VEMS, and without a 60-2 rear main seal replacing
+              the stock crank trigger, seems to be a good bit harder to tune
+              than VEMS or MaxxECU.
+            </InformationText>
+            <InformationText>
+              <span style={{ fontWeight: "800" }}>MaxxECU</span> is the most
+              costly option of the three, but has the best support and is the
+              most modern option by far. I recommend going with a MaxxECU Race
+              unit, as it has more I/O and the ability to use knock control,
+              unlike the Street version.
+            </InformationText>
           </CompendiumArticle>
         </CompendiumBody>
 

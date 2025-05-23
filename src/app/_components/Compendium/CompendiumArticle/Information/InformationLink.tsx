@@ -5,13 +5,13 @@ function InformationLink({
   num,
   title,
   link,
-  inline = "false",
+  inline = false,
   customText = "",
 }: {
   num?: string;
   title?: string;
   link: string;
-  inline?: "true" | "false";
+  inline?: boolean;
   customText?: string;
 }) {
   function reduceLink() {
@@ -43,7 +43,7 @@ function InformationLink({
       );
     }
   }
-  if (customText && inline === "false") {
+  if (customText && !inline) {
     return (
       <p className={styles["information__cited"]}>
         {num} {title} -{" "}
@@ -59,7 +59,7 @@ function InformationLink({
     );
   }
 
-  if (inline === "false") {
+  if (!inline) {
     return (
       <p className={styles["information__cited"]}>
         {num} {title} -{" "}
@@ -74,7 +74,7 @@ function InformationLink({
       </p>
     );
   }
-  if (inline === "true") {
+  if (inline) {
     return (
       <span
         style={{ textDecoration: "underline" }}
@@ -82,8 +82,9 @@ function InformationLink({
         rel="noreferrer noopener"
       >
         {" "}
-        <a target="_blank" href={link}></a>
-        {customText ? customText : reduceLink()}
+        <a target="_blank" href={link}>
+          {customText ? customText : reduceLink()}
+        </a>
       </span>
     );
   }

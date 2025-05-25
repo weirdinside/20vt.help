@@ -486,6 +486,8 @@
     font-size: 25px;
     align-self: center;
     font-style: normal;
+    font-family: monospace;
+    font-variant-emoji: text;
     transition: 1s cubic-bezier(0, 0.89, 0.31, 0.95);
     cursor: pointer;
   }

@@ -1,23 +1,16 @@
-import { useEffect } from "react";
-
-function imageMapResize() {
-  useEffect(() => {
+export default function imageMapResize() {
+  if (
+    typeof window !== "undefined" &&
+    typeof window.imageMapResize !== "function"
+  ) {
     const script = document.createElement("script");
-    script.src = "/ImageMapResizer.min.js";
+    script.src = "/js/ImageMapResizer.min.js";
     script.async = true;
-
     script.onload = () => {
-      if (window.imageMapResize) {
-        window.imageMapResize();
-      }
+      window.imageMapResize?.();
     };
-
     document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  } else {
+    window.imageMapResize?.();
+  }
 }
-
-export default imageMapResize;

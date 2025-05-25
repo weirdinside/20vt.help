@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Work_Sans, Kosugi, Sometype_Mono } from "next/font/google";
+
 import { NuqsAdapter } from "nuqs/adapters/next";
 import { SearchProvider } from "./contexts/SearchProvider";
 

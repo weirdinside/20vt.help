@@ -17,11 +17,12 @@ function TitleBox({ models, title, handleTitleClick, activeClass }) {
       <h2 className={styles["title-box__heading"]}>
         {title}
         <span
+        style={{fontFamily: "monospace", fontSize: "clamp(18px, 4vw, 38px)"}}
           className={`
             ${styles[`title-box__heading_tri`]} 
             ${styles[`${activeClass}`]}`}
         >
-          &#9654;
+          &#x25B6;
         </span>
       </h2>
       {models.map((model) => {

@@ -62,6 +62,7 @@ export default function Homepage() {
               <div className={styles["link-cta__background"]} />
               other resources...{" "}
               <span
+              style={{fontFamily: "monospace"}}
                 className={`${styles["link-cta__arrow"]} ${
                   isOtherOpen && styles["open"]
                 }`}

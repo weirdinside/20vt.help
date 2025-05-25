@@ -88,7 +88,7 @@ import nicAllen7400Dyno from "../../assets/articles/turbocharger/nic-allen-7400-
 import RS2turbo from "../../assets/articles/turbocharger/RS2turbo.png";
 
 import MAPSensor from "../../assets/articles/tuning/3BarBoschMAP.jpeg";
-import MTM1Plus from "../../assets/articles/tuning/MTM 1+ - quattron8-jc.jpg";
+import MTM1Plus from "../../assets/articles/tuning/MTM1Plus.jpg";
 import wetterauer1 from "../../assets/articles/tuning/wetteraeur stage 1 - neacail.jpg";
 import wetterauer2 from "../../assets/articles/tuning/wetterauer stage 1 (2) - neacail.jpg";
 import TAPstage1or2 from "../../assets/articles/tuning/TAP stage 1 or 2 - quattron8-jc.jpeg";
@@ -109,6 +109,7 @@ import { useQueryState } from "nuqs";
 import { SearchContext } from "@/app/contexts/SearchProvider";
 import InformationHeading from "./CompendiumArticle/Information/InformationHeading";
 import ECUPinout from "./CompendiumArticle/ECUPinout/ECUPinout";
+import Script from "next/script";
 
 export default function CompendiumContent() {
   const [bigWindow, setBigWindow] = useState<boolean>(true);
@@ -118,6 +119,7 @@ export default function CompendiumContent() {
   const [windowHeight, setWindowHeight] = useState<number>();
   const [activeModal, setActiveModal] = useState<string>("");
 
+  const [openArticles, setOpenedArticles] = useQueryState("oa");
   const [searchValue, setSearchValue] = useQueryState("search");
 
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
@@ -162,6 +164,10 @@ export default function CompendiumContent() {
     if (windowHeight && windowWidth)
       setBigWindow(windowHeight > 500 && windowWidth > 580);
   }
+
+  useEffect(() => {
+    if (searchValue) setSearchTerm(searchValue);
+  }, []);
 
   useEffect(() => {
     if (searchTerm !== searchValue) setSearchValue(searchTerm);
@@ -499,10 +505,21 @@ export default function CompendiumContent() {
               <br /> <br />
               <span style={{ fontStyle: "italic" }}>
                 {" "}
-                *as of 2024, TA Technix and MTS autotechnik also make coilovers
-                for these cars. They are more cost effective than the 2B variant
-                and will ship to the US unlike KW. People have achieved positive
-                results with the MTS kit, including{" "}
+                *as of 2024,{" "}
+                <InformationLink
+                  inline
+                  customText="TA Technix"
+                  link="https://www.tatechnix.de/tatechnix/gx/?cat=c156505_4A-C4-4a-c4-156505.html"
+                />{" "}
+                and{" "}
+                <InformationLink
+                  inline
+                  customText="MTS Technik"
+                  link="https://mtstechnik.com/en/menu/with-camber-plates-37054.html"
+                />{" "}
+                also make coilovers for these cars. They are more cost effective
+                than the 2B variant and will ship to the US unlike KW. People
+                have achieved positive results with the MTS kit, including{" "}
                 <InformationLink
                   title="Joel Francisco"
                   inline
@@ -1309,7 +1326,13 @@ export default function CompendiumContent() {
             <InformationText>
               More information is needed on this section, this is as far as I
               know right now. If you know more than I do and want to help
-              contribute, email me at ani@20vt.help or check out{" "}
+              contribute, email me at{" "}
+              <InformationLink
+                customText="ani@20vt.help"
+                inline
+                link="mailto:ani@20vt.help"
+              />{" "}
+              or check out{" "}
               <InformationLink
                 inline
                 customText="PRJ's wiki on M2.3.2."
@@ -1376,6 +1399,7 @@ export default function CompendiumContent() {
           handleClickCheckbox={handleClickCheckbox}
           activeModal={activeModal}
         />
+        <Script src="/ImageMapResizer.min.js" />
       </div>
     </>
   );

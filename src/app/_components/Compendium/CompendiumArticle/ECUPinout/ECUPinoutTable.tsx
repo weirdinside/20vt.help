@@ -52,7 +52,8 @@ export default function ECUPinoutTable({
             {ecu_pins[`${i}`].desc}{" "}
           </td>
           <td className={styles["codetable__caption"]}>
-            {ecu_pins[`${i}`].pc}/{ecu_pins[`${i}`].sc}
+            {ecu_pins[`${i}`].pc === "transparent" ? "N/" : ecu_pins[`${i}`].pc + "/"}
+            {ecu_pins[`${i}`].sc === "transparent" ? "A" : ecu_pins[`${i}`].sc}
           </td>
         </tr>
       );
@@ -74,7 +75,7 @@ export default function ECUPinoutTable({
               <th
                 style={{
                   marginLeft: "auto",
-                  width: "max-content",
+                  width: "min-content",
                   marginRight: "10px",
                   textWrap: "nowrap",
                 }}

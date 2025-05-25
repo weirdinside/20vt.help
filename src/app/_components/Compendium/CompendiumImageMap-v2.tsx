@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import styles from "./CompendiumContent.module.css";
+import { useEffect, useRef, useState } from "react";
 import imageMapResize from "../../hooks/imageMapResize";
+import styles from "./CompendiumContent.module.css";
 
 interface MapArea {
   name: string;
@@ -89,6 +89,7 @@ function CompendiumImageMap({
 
   function handleHoverOver(area: MapArea) {
     const matchedArea = findElementById(area);
+
     if (matchedArea) {
       changeCaption(matchedArea.alt);
       if (ctx) ctx.reset();
@@ -102,6 +103,8 @@ function CompendiumImageMap({
     if (ctx) ctx.reset();
     drawAll();
   }
+
+  imageMapResize();
 
   function handleObjectClick(area: MapArea) {
     const matchedArea = findElementById(area);
@@ -148,15 +151,14 @@ function CompendiumImageMap({
     checkClickSetting();
   }, [clickSetting]);
 
-  imageMapResize();
-
   useEffect(() => {
     ctx = canvas.current!.getContext("2d");
 
     const handleImageLoad = () => {
       setTimeout(() => {
+        console.log("yee");
         drawAll();
-      }, 10); // small delay to wait for imageMapResize. i don't know why this is necessary
+      }, 100); // small delay to wait for imageMapResize. i don't know why this is necessary
     };
 
     const img = imageInHTML.current;
@@ -205,14 +207,14 @@ function CompendiumImageMap({
           </p>
           <label className={styles["settings__switch"]}>
             <input
-              className={styles['settings__input']}
+              className={styles["settings__input"]}
               style={{ height: "0", width: "0" }}
               id="click-through-for-search"
               type="checkbox"
               checked={clickSetting}
               onChange={handleClickCheckbox}
             />
-            <span className={styles["slider"]}/>
+            <span className={styles["slider"]} />
           </label>
         </div>
       </div>

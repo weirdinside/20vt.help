@@ -15,15 +15,15 @@ export default async function Login() {
     redirect("/wheel-gallery/review");
   }
 
-  if(error){
-    console.error(error)
+  if (error) {
+    console.error(error);
   }
 
   return (
     <div className={styles["login"]}>
       <form className={styles["login__form"]}>
         <div className={styles["login__photo-stack"]}>
-          <ImageStack></ImageStack>
+          <ImageStack />
         </div>
         <h1 className={styles["login__form_heading"]}>sign in</h1>
         <input
@@ -44,9 +44,9 @@ export default async function Login() {
         />
         <div className={styles["login__form_actions"]}>
           <Link href="/wheel-gallery">
-          <button className={styles["login__form_button"]}>gallery</button>
+            <button className={styles["login__form_button"]}>gallery</button>
           </Link>
-         
+
           <button className={styles["login__form_button"]} formAction={login}>
             sign in
           </button>

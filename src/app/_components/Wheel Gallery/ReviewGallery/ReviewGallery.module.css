@@ -46,23 +46,22 @@
 }
 
 .edit__form_input {
-    background-color: #00000000;
-    color: white;
-    font-weight: 500;
-    border-bottom: 2px solid white;
+  background-color: #00000000;
+  color: white;
+  font-weight: 500;
+  border-bottom: 2px solid white;
 }
 
-.edit__form_buttons{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-
+.edit__form_buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
-.edit__form_button{
-    background-color: #00000000;
-    color: #cf2a2a;
-    border: 2px solid #cf2a2a;
-    padding: 4px 5px;
-    border-radius: 4px;
+.edit__form_button {
+  background-color: #00000000;
+  color: #cf2a2a;
+  border: 2px solid #cf2a2a;
+  padding: 4px 5px;
+  border-radius: 4px;
 }

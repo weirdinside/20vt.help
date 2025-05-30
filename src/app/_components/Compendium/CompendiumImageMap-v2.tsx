@@ -156,7 +156,6 @@ function CompendiumImageMap({
 
     const handleImageLoad = () => {
       setTimeout(() => {
-        console.log("yee");
         drawAll();
       }, 100); // small delay to wait for imageMapResize. i don't know why this is necessary
     };

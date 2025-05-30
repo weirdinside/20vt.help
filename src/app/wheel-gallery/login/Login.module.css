@@ -4,6 +4,7 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .login__form {
@@ -24,6 +25,7 @@
 .login__form_input {
   margin: 5px 0;
   background-color: #00000000;
+  color: white;
   border-bottom: 2px solid white;
 }
 

@@ -11,6 +11,6 @@ export default async function Review() {
   }
 
   return (
-    <ReviewGallery userData={data}></ReviewGallery>
+    <ReviewGallery userData={data}/>
   );
 }

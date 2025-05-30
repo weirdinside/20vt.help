@@ -110,6 +110,8 @@ import { SearchContext } from "@/app/contexts/SearchProvider";
 import InformationHeading from "./CompendiumArticle/Information/InformationHeading";
 import ECUPinout from "./CompendiumArticle/ECUPinout/ECUPinout";
 import Script from "next/script";
+import ClimateControlCh1Modal from "./CompendiumArticle/ClimateControl/ClimateControlCh1Modal";
+import { debounce } from "@/app/utils";
 
 export default function CompendiumContent() {
   const [bigWindow, setBigWindow] = useState<boolean>(true);
@@ -1383,6 +1385,11 @@ export default function CompendiumContent() {
         />
 
         <CompendiumAboutModal
+          closeModal={closeModal}
+          activeModal={activeModal}
+        />
+
+        <ClimateControlCh1Modal
           closeModal={closeModal}
           activeModal={activeModal}
         />

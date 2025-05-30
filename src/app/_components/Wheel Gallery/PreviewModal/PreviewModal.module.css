@@ -15,6 +15,11 @@
   }
 }
 
+.black__placeholder{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
 .modal {
   margin: 0;
   opacity: 0;

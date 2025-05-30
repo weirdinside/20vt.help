@@ -4,10 +4,10 @@ export default function imageMapResize() {
     typeof window.imageMapResize !== "function"
   ) {
     const script = document.createElement("script");
-    script.src = "/js/ImageMapResizer.min.js";
+    script.src = "/ImageMapResizer.min.js";
     script.async = true;
     script.onload = () => {
-      window.imageMapResize?.();
+      window.imageMapResize();
     };
     document.body.appendChild(script);
   } else {

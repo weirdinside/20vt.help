@@ -48,9 +48,7 @@ export function SearchProvider({
   useEffect(
     function checkSearchMatch() {
       const cleaned = searchTerm.replace(/[{\[+=\/]/g, "").toLowerCase();
-      console.log (cleaned)
       const results = trie.current.search(cleaned);
-      console.log(results)
       setActiveArticles(results);
     },
     [searchTerm]

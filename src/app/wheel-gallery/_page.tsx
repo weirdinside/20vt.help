@@ -91,18 +91,18 @@ export default function WheelGalleryContent({
           return possibleFilters.subtype;
         } else {
           return possibleFilters.subtype?.filter((item) =>
-            subtypesC3.includes(item),
+            subtypesC3.includes(item)
           );
         }
       } else if (car_typeFilters.some((item) => chassisC4.includes(item))) {
         return possibleFilters.subtype?.filter((item) =>
-          subtypesC4.includes(item),
+          subtypesC4.includes(item)
         );
       } else {
         return [];
       }
     },
-    [possibleFilters],
+    [possibleFilters]
   );
 
   // requests more images from the database
@@ -165,7 +165,7 @@ export default function WheelGalleryContent({
   // the possible items come in from the useEffect with fetchPossibleFilters
   async function toggleOption(
     category: keyof FilterOptions,
-    value: string | number,
+    value: string | number
   ) {
     setCheckedFilters((prevFilters) => {
       // deals with subtyping
@@ -180,7 +180,7 @@ export default function WheelGalleryContent({
           ...prevFilters,
           car_type: updatedCarTypes,
           subtype: prevFilters.subtype.filter((item) =>
-            subtypeOptions.includes(item),
+            subtypeOptions.includes(item)
           ),
         };
       }
@@ -259,7 +259,7 @@ export default function WheelGalleryContent({
         gallery!.removeEventListener("scroll", onScroll);
       };
     },
-    [onScroll, galleryRef], // this is a dependencies array. when these changes, the hook is rerun
+    [onScroll, galleryRef] // this is a dependencies array. when these changes, the hook is rerun
   );
 
   // checks active subtypes for cars on load and when filters are changed
@@ -368,7 +368,7 @@ export default function WheelGalleryContent({
           id="submit-modal-trigger"
         >
           submit a wheel
-          <div className={styles['header__submit-modal-trigger-bg']}></div>
+          <div className={styles["header__submit-modal-trigger-bg"]}></div>
         </div>
         <Link className={styles["header__logo"]} href="/">
           <div className={styles["logo__big-rhombus"]} id="big-rhombus"></div>
@@ -395,7 +395,7 @@ export default function WheelGalleryContent({
               checkedFilters={checkedFilters}
               toggleOption={toggleOption}
               filtersArray={possibleFilters["car_type" as keyof FilterOptions]}
-            ></CheckboxSection>
+            />
 
             <CheckboxSection
               key={4}
@@ -403,7 +403,7 @@ export default function WheelGalleryContent({
               checkedFilters={checkedFilters}
               toggleOption={toggleOption}
               filtersArray={subtypeFilters}
-            ></CheckboxSection>
+            />
 
             <CheckboxSection
               key={2}
@@ -413,7 +413,7 @@ export default function WheelGalleryContent({
               filtersArray={
                 possibleFilters["wheel_size" as keyof FilterOptions]
               }
-            ></CheckboxSection>
+            />
 
             <CheckboxSection
               key={3}
@@ -423,10 +423,10 @@ export default function WheelGalleryContent({
               filtersArray={
                 possibleFilters["wheel_brand" as keyof FilterOptions]
               }
-            ></CheckboxSection>
+            />
           </form>
           <div className={styles["wheelfinder__button_section"]}>
-          <button
+            <button
               className={styles["wheelfinder__button"]}
               onClick={() => {
                 setHideFilters((prev) => !prev);
@@ -461,11 +461,15 @@ export default function WheelGalleryContent({
           images={images}
           galleryRef={galleryRef}
           reset={clearOptions}
-        ></Gallery>
+        />
         <footer className={styles["footer"]}>
-          <p onClick={()=>{
-            setActiveModal('about')
-          }} className={styles["footer__credits"]} id="site-credits-button">
+          <p
+            onClick={() => {
+              setActiveModal("about");
+            }}
+            className={styles["footer__credits"]}
+            id="site-credits-button"
+          >
             site credits_
           </p>
           <Link
@@ -477,19 +481,13 @@ export default function WheelGalleryContent({
           </Link>
         </footer>
       </main>
-      <SubmitModal
-        activeModal={activeModal}
-        closeModal={closeModal}
-      ></SubmitModal>
+      <SubmitModal activeModal={activeModal} closeModal={closeModal} />
       <PreviewModal
         activeModal={activeModal}
         closeModal={closeModal}
         data={clickedPhotoData}
-      ></PreviewModal>
-      <AboutModal
-      activeModal={activeModal}
-      closeModal={closeModal}
-      ></AboutModal>
+      />
+      <AboutModal activeModal={activeModal} closeModal={closeModal} />
     </div>
   );
 }

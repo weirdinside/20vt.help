@@ -120,7 +120,7 @@ export default function PreviewModal({
               height={0}
               sizes="100vw"
             />
-          ) : null}
+          ) : <div className={styles['black__placeholder']}/>}
         </div>
         <div className={styles["image__text"]}>
           <h1 className={styles["image__wheelname"]}>

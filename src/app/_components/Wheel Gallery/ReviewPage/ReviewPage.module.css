@@ -43,9 +43,8 @@
   z-index: -1;
   position: absolute;
   background-color: #cf2a2a;
-  top: 0;
+  top: -1%;
   right: -4%;
-  padding: 10px;
   transform: skew(-10deg);
   width: 104%;
   height: 120%;

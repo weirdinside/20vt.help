@@ -8,7 +8,8 @@ export default function CompendiumArticlesHeading() {
         List of Information Groups
       </h2>
       <h3 className={styles["index__list_heading_description"]}>
-        1991-1997 Audi C4 &#9654;
+        1991-1997 Audi C4{" "}
+        <span style={{ fontFamily: "monospace" }}>&#x25B6;</span>
       </h3>
       <h4 className={styles["index__list_heading_construction"]}>
         This website is still under construction. If you would like to

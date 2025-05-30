@@ -797,7 +797,7 @@ function ClimateControl({ setActiveModal }) {
         </div>
 
         <img
-          src={activeImage}
+          src={activeImage.src}
           alt="clicked image"
           className={styles["climatecontrol__image-top"]}
         />

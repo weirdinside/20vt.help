@@ -26,7 +26,7 @@ export default async function WheelGallery() {
   const possibleFilters = await fetchPossibleFilters();
   
   return (
-    <Suspense fallback={<Loading></Loading>}>
+    <Suspense fallback={<Loading/>}>
       <WheelGalleryContent possibleFilters={possibleFilters} />
     </Suspense>
   );

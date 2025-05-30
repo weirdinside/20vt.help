@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "./CompendiumArticle.module.css";
 
 import Information from "./Information/Information";
 import TitleBox from "./TitleBox/TitleBox";
 import { SearchContext } from "@/app/contexts/SearchProvider";
-
-// goal - serialize these components
 
 function CompendiumArticle({
   children,
@@ -16,10 +14,12 @@ function CompendiumArticle({
   title: string;
   models: string[];
 }) {
-  //   const activeClass = styles["active"];
   const [activeClass, setActiveClass] = useState("");
   const [articleActive, setArticleState] = useState(false);
-  // const articleRef = useRef();
+  const [animationClass, setAnimationClass] = useState("");
+  
+  const articleContentRef = useRef(null);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
 
   const { addTextContent, activeArticles, searchTerm } =
     useContext(SearchContext);
@@ -46,44 +46,81 @@ function CompendiumArticle({
     addTextContent({ name: title, textContent: extractedText });
   }, [children]);
 
+  const clearAllTimeouts = () => {
+    timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+    timeoutRefs.current = [];
+  };
+
   function handleTitleClick() {
+    clearAllTimeouts();
+    
     if (articleActive === false) {
       setActiveClass("active");
       setArticleState(true);
-    }
-    if (articleActive === true) {
+      setAnimationClass("enter");
+      
+      const timeout1 = setTimeout(() => {
+        setAnimationClass("enter-active");
+      }, 10);
+      
+      const timeout2 = setTimeout(() => {
+        setAnimationClass("enter-done");
+      }, 600);
+      
+      timeoutRefs.current = [timeout1, timeout2];
+    } else {
       setActiveClass("");
-      setArticleState(false);
+      setAnimationClass("exit");
+      
+      const timeout1 = setTimeout(() => {
+        setAnimationClass("exit-active");
+      }, 10);
+      
+      const timeout2 = setTimeout(() => {
+        setArticleState(false);
+        setAnimationClass("");
+      }, 600);
+      
+      timeoutRefs.current = [timeout1, timeout2];
     }
   }
+
+  useEffect(() => {
+    return () => {
+      clearAllTimeouts();
+    };
+  }, []);
+
+  const isActive = articleActive || animationClass.includes("exit");
 
   return (
     <li
       style={
         activeArticles?.includes(title) || !searchTerm
           ? { display: "block" }
-          : {
-              display: "none",
-            }
+          : { display: "none" }
       }
-      className={styles["index__list_item"]}
+      className={`${styles["index__list_item"]} ${
+        activeArticles && searchTerm && styles["searchactive"]
+      }`}
     >
-      {/* TitleBox is a component that comes at the top of every article 
-      and acts as the trigger for the viewability for the rest of the component.
-      It takes two props, which are named below:
-
-      models: an array of strings of which models the article pertains to, generally
-      UrS4, UrS6, A6, 100, 5000, 200. formatted as such: models={['UrS4', 'UrS6']}
-      
-      title: string of title of the article */}
       <TitleBox
         handleTitleClick={handleTitleClick}
         activeClass={activeClass}
         models={models}
         title={title}
       />
-
-      <Information activeClass={activeClass}>{children}</Information>
+      
+      {isActive && (
+        <div 
+          className={`${styles['index__list_information']} ${
+            animationClass ? styles[`index__list_information-${animationClass}`] : ''
+          }`} 
+          ref={articleContentRef}
+        >
+          {children}
+        </div>
+      )}
     </li>
   );
 }

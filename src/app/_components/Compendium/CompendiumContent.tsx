@@ -61,6 +61,8 @@ import exhaustManifoldPartsImage from "../../assets/articles/exhaust_manifold/ex
 import rearShockSpringPartsImage from "../../assets/articles/suspension/rearspringshock.png";
 import rearSubframePartsImage from "../../assets/articles/suspension/rearsubframe.png";
 
+import frontShockSpringPartsImage from "../../assets/articles/suspension/frontshockspring.png";
+
 import HnR29971 from "../../assets/articles/suspension/hnrsprings/HnR29771.png";
 import HnR29800 from "../../assets/articles/suspension/hnrsprings/HnR29800.png";
 import HnR29921 from "../../assets/articles/suspension/hnrsprings/HnR29921.jpg";
@@ -93,6 +95,11 @@ import wetterauer1 from "../../assets/articles/tuning/wetteraeur stage 1 - neaca
 import wetterauer2 from "../../assets/articles/tuning/wetterauer stage 1 (2) - neacail.jpg";
 import TAPstage1or2 from "../../assets/articles/tuning/TAP stage 1 or 2 - quattron8-jc.jpeg";
 
+import turboAdapter1 from "../../assets/articles/turbocharger/benznotmercedes adapter.jpg";
+import turboAdapter2 from "../../assets/articles/turbocharger/geoff danielson vband adapter.jpg";
+import tubularManifold1 from "../../assets/articles/turbocharger/engineerCNC on drive2.ru tubular manifold.jpg";
+import tubularManifold2 from "../../assets/articles/turbocharger/quattro4life tubular manifold.jpg";
+
 //------------------------------------//
 //             IMAGE MAPS             //
 //------------------------------------//
@@ -105,13 +112,14 @@ import * as rearShockSpringPartsImageMap1BA from "../../assets/rearShockSpringPa
 import * as rearShockSpringImageMap1BE from "../../assets/rearShockSpringPartsImageMap1BE.json";
 import * as rearSubframePartsImageMap1BA from "../../assets/rearSubframePartsImageMap1BA.json";
 import * as rearSubframePartsImageMap1BE from "../../assets/rearSubframePartsImageMap1BE.json";
+import * as frontShockSpringPartsImageMap1BE from "../../assets/frontShockSpringPartsImageMap1BE.json";
+
 import { useQueryState } from "nuqs";
 import { SearchContext } from "@/app/contexts/SearchProvider";
 import InformationHeading from "./CompendiumArticle/Information/InformationHeading";
 import ECUPinout from "./CompendiumArticle/ECUPinout/ECUPinout";
 import Script from "next/script";
 import ClimateControlCh1Modal from "./CompendiumArticle/ClimateControl/ClimateControlCh1Modal";
-import { debounce } from "@/app/utils";
 
 export default function CompendiumContent() {
   const [bigWindow, setBigWindow] = useState<boolean>(true);
@@ -129,6 +137,11 @@ export default function CompendiumContent() {
   //------------------------------------//
   //              HANDLERS              //
   //------------------------------------//
+
+  function handleClickArticleName(articleHref: string) {
+    const targetDiv = document.querySelector(`#${articleHref}`);
+    targetDiv?.scrollIntoView({ behavior: "smooth" });
+  }
 
   function handleClickCheckbox() {
     setClickSetting(!clickSetting);
@@ -213,6 +226,7 @@ export default function CompendiumContent() {
           <CompendiumArticlesHeading />
           {/* Body Differences */}
           <CompendiumArticle
+            href="bodydiffs"
             title="Body Differences"
             models={["100", "A6", "UrS4", "UrS6"]}
           >
@@ -238,25 +252,25 @@ export default function CompendiumContent() {
                     caption="UrS4 euro front bumper"
                     numFig="1a"
                     imageSrc={UrS4EuroFrontBumper.src}
-                  ></FigureGridImage>
+                  />
                   <FigureGridImage
                     handlePictureClick={handlePictureClick}
                     caption="UrS4 US front bumper"
                     numFig="1b"
                     imageSrc={UrS4USFrontBumper.src}
-                  ></FigureGridImage>
+                  />
                   <FigureGridImage
                     handlePictureClick={handlePictureClick}
                     caption="UrS6 euro front bumper"
                     numFig="1c"
                     imageSrc={UrS6EuroFrontBumper.src}
-                  ></FigureGridImage>
+                  />
                   <FigureGridImage
                     handlePictureClick={handlePictureClick}
                     caption="UrS6 US front bumper"
                     numFig="1d"
                     imageSrc={UrS6USFrontBumper.src}
-                  ></FigureGridImage>
+                  />
                 </FigureGrid>
                 <InformationText>
                   The european bumpers also sit closer to the body than the US
@@ -452,6 +466,7 @@ export default function CompendiumContent() {
           </CompendiumArticle>
           {/* Climate Control Diagnostic */}
           <CompendiumArticle
+            href="ccd"
             title="Climate Control Diagnostic"
             models={["100", "A6", "UrS4", "UrS6"]}
           >
@@ -494,6 +509,7 @@ export default function CompendiumContent() {
           </CompendiumArticle>
           {/* Coilovers */}
           <CompendiumArticle
+            href="coilovers"
             title="Coilovers"
             models={["100", "A6", "UrS4", "UrS6"]}
           >
@@ -696,6 +712,7 @@ export default function CompendiumContent() {
           </CompendiumArticle>
           {/* ECU */}
           <CompendiumArticle
+            href="ecu"
             title="Engine Control Unit [ECU]"
             models={["UrS4", "UrS6"]}
           >
@@ -794,7 +811,11 @@ export default function CompendiumContent() {
             ></InformationLink>
           </CompendiumArticle>
           {/* Exhaust Manifold */}
-          <CompendiumArticle title="Exhaust Manifold" models={["UrS4", "UrS6"]}>
+          <CompendiumArticle
+            href="exhaustmanifold"
+            title="Exhaust Manifold"
+            models={["UrS4", "UrS6"]}
+          >
             <InformationText>
               The AAN, ABY and 3B engine's stock exhaust manifold
               <span className={styles["part_number"]}>[034 129 587J]</span>{" "}
@@ -921,6 +942,7 @@ export default function CompendiumContent() {
           </CompendiumArticle>
           {/* Suspension */}
           <CompendiumArticle
+            href="suspension"
             title="Suspension"
             models={["100", "A6", "UrS4", "UrS6"]}
           >
@@ -990,12 +1012,23 @@ export default function CompendiumContent() {
                       link=""
                     />
                   </NestedNavItem>
-                  <NestedNavItem title="spring / shock" id="1BEspringshock">
+                  <NestedNavItem title="rear shock / spring" id="1BErearss">
                     <CompendiumImageMap
                       mapName="1BErearshockandspring"
                       imageSrc={rearShockSpringPartsImage.src}
                       // @ts-ignore
                       imageMap={rearShockSpringImageMap1BE.default}
+                      clickSetting={clickSetting}
+                      handleClickCheckbox={handleClickCheckbox}
+                    />
+                    {/* 1BE spring / shock image map */}
+                  </NestedNavItem>
+                  <NestedNavItem title="front shock / spring" id="1BEfrontss">
+                    <CompendiumImageMap
+                      mapName="1BErearshockandspring"
+                      imageSrc={frontShockSpringPartsImage.src}
+                      // @ts-ignore
+                      imageMap={frontShockSpringPartsImageMap1BE.default}
                       clickSetting={clickSetting}
                       handleClickCheckbox={handleClickCheckbox}
                     />
@@ -1082,7 +1115,11 @@ export default function CompendiumContent() {
             </FigureList>
           </CompendiumArticle>
           {/* Turbochargers */}
-          <CompendiumArticle title="Turbochargers" models={["UrS4", "UrS6"]}>
+          <CompendiumArticle
+            href="turbos"
+            title="Turbochargers"
+            models={["UrS4", "UrS6"]}
+          >
             <NestedNav showThumbnails="false">
               <NestedNavItem id="stockturbos" title="K24-7000 & K24-7200">
                 <InformationText>
@@ -1207,25 +1244,111 @@ export default function CompendiumContent() {
                   For about 6 years, I used the GT3071r kit on my daily driver,
                   but used custom software with a standalone ECU (NOT the chips
                   that 034 were selling, as people reported having issues - some
-                  even throwing rods out of blocks). See the "Tuning" subsection
+                  even throwing rods out of blocks).{" "}
+                  <span
+                    style={{ textDecoration: "underline" }}
+                    onClick={() => {
+                      handleClickArticleName("tuning");
+                    }}
+                  >
+                    See the "Tuning" subsection
+                  </span>{" "}
                   for more information on how to handle tuning with these
                   vehicles.
                 </InformationText>
               </NestedNavItem>
               <NestedNavItem id="alt-turbo" title="Custom Solutions">
-                <p>not here yet!</p>
+                <InformationText>
+                  If you want to go a more adventurous route (one that doesn't
+                  involve simple bolt on parts), you have a few possible routes
+                  to go. Since the aftermarket exhaust manifolds that land the
+                  turbo in the stock location are limited to T3 and the stock K
+                  flange, you can either make or have an adapter made for T3/K
+                  to Vband, or buy a new exhaust manifold entirely (see options
+                  in the{" "}
+                  <span
+                    style={{ textDecoration: "underline" }}
+                    onClick={() => {
+                      handleClickArticleName("exhaustmanifold");
+                    }}
+                  >
+                    Exhaust Manifold section.
+                  </span>
+                  )
+                </InformationText>
+                <InformationText>
+                  Here are a few examples of flange adapters:
+                </InformationText>
+                <FigureList>
+                  <FigureListItem
+                    handlePictureClick={handlePictureClick}
+                    imageSrc={turboAdapter1.src}
+                    caption="T3 to V band adapter, courtesy of @benznotmercedes"
+                    figureNum={"1a"}
+                  />
+                  <FigureListItem
+                    handlePictureClick={handlePictureClick}
+                    imageSrc={turboAdapter2.src}
+                    caption="K flange to V band adapter, courtesy of Geoff Danielson"
+                    figureNum={"1b"}
+                  />
+                </FigureList>
+                <InformationText>
+                  Note that this will push the turbo further away from the
+                  exhaust manifold and you will probably have to adjust the
+                  downpipe and airbox setup for use. Instead, you can opt to go
+                  tubular:
+                </InformationText>
+                <FigureList>
+                  <FigureListItem
+                    handlePictureClick={handlePictureClick}
+                    imageSrc={tubularManifold1.src}
+                    caption="Tubular manifold on an AAN, courtesy of EngineerCNC on drive2.ru"
+                    figureNum={"2a"}
+                  />
+                  <FigureListItem
+                    handlePictureClick={handlePictureClick}
+                    imageSrc={tubularManifold2.src}
+                    caption="Tubular manifold on an AAN, courtesy of quattro4life on YouTube"
+                    figureNum={"2b"}
+                  />
+                </FigureList>
+                <InformationText>
+                  In addition to needing a custom downpipe to account for
+                  relocation of the turbo and wastegate, this also requires use
+                  of a Vband wastegate, like a TiAL MVR or similar.
+                </InformationText>
+                <InformationText>
+                  Additionally, due to being moved further towards the stock
+                  location of the fuel filter, many recommend rerouting the fuel
+                  lines towards the intake side of the motor and mounting the
+                  filter near the brake master cylinder, or underneath the car
+                  to prevent the filter from getting hot.
+                </InformationText>
               </NestedNavItem>
             </NestedNav>
           </CompendiumArticle>
           {/* Tuning */}
-          <CompendiumArticle title="Tuning" models={["UrS4", "UrS6"]}>
+          <CompendiumArticle
+            href="tuning"
+            title="Tuning"
+            models={["UrS4", "UrS6"]}
+          >
             <InformationText>
               From the factory, UrS4s and UrS6s with the AAN 5 cylinder engine
               were equipped with a Bosch Motronic 2.3.2 ECU (More information on
-              these ECUs can be found in the ECU section). Given that these ECUs
-              parse motor and boost data from a pair of EEPROMs, These are quite
-              difficult to tune, as the tooling required to be able to do so is
-              not cheap or readily available.
+              these ECUs can be found in the{" "}
+              <span
+                style={{ textDecoration: "underline" }}
+                onClick={() => {
+                  handleClickArticleName("ecu");
+                }}
+              >
+                ECU section
+              </span>
+              ). Given that these ECUs parse motor and boost data from a pair of
+              EEPROMs, These are quite difficult to tune, as the tooling
+              required to be able to do so is not cheap or readily available.
             </InformationText>
             <InformationText>
               Once upon a time, a plethora of off-the-shelf options were
@@ -1325,6 +1448,16 @@ export default function CompendiumContent() {
             <InformationCited>
               - (OPTIONAL) A wideband gauge to monitor AFR
             </InformationCited>
+            <InformationText>
+              Hardware modifications to the ECU are also necessary for this to
+              work, the instructions can be found on{" "}
+              <InformationLink
+                customText="this page of PRJ's wiki"
+                link="https://m232.org/index.php/Requirements_and_modifications_for_running_prjmod"
+                inline
+              />
+              .
+            </InformationText>
             <InformationText>
               More information is needed on this section, this is as far as I
               know right now. If you know more than I do and want to help

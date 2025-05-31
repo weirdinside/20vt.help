@@ -114,6 +114,8 @@
   margin: 0;
   padding: 0;
   user-select: none;
+  flex-grow: 0;
+  max-width: 100%;
   opacity: 0;
   color: #e1e1e1;
   /* transform: rotate3d(0, 0, 0);
@@ -758,6 +760,8 @@ input:checked + .slider:before {
 
   .index__list_item {
     max-width: calc(100vw - 20px);
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .griditem__title-box {

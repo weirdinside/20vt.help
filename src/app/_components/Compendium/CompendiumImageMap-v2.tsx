@@ -37,12 +37,14 @@ function CompendiumImageMap({
     styles["part__numbers_copied"]
   );
 
-  let ctx: CanvasRenderingContext2D | null = null;
+  const ctx = useRef<CanvasRenderingContext2D | null>(null);
 
   function drawArea(area: HTMLAreaElement) {
     const img = imageInHTML.current;
     const canvasEl = canvas.current;
-    if (!img || !canvasEl || !ctx) return;
+    if (!img || !canvasEl || !ctx.current) return;
+
+
 
     const xScale = img.width / canvasEl.width;
     const yScale = img.height / canvasEl.height;
@@ -59,15 +61,15 @@ function CompendiumImageMap({
       const y = parseInt(pairedCoords[i][1]) / yScale;
 
       if (i === 0) {
-        ctx.fillStyle = "#b94646";
-        ctx.beginPath();
-        ctx.moveTo(x, y);
+        ctx.current.fillStyle = "#b94646";
+        ctx.current.beginPath();
+        ctx.current.moveTo(x, y);
       } else if (i < pairedCoords.length - 1) {
-        ctx.lineTo(x, y);
+        ctx.current.lineTo(x, y);
       } else {
-        ctx.lineTo(x, y);
-        ctx.closePath();
-        ctx.fill();
+        ctx.current.lineTo(x, y);
+        ctx.current.closePath();
+        ctx.current.fill();
       }
     }
   }
@@ -92,7 +94,9 @@ function CompendiumImageMap({
 
     if (matchedArea) {
       changeCaption(matchedArea.alt);
-      if (ctx) ctx.reset();
+      if (ctx.current) {
+        ctx.current.reset();
+      }
       drawArea(matchedArea);
     }
   }
@@ -100,8 +104,13 @@ function CompendiumImageMap({
   function handleHoverAway() {
     checkClickSetting();
     setMapState(false);
-    if (ctx) ctx.reset();
-    drawAll();
+    if (ctx.current) ctx.current.reset();
+    
+    if (mapInHTML.current) {
+      Array.from(mapInHTML.current.areas).forEach((area) => {
+        drawArea(area as HTMLAreaElement);
+      });
+    }
   }
 
   imageMapResize();
@@ -152,7 +161,7 @@ function CompendiumImageMap({
   }, [clickSetting]);
 
   useEffect(() => {
-    ctx = canvas.current!.getContext("2d");
+    ctx.current = canvas.current!.getContext("2d");
 
     const handleImageLoad = () => {
       setTimeout(() => {

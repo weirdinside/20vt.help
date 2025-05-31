@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 
@@ -313,6 +313,10 @@ function ClimateControl({ setActiveModal }) {
       </>
     );
   }
+
+  useEffect(function setDefaultImage() {
+    setActiveImage(defaultBackground.src)
+  }, []);
 
   function searchFunc() {
     let input = searchBar.current;
@@ -797,7 +801,7 @@ function ClimateControl({ setActiveModal }) {
         </div>
 
         <img
-          src={activeImage.src}
+          src={activeImage ? activeImage : defaultBackground.src}
           alt="clicked image"
           className={styles["climatecontrol__image-top"]}
         />

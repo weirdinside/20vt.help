@@ -245,6 +245,7 @@
   font-family: "Work Sans", sans-serif;
   background: transparent;
   color: white;
+  font-size: clamp(16px, 3vw, 20px);
   border-bottom: 2px solid white;
 }
 

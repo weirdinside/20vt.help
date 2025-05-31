@@ -7,10 +7,12 @@ import { SearchContext } from "@/app/contexts/SearchProvider";
 
 function CompendiumArticle({
   children,
+  href="#",
   title = "Untitled",
   models = ["N/A"],
 }: {
   children: React.ReactNode | React.ReactNode[];
+  href: string;
   title: string;
   models: string[];
 }) {
@@ -95,6 +97,7 @@ function CompendiumArticle({
 
   return (
     <li
+      id={href}
       style={
         activeArticles?.includes(title) || !searchTerm
           ? { display: "block" }

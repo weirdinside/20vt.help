@@ -31,6 +31,7 @@
     max-width: min-content;
     margin: auto;
     padding: 10px;
+    max-height: 80%;
     background: #d9d9d9;
     border-radius: 4px;
     z-index: 20;
@@ -45,6 +46,9 @@
   .modal__preview_image{
     max-width: 50%;
     min-width: 50cqw;
+    overflow: hidden;
+    object-fit: contain;
+    max-height: 10%;
     border-radius: 5px;
     margin: 5px 5px;
     background-color: #181818;

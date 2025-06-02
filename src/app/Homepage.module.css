@@ -128,7 +128,7 @@
   min-height: -moz-available;
   min-height: -webkit-fill-available;
   min-height: fill-available;
-  background-image: url(/backgroundwhite.png);
+  /* background-image: url(/backgroundwhite.png); */
   animation: 60s moveBackground linear infinite;
   display: flex;
   margin: 0;
@@ -158,6 +158,77 @@
   justify-content: center;
   min-width: 500px;
   max-width: 1000px;
+}
+
+.in-memory{
+  /* background-image: url('./assets/zk.png'); */
+  background-size: cover;
+  animation: fadeIn 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s forwards;
+  background-position: right;
+  background-repeat: no-repeat;
+  opacity: 0;
+  margin-top: 10px;
+  color: white;
+  border-bottom: 1px solid white;
+  display: flex;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  min-height: 100px;
+  overflow: hidden;
+  height: clamp(100px, 20vw, 200px);
+}
+
+.in-memory-bg{
+  object-fit: cover;
+  position: absolute;
+  height: 100%;
+  right: 0;
+}
+
+.nav__item_hover-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: #cf2a2a;
+  transform: skewX(-15deg);
+  clip-path: polygon(0 0, 0% 0, 0% 100%, 0% 100%);
+  scale: 1;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.in-memory:hover .nav__item_hover-background {
+  animation: clipIn 0.4s ease-in-out forwards;
+  scale: 1.1;
+  z-index: 0;
+  transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.memory-text{
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  z-index: 3;
+  text-wrap: nowrap;
+  font-size: clamp(25px, 4vw, 50px);
+  width: 50%;
+  filter: drop-shadow(4px 4px 4px 10px)
+}
+
+.memory-subtext{
+  font-size: clamp(18px, 2.8vw, 24px);
+
+}
+
+.memtext{
+  display: flex;
+  flex-direction: column;
+  z-index: 3;
+  justify-content: center;
 }
 
 /* header */
@@ -234,6 +305,7 @@
 }
 
 .other-links {
+  overflow: hidden;
 }
 
 .link-cta {

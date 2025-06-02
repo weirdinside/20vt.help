@@ -33,14 +33,24 @@ function CompendiumAboutModal({ activeModal, closeModal }) {
           <div className={styles["text_floater"]}>close</div>
         </a>
         <p className={styles["information__cited"]}>
-          site designed and administrated by Ani Bharadwaj
+          site designed, developed and administrated by Ani Bharadwaj
         </p>
+        <br/>
+        <p className={styles["information__cited"]}>
+          with information originally documented by the UrS4/UrS6 community at quattroworld.com
+        </p>
+        <br/>
         <p className={styles["information__cited"]}>
           design input from Rachad Nouiga, Ankit Venkatesh, Raamish Syed, Aaron
           Janci
         </p>
+        <br/>
         <p className={styles["information__cited"]}>
           image map resizer code written by David J. Bradshaw
+        </p>
+        <br/>
+        <p className={styles["information__cited"]}>
+          in memory of Zak Kennedy (1979 - 2025)
         </p>
       </div>
     </div>

@@ -100,6 +100,14 @@ import turboAdapter2 from "../../assets/articles/turbocharger/geoff danielson vb
 import tubularManifold1 from "../../assets/articles/turbocharger/engineerCNC on drive2.ru tubular manifold.jpg";
 import tubularManifold2 from "../../assets/articles/turbocharger/quattro4life tubular manifold.jpg";
 
+import starter from "../../assets/articles/nostart/starter-qw.jpg";
+
+import camtiming1 from "../../assets/articles/camtiming.jpg";
+import camtiming2 from "../../assets/articles/camtiming2.jpeg";
+import cranktiming2 from "../../assets/articles/cranktiming.jpeg";
+import cranktiming1 from "../../assets/articles/litesleeper_timingmarks.jpg";
+import internaltiming from "../../assets/articles/iecamtiming.jpg";
+
 //------------------------------------//
 //             IMAGE MAPS             //
 //------------------------------------//
@@ -224,6 +232,262 @@ export default function CompendiumContent() {
         />
         <CompendiumBody>
           <CompendiumArticlesHeading />
+          <CompendiumArticle
+            models={["100", "A6", "S4", "S6"]}
+            href="diy"
+            title="* DIYs / How-To's"
+          >
+            <InformationText>
+              Here's a list of DIYs you're going to need as a driveway (or small
+              garage) mechanic.
+            </InformationText>
+            <InformationText>*WORK IN PROGRESS*</InformationText>
+          </CompendiumArticle>
+          {/* Common Failures */}
+          <CompendiumArticle
+            href="nostart"
+            models={["S4", "S6"]}
+            title="* Car Won't Start"
+          >
+            <InformationText>
+              If you're here, I'm sorry. I've been there. Go through this
+              slowly, step by step, and see if you can get your car back up to
+              snuff.{" "}
+              <span style={{ fontStyle: "italic" }}>
+                This writeup is based on{" "}
+                <InformationLink
+                  inline
+                  link="https://forums.quattroworld.com/s4s6/msgs/210191.phtml"
+                  customText="UrS4Boy's writeup on QW,"
+                />{" "}
+                which is based on Paul Nugent's S2Forum thread. Thanks guys.
+              </span>
+            </InformationText>
+            <InformationHeading>
+              Step 0: Battery / Battery Cables
+            </InformationHeading>
+            <InformationText>
+              This may seem like a dumb thing to check, but rule it out before
+              proceeding. The battery cables, specifically the one going from
+              the starter to the alternator can get worn out, corroded and cut
+              from debris or just wear. Make sure that your battery is charged
+              and also that the ends connected to the battery terminals (where
+              the battery is, under the rear seat on the passenger side of the
+              car) aren't corroded either.
+            </InformationText>
+            <InformationHeading>
+              Step 0.5*: Immobilizers or Alarms
+            </InformationHeading>
+            <InformationText>
+              I personally haven't had the pleasure of dealiing with aftermarket
+              alarm systems or faulty immobilizers, but just be sure that you
+              don't have anything of the sort that can hinder the rest of your
+              diagnosis.
+            </InformationText>
+            <InformationHeading>Step 1: Fuses / Relays</InformationHeading>
+            <InformationText>
+              This one's pretty big - there's a more than a couple of fuses that
+              can blow (specifically the ones above the ECU, noted in the{" "}
+              <span
+                onClick={() => {
+                  handleClickArticleName("ecu");
+                }}
+                style={{ textDecoration: "underline" }}
+              >
+                ECU subsection
+              </span>
+              ) that can prevent your car from starting. Other notable ones
+              include the fuel pump fuse in the driver's side dash panel, and
+              (less likely) the fuel pump relay itself.
+            </InformationText>
+            <InformationHeading>
+              Step 2: Starter / Ignition Switch
+            </InformationHeading>
+            <InformationText>
+              The ignition switch on these cars is another common failure point;
+              if you have interior lights that are flickering, the accessories
+              turn off erratically, or the starter stays on after starting the
+              car / you have trouble engaging the starter with the key, this is
+              probably where you should look. It's not that difficult to
+              replace, and a DIY for it can be found in the{" "}
+              <span
+                style={{ textDecoration: "underline" }}
+                onClick={() => {
+                  handleClickArticleName("diy");
+                }}
+              >
+                DIY subsection
+              </span>
+              . However, if you see the voltmeter on the dash drop to 8v when
+              you go to crank it, you can be somewhat sure that the ignition
+              switch is doing its job and the starter is being sent power. If
+              you hear a click but the car doesn't want to crank, the motor is
+              probably bad, or the power wire going from the solenoid to the
+              starter (white in fig 1a below) is toast (thanks Audipete on QW
+              for documenting this).
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                handlePictureClick={handlePictureClick}
+                imageSrc={starter.src}
+                figureNum={"1a"}
+                caption={"picture of the starter motor & solenoid"}
+              />
+            </FigureList>
+            <InformationText>
+              Now we're in crank but no start territory, we're getting closer.
+            </InformationText>
+            <InformationHeading>Step 3: Timing</InformationHeading>
+            <InformationText>
+              If your UrS is cranking but won't start and doesn't sound like
+              it's lost compression (uneven cranking, free spinning starter),
+              your engine is probably fine, but your cam timing could be out.
+              I've seen cars start 1-2 teeth off and seem like they ran fine,
+              but this is still something to be aware of at this stage. If
+              you're not sure, TURN THE ENGINE OVER BY HAND and make sure
+              nothing hits. You can do this by removing the front crossmember
+              (~10 10mm bolts & 4 Philips head screws), carefully removing the
+              viscous fan (if your car still has one, 4x 10mm bolts) and using a
+              shallow 27mm socket on the crankshaft bolt turning it clockwise.
+              If the timing marks line up as shown in the pictures below, your
+              car is in time, and you can move on. First, get the crank to TDC:
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                handlePictureClick={handlePictureClick}
+                imageSrc={cranktiming1.src}
+                figureNum={"2a"}
+                caption={
+                  "crank timing marks at TDC (courtesy of litesleeper on QW)"
+                }
+              />
+              <FigureListItem
+                handlePictureClick={handlePictureClick}
+                imageSrc={cranktiming2.src}
+                figureNum={"2b"}
+                caption={
+                  "crank TDC - note the nub on the cover and the notch on the HB"
+                }
+              />
+            </FigureList>
+            <InformationText>
+              Then check your cam timing when at TDC (and possibly even the
+              intake/exhaust cam timing, the chain can stretch and get you out
+              of time):
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                handlePictureClick={handlePictureClick}
+                imageSrc={camtiming2.src}
+                figureNum={"1a"}
+                caption={"cam timing at TDC"}
+              />
+              <FigureListItem
+                handlePictureClick={handlePictureClick}
+                imageSrc={camtiming1.src}
+                figureNum={"1b"}
+                caption={"cam timing at TDC"}
+              />
+              <FigureListItem
+                handlePictureClick={handlePictureClick}
+                imageSrc={internaltiming.src}
+                figureNum={"1c"}
+                caption={"intake-exhaust cam timing"}
+              />
+            </FigureList>
+            <InformationHeading>Step 4: Airflow / Leaks</InformationHeading>
+            <InformationText>
+              Make sure your MAF, intake hoses and boost hoses are connected.
+              Especially on stock cars that aren't modified to be speed density
+              (MAFless), a big enough boost leak before the throttle body will
+              stop your car from starting. Try unplugging the MAF too; if it's
+              disconnected (and unobstructed) and the car starts, you might need
+              a new one.
+            </InformationText>
+            <InformationHeading>Step 5: Fuel</InformationHeading>
+            <InformationText>
+              If you've confirmed that there's power at the fuel pump connector
+              when cranking but you're not getting fuel at the rail, you have a
+              bad fuel pump. If you've got power at the pump but not at the
+              injectors, you either have a bad holding relay (in the ECU itself)
+              or one of the four fuses above the ECU is blown (likely S72, the
+              off-white/beige 15A).
+            </InformationText>
+            <InformationText>
+              The other thing that will prevent fuel from getting to the rail is
+              if your engine doesn't think it's spinning faster than ~13rpm
+              (according to G28, one of the sensors on the bellhousing on the
+              intake side of the engine).
+            </InformationText>
+            <InformationHeading>Step 6: Spark</InformationHeading>
+            <InformationText>
+              The ECU will not allow spark if it doesn't see good signals from
+              both the G4 crank position sensor and G40 camshaft position
+              sensor. G40 failure is not uncommon, and a DIY for
+              replacing/testing it can be found in the{" "}
+              <span
+                style={{ textDecoration: "underline" }}
+                onClick={() => {
+                  handleClickArticleName("diy");
+                }}
+              >
+                DIY subsection
+              </span>
+              . If you're out somewhere and the car started JUST a few minutes
+              ago / last time you tried to start it, pour cold water behind the
+              cam gear and see if you can start the car - it could get you home,
+              but make sure you replace the G40 before taking the car anywhere
+              else.
+            </InformationText>
+            <InformationText>
+              If you've got stock coils, make sure you're getting spark by
+              removing the coil cover and cranking over the engine - you should
+              see an arc in each coil (or test using the screwdriver method).
+              Otherwise, check the power output stages on the firewall and make
+              sure they're receiving / outputting power as well. The OE coils
+              are pretty robust, but the POSes are known to be...POSes.
+            </InformationText>
+            <InformationText>
+              If you've got an aftermarket solution, make sure everything is
+              grounded properly - a loose ground on a 2.0T coil harness WILL
+              cause your car to not start.
+            </InformationText>
+            <InformationText>
+              If your car doesn't start at this point, send an email to{" "}
+              <InformationLink
+                customText="ani@20vt.help"
+                link="mailto:ani@20vt.help"
+                inline
+              />
+              . You probably missed a step or (hopefully don't) need a new
+              engine, both of which I'm happy to help with.
+            </InformationText>
+            <InformationLink
+              num="00"
+              title="UrS4Boy's writeup"
+              link="https://forums.quattroworld.com/s4s6/msgs/210191.phtml"
+            />
+            <InformationLink
+              num="02"
+              title="Paul Nugent's S2Forum Thread"
+              link="https://www.s2forum.com/forum/technical/engine-and-turbo/51040-1-definitive-engine-does-not-start"
+            />
+          </CompendiumArticle>
+          {/* Common Failures */}
+          <CompendiumArticle
+            href="commonfailures"
+            models={["S4", "S6"]}
+            title="* Common Issues"
+          >
+            <InformationText>
+              There are a couple of common failure points on the AAN engine, a
+              few of which can potentially leave you stranded. These cars are
+              over 30 years old at this point and have a lot of plastic bits or
+              sensors that can fail and ruin your day - either keep these in
+              your car at the ready, or preemptively replace them.
+            </InformationText>
+            <InformationText>*WORK IN PROGRESS*</InformationText>
+          </CompendiumArticle>
           {/* Body Differences */}
           <CompendiumArticle
             href="bodydiffs"
@@ -785,6 +1049,18 @@ export default function CompendiumContent() {
               In the UrS4, all but the S26 will be thermofuses if they haven't
               been replaced. If they haven't, switch them to spades - no
               modification is necessary.
+            </InformationText>
+            <InformationText>
+              For information on tuning the Motronic ECU, see the{" "}
+              <span
+                onClick={() => {
+                  handleClickArticleName("tuning");
+                }}
+                style={{ textDecoration: "underline" }}
+              >
+                Tuning subsection
+              </span>
+              .
             </InformationText>
             <InformationText>
               Below is a rough pinout of the UrS4/UrS6 Motronic 2.3.2 ECU,

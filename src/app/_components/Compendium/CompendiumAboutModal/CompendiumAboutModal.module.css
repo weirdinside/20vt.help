@@ -28,7 +28,7 @@
     transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
     align-items: flex-start;
     flex-direction: column;
-    max-width: fit-content;
+    max-width: 80vw;
     margin: auto;
     padding: 10px;
     background: #d9d9d9;
@@ -45,7 +45,7 @@
   .information__cited {
     font-family: "Kosugi", monospace;
     line-height: 1.5em;
-    font-size: 15px;
+    font-size: clamp(15px, 2.5vw, 20px);
     font-weight: 400;
     font-style: normal;
     margin: 0;
@@ -54,7 +54,7 @@
   .footer__logo {
     position: absolute;
     display: flex;
-    top: -6%;
+    top: -10%;
     right: -6%;
     transform: scale(0.9);
     cursor: pointer;
@@ -135,10 +135,3 @@
   /* -------------------------------------------------------------------------------- */
 /*                                  MOBILE BREAKPOINT 1                             */
 /* -------------------------------------------------------------------------------- */
-
-@media screen and (max-width: 720px) and (min-width: 370px) {
-    
-    .information__cited {
-      font-size: 12.5px;
-    }
-  }

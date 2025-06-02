@@ -4,6 +4,10 @@ import styles from './CompendiumPictureModal.module.css'
 function CompendiumPictureModal({ activeModal, pictureModalData, closeModal }) {
   return (
     <div
+    onClick={(e)=>{
+      e.stopPropagation();
+      if(e.target.classList.contains(styles['modal'])) closeModal();
+    }}
       className={`${styles["modal"]} ${
         activeModal === "preview" && styles["active"]
       }`}
@@ -37,7 +41,7 @@ function CompendiumPictureModal({ activeModal, pictureModalData, closeModal }) {
         <img
           src={pictureModalData.imageSrc}
           className={styles["modal__preview_image"]}
-        ></img>
+        />
         <p className={styles["modal__preview_text"]}>
           {pictureModalData.caption}
         </p>

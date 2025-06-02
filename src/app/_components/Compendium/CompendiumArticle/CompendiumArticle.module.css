@@ -120,6 +120,8 @@
   color: #e1e1e1;
   /* transform: rotate3d(0, 0, 0);
     filter: blur(0px); */
+    animation: loadCard 0.5s cubic-bezier(0.17, 0.67, 0.45, 0.98) forwards;
+
   transition: all 1s cubic-bezier(0, 0.69, 0.36, 1.01) 100ms;
 }
 

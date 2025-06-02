@@ -6,7 +6,7 @@ function InformationHeading({
 }: {
   children: React.ReactNode[] | React.ReactNode;
 }) {
-  return <h2 className={styles["information__heading"]}>{children}</h2>;
+  return <h2 style={{margin: '10px auto'}} className={styles["information__heading"]}>{children}</h2>;
 }
 
 export default InformationHeading;

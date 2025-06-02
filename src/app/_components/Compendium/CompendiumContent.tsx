@@ -108,6 +108,21 @@ import cranktiming2 from "../../assets/articles/cranktiming.jpeg";
 import cranktiming1 from "../../assets/articles/litesleeper_timingmarks.jpg";
 import internaltiming from "../../assets/articles/iecamtiming.jpg";
 
+import coolant_tee from "../../assets/articles/common_failures/coolant-t.jpg";
+import coolant_flange from "../../assets/articles/common_failures/coolant-flange.jpg";
+import iabed_tee from "../../assets/articles/common_failures/iabedtee.png";
+import iabed_flange from "../../assets/articles/common_failures/iabedflange.png";
+import iabed_thermostat from "../../assets/articles/common_failures/iabedthermostat.png";
+import do88_coolant_hoses from "../../assets/articles/common_failures/do88_coolant_hoses.webp";
+import efi_coolant_hoses from "../../assets/articles/common_failures/efi_coolant_hoses.webp";
+
+import pcv_cited_image from "../../assets/articles/common_failures/cited PCV system.jpg";
+import pcv_tee from "../../assets/articles/common_failures/PCVT.jpg";
+import pcv_tee_torn from "../../assets/articles/common_failures/pcvt_leak.jpg";
+import pcv_closeup from "../../assets/articles/common_failures/PCVsys highlighted.jpg";
+
+import fcafailure from "../../assets/articles/common_failures/balljointfailure.jpg";
+
 //------------------------------------//
 //             IMAGE MAPS             //
 //------------------------------------//
@@ -128,6 +143,8 @@ import InformationHeading from "./CompendiumArticle/Information/InformationHeadi
 import ECUPinout from "./CompendiumArticle/ECUPinout/ECUPinout";
 import Script from "next/script";
 import ClimateControlCh1Modal from "./CompendiumArticle/ClimateControl/ClimateControlCh1Modal";
+import Image from "next/image";
+import InformationImage from "./CompendiumArticle/Information/InformationImage";
 
 export default function CompendiumContent() {
   const [bigWindow, setBigWindow] = useState<boolean>(true);
@@ -233,7 +250,7 @@ export default function CompendiumContent() {
         <CompendiumBody>
           <CompendiumArticlesHeading />
           <CompendiumArticle
-            models={["100", "A6", "S4", "S6"]}
+            models={["100", "A6", "UrS4", "UrS6"]}
             href="diy"
             title="* DIYs / How-To's"
           >
@@ -243,7 +260,7 @@ export default function CompendiumContent() {
             </InformationText>
             <InformationText>*WORK IN PROGRESS*</InformationText>
           </CompendiumArticle>
-          {/* Common Failures */}
+          {/* Car won't start */}
           <CompendiumArticle
             href="nostart"
             models={["S4", "S6"]}
@@ -476,7 +493,7 @@ export default function CompendiumContent() {
           {/* Common Failures */}
           <CompendiumArticle
             href="commonfailures"
-            models={["S4", "S6"]}
+            models={["UrS4", "UrS6"]}
             title="* Common Issues"
           >
             <InformationText>
@@ -486,7 +503,220 @@ export default function CompendiumContent() {
               sensors that can fail and ruin your day - either keep these in
               your car at the ready, or preemptively replace them.
             </InformationText>
-            <InformationText>*WORK IN PROGRESS*</InformationText>
+            <InformationHeading>Coolant Fittings / Hoses</InformationHeading>
+            <InformationText>
+              There are two plastic coolant fittings near where the transmission
+              and block mate (one attached to the block, and one T for the
+              climate control temperature sensor). Both of these are failure
+              prone as they are (at this point) made of plastic that can crack
+              and leave you stranded after dumping all the coolant from the
+              motor.
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                figureNum={"1a"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={coolant_flange.src}
+                caption={"034 121 143 E - OEM plastic flange"}
+              />
+              <FigureListItem
+                figureNum={"1b"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={coolant_tee.src}
+                caption={"4A0 819 497 - OEM plastic T"}
+              />
+            </FigureList>
+            <InformationText>
+              Both of these can be replaced with metal pieces available from
+              iABED, as well as the less prone to failure plastic thermostat
+              housing:
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                figureNum={"2a"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={iabed_flange.src}
+                caption={"iABED coolant flange"}
+              />
+              <FigureListItem
+                figureNum={"2b"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={iabed_tee.src}
+                caption={"iABED coolant tee"}
+              />
+              <FigureListItem
+                figureNum={"2c"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={iabed_thermostat.src}
+                caption={"iABED metal thermostat housing"}
+              />
+            </FigureList>
+            <InformationText>
+              All are available from Issam's website, linked below.
+            </InformationText>
+            <InformationLink
+              num="01"
+              title="iABED Coolant Flange"
+              link="https://byiabed.com/AAN-Rear-coolant-flange-for-Block_p_69.html"
+            />
+            <InformationLink
+              num="02"
+              title="iABED Coolant Tee"
+              link="https://byiabed.com/Billet-Coolant-Tee_p_99.html"
+            />
+            <InformationLink
+              num="05"
+              title="iABED Thermostat Housing"
+              link="https://byiabed.com/AUDI-22-20V-T--AAN-ABY-Thermostat-housing_p_70.html"
+            />
+            <InformationLink
+              num="14"
+              title="Full iABED Kit (Thermostat housing, Coolant Tee & Flange)"
+              link="https://byiabed.com/AUDI-22-TURBO--AAN--Master-Coolant-flange-kit_p_68.html"
+            />
+            <InformationText>
+              Also prone to failure (though not often) are the coolant hoses.
+              Full replacement kits are available from do88, EFI Motorsport and
+              034, although generally for these cars we stay away from the
+              latter.
+            </InformationText>
+            <FigureList>
+              <FigureListItem
+                figureNum={"3a"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={efi_coolant_hoses.src}
+                caption={"EFI Motorsport coolant hoses"}
+              />
+              <FigureListItem
+                figureNum={"3b"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={do88_coolant_hoses.src}
+                caption={"do88 coolant hoses"}
+              />
+            </FigureList>
+            <InformationText>
+              Note that in figure 3a, the coolant pipe going from the thermostat
+              housing to the lower radiator outlet (4A0 121 075 G) is included
+              as part of the EFI Motorsport kit, but is not present in the do88
+              kit. However, the do88 kit replaces ALL coolant hoses in the
+              system, including the ones going to / from the heater core. Both
+              kits are available for purchase below:
+            </InformationText>
+            <InformationLink
+              num="04"
+              title="EFI Coolant Hose Kit"
+              link="https://shop.efi-motorsport.com/products/audi-aan-coolant-hose-set"
+            />
+            <InformationLink
+              num="12"
+              title="do88 Coolant Hose Kit"
+              link="https://www.do88performance.com/en/artiklar/audi-s4-c4-22t-radiator-hoses.html"
+            />
+            <InformationHeading>Vacuum / PCV System</InformationHeading>
+            <InformationText>
+              The next set of items on the list that won't leave you stranded
+              (but will make your car run like it's got bronchitis) are the
+              vacuum hoses and PCV system. The most common items to shit the bed
+              are located under the intake manifold:
+            </InformationText>
+            <InformationImage
+              figureNum={"4a"}
+              handlePictureClick={handlePictureClick}
+              imageSrc={pcv_cited_image.src}
+              caption={"Cited PCV diagram, courtesy of UrS4Boy"}
+            />
+            <br />
+            <FigureList>
+              <FigureListItem
+                figureNum={"4b"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={pcv_tee.src}
+                caption={"PCV Tee (under the intake manifold)"}
+              />
+              <FigureListItem
+                figureNum={"4c"}
+                handlePictureClick={handlePictureClick}
+                imageSrc={pcv_tee_torn.src}
+                caption={"An example of how the PCV T can tear"}
+              />
+            </FigureList>
+            <InformationText>
+              The "PCV T" here consists of three parts, as seen below:
+            </InformationText>
+            <InformationImage
+              handlePictureClick={handlePictureClick}
+              caption="closeup of the PCV T, courtesy of UrS4Boy and TabulaRasa"
+              figureNum="5a"
+              imageSrc={pcv_closeup.src}
+            />
+            <InformationText>
+              The T likes to tear and the valve likes to stick (you can usually
+              just clean it out and be fine, unless it's broken). The valve
+              housing is *generally* ok. Part numbers are listed below for
+              convenience:
+            </InformationText>
+            <div className={styles["part__numbers_list"]}>
+              <InformationLink
+                title="Intake tee hose"
+                customText="034 133 367 E"
+                link="https://google.com/search?q=034133367E"
+              />
+              <InformationLink
+                title="One way bleeder valve"
+                customText="035 103 245 A"
+                link="https://google.com/search?q=035103245A"
+              />
+              <InformationLink
+                title="Valve housing"
+                customText="034 103 275 G"
+                link="https://google.com/search?q=034103275G"
+              />
+            </div>
+            <InformationText>
+              Silicone replacements for the T are available from do88 and 034.
+              The valve is also available from 034; do NOT use this. Buy a stock
+              replacement instead. Links for the silicone T are available below:
+            </InformationText>
+            <InformationLink
+              num="21"
+              title="034 Silicone PCV T"
+              link="https://www.034motorsport.com/breather-hose-aan-urs4-s6-throttle-body-to-check-valve-silicone.html"
+            />
+            <InformationLink
+              num="22"
+              title="034 Silicone valve housing"
+              link="https://www.034motorsport.com/breather-hose-aan-2-7t-check-valve-inlet-hose-silicone.html"
+            />
+            <br />
+            <InformationLink
+              num="23"
+              title="do88 Silicone PCV T"
+              link="https://www.do88performance.com/en/artiklar/audi-s2-rs2-s4-s6-1992-1997-vacuum-hose.html"
+            />
+            <InformationLink
+              num="24"
+              title="do88 Silicone valve housing"
+              link="https://www.do88performance.com/en/artiklar/audi-s2-rs2-s4-s6-rs6-crankcase-vent-hose.html"
+            />
+            <InformationHeading>FCA Ball Joint</InformationHeading>
+            <InformationText>
+              Last on this list as far as catastrophic failures go is the ball
+              joint that connects the front control arm to the front uprights.
+              Pictured is what happens when that item fails, courtesy of David
+              (@esssix_gmbh).
+            </InformationText>
+            <InformationImage
+              handlePictureClick={handlePictureClick}
+              figureNum="6a"
+              caption="Failed DS ball joint, courtesy of David Lopez"
+              imageSrc={fcafailure.src}
+            />
+            <InformationText>
+              Pay attention to clunks in your suspension, my recommendation is
+              to replace this preemptively. Doing the job is a two person ordeal
+              unless you're really dextrous, but is worth it and not very
+              expensive. FCAs are available from RockAuto for decent prices.
+            </InformationText>
           </CompendiumArticle>
           {/* Body Differences */}
           <CompendiumArticle
@@ -566,7 +796,7 @@ export default function CompendiumContent() {
                       imageMap={NA_UrS4FrontBumperPartsImageMap.default}
                       clickSetting={clickSetting}
                       handleClickCheckbox={handleClickCheckbox}
-                    ></CompendiumImageMap>
+                    />
                   </NestedNavItem>
                   <NestedNavItem
                     id="Euro UrS4 front bumper parts"
